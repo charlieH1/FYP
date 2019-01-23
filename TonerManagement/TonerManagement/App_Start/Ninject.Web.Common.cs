@@ -1,3 +1,5 @@
+using System.Data.Entity;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(TonerManagement.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(TonerManagement.App_Start.NinjectWebCommon), "Stop")]
 
@@ -60,6 +62,7 @@ namespace TonerManagement.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<DbContext>().To<TonerManagementEntities>();
         }        
     }
 }
