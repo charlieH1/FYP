@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+<form id="RegisterForm">
+    <table class="table">
+        <tr>
+            <td>User Id</td>
+            <td><input type="text" name="userId" id="userId"/></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" id="password" name="password" /></td>
+        </tr>
+        <tr>
+            <td>Confirm password</td>
+            <td><input type="password" id="confirmPassword" name="confirmPassword" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="Register" id="registerButton" /></td>
+        </tr>
+    </table>
+</form>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //jqxButton
+            $('#registerButton').jqxButton({ width: 120, height: 40 });
+
+            //set up password and confirm password input
+            $('#password').jqxPasswordInput({ placeHolder: "Enter a password" });
+            $('#confirmPassword').jqxPasswordInput({ placeHolder: "Confirm password" });
+
+
+             $('#RegisterForm').jqxValidator({
+                hintType: 'tooltip',
+                rules: [
+                    {
+                        input: '#userId',
+                        message: "A user id is required",
+                        action: 'keyup,blur',
+                        rule:'required'
+                    },
+                    {
+                        input: '#password',
+                        message:
+                            'Passwords must be 6 long and contain the following: Uppercase,Lowercase,Number,Special',
+                        action: 'keyup, blur',
+                        rule: function() {
+                            var password = $('#password').jqxPasswordInput('val');
+                            var validPassword =
+                                (/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,})/g.test(password));
+                            return (validPassword);
+                        }
+                    },
+                    {
+                        input: '#confirmPassword',
+                        message: 'Passwords must match',
+                        action: 'blur',
+                        rule: function() {
+                            var password = $('#password').jqxPasswordInput('val');
+                            var confirmPassword = $('#confirmPassword').jqxPasswordInput('val');
+                            return password === confirmPassword;
+                        }
+
+                    }
+                    
+                ]
+            });
+
+            var registerButton = $('#registerButton');
+
+            $('#RegisterForm').on('validationSuccess',
+                function() {
+
+                    var userId = $('#userId').val().trim();
+                    var password = $('#password').val().trim();
+                    var confPassword = $('#confirmPassword').val().trim();
+                   
+
+
+                    var registrationData = {
+                        UserId: userId,
+                        Password: password,
+                        ConfirmPassword: confPassword,
+                        
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("RegistrationRequest", "Registration")',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(registrationData),
+                        success: function() {
+                            alert("You have been successfully registered");
+                        },
+                        error: function (xhr) {
+                            if (xhr.status===409)
+                                alert("The User Id is already in use, please try another");
+                            else if (xhr.status === 422)
+                                alert("Server side validation failed");
+                            else
+                                alert("An error occured and the request was not completed");
+                        }
+                    });
+
+                });
+            registerButton.on('click',
+                function() {
+                    $('#RegisterForm').jqxValidator('validate');
+                });
+
+        });
+
+    </script>
+}

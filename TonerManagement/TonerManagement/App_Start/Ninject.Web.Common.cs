@@ -1,4 +1,8 @@
 using System.Data.Entity;
+using TonerManagement.Handlers;
+using TonerManagement.Handlers.Interface;
+using TonerManagement.Repository;
+using TonerManagement.Repository.Interface;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(TonerManagement.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(TonerManagement.App_Start.NinjectWebCommon), "Stop")]
@@ -12,6 +16,8 @@ namespace TonerManagement.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using Ninject.Web.Common.WebHost;
+    using TonerManagement.Models;
 
     public static class NinjectWebCommon 
     {
@@ -63,6 +69,9 @@ namespace TonerManagement.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<DbContext>().To<TonerManagementEntities>();
+            kernel.Bind<IUserRepo>().To<UserRepo>();
+            kernel.Bind<IRegistrationHandler>().To<RegistrationHandler>();
+            kernel.Bind<ILoginHandler>().To<LoginHandler>();
         }        
     }
 }

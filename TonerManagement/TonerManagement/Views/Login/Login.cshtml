@@ -1,0 +1,83 @@
+﻿
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+
+<form id="LoginForm">
+    <table class="table">
+        <tr>
+            <td>UserId</td>
+            <td><input type="text" required id="userId" placeholder="Enter User Id" /></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" id="password" required /></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="LogInButton" value="Log In" /></td>
+        </tr>
+    </table>
+</form>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //jqxButton
+            $('#LogInButton').jqxButton({ width: 120, height: 40 });
+
+            var loginButton = $('#LogInButton');
+
+            $('#LoginForm').jqxValidator({
+                hintType: 'tooltip',
+                rules: [
+                    {
+                        input: '#userId',
+                        message: 'A email address is required',
+                        action: 'blur',
+                        rule: 'required'
+                    },
+                    {
+                        input: '#password',
+                        message: 'A password is required',
+                        action: 'blur',
+                        rule: 'required'
+                    }
+                ]
+            });
+
+            loginButton.on('click',
+                function() {
+                    $('#LoginForm').jqxValidator('validate');
+                });
+            $('#LoginForm').on('validationSuccess',
+                function() {
+                    var userData = {
+                        UserId: $('#userId').val(),
+                        Password: $('#password').val()
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("LoginRequest", "Login")',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(userData),
+                        success: function() {
+                            alert("Successfully Logged In");
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 401) {
+                                alert("Username or password is invalid");
+                            }
+                            alert("Login failed");
+                        }
+                    });
+                });
+
+        });
+    </script>
+}
