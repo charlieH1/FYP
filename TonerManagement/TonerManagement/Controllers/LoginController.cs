@@ -12,7 +12,7 @@ namespace TonerManagement.Controllers
 {
     public class LoginController : Controller
     {
-        private ILoginHandler _loginHandler;
+        private readonly ILoginHandler _loginHandler;
 
         public LoginController(ILoginHandler loginHandler)
         {
