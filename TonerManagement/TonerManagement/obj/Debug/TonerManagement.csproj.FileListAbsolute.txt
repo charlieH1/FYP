@@ -94,3 +94,5 @@ C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerMa
 C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagement\obj\Debug\TonerManagement.dll
 C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagement\obj\Debug\TonerManagement.pdb
 C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagement\obj\Debug\TonerManagement.csprojAssemblyReference.cache
+C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagement\bin\Ninject.Web.Mvc.dll
+C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagement\bin\Ninject.Web.Mvc.xml
