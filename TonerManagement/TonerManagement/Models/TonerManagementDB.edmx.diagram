@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="de630a14bc4c4eb79de8b73d75ae10be" Name="Diagram1">
+        <EntityTypeShape EntityType="TonerManagementModel.Customer" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.Printer" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.StockLocation" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.StockLocationToner" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.Toner" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.TonerPrinter" Width="1.5" PointX="7.5" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.User" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.UserCustomer" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="TonerManagementModel.FK_Printer_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_StockLocation_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_UserCustomer_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_Printer_StockLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_TonerPrinter_Printer" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_StockLocationToner_StockLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_StockLocationToner_Toner" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_TonerPrinter_Toner" ManuallyRouted="false" />
+        <AssociationConnector Association="TonerManagementModel.FK_UserCustomer_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

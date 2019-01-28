@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNet.TelemetryCorrelation</id>
+    <version>1.0.5</version>
+    <title>Microsoft Asp.Net telemetry correlation</title>
+    <authors>Microsoft,aspnet</authors>
+    <owners>Microsoft,aspnet</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/net_library_eula_ENU.htm</licenseUrl>
+    <projectUrl>http://www.asp.net/</projectUrl>
+    <iconUrl>http://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
+    <description>A module that instruments incoming request with System.Diagnostics.Activity and notifies listeners with DiagnosticsSource.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>Diagnostics DiagnosticSource Correlation Activity ASP.NET</tags>
+    <packageTypes>
+      <packageType name="Dependency" />
+    </packageTypes>
+    <repository type="Git" url="https://github.com/aspnet/Microsoft.AspNet.TelemetryCorrelation/" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="System.Diagnostics.DiagnosticSource" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Web" targetFramework=".NETFramework4.5" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

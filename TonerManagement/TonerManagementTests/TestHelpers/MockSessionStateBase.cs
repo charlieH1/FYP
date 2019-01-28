@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace TonerManagementTests.TestHelpers
+{
+    public class MockSessionStateBase : HttpSessionStateBase
+    {
+        private readonly Dictionary<string, object> _sessionDictionary = new Dictionary<string, object>();
+
+        public override object this[string name]
+        {
+            get => _sessionDictionary[name];
+            set => _sessionDictionary[name] = value;
+        }
+    }
+}

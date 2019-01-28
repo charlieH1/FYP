@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Ninject.MVC5</id>
+    <version>3.3.0</version>
+    <authors>Ninject Project Contributors</authors>
+    <owners>Ninject Project Contributors</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/ninject/Ninject.Web.Mvc/raw/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://www.ninject.org/</projectUrl>
+    <iconUrl>https://github.com/ninject/ninject/raw/master/logos/Ninject-Logo32.png</iconUrl>
+    <description>Extension for Ninject providing integration with ASP.NET MVC5</description>
+    <releaseNotes>https://github.com/ninject/Ninject.Web.Mvc/blob/master/CHANGELOG.md</releaseNotes>
+    <copyright>2010 bbv Software Services AG. 2010-2017 Ninject Project Contributors.</copyright>
+    <tags>IoC DI Ninject Web ASP.NET MVC</tags>
+    <repository type="git" url="https://github.com/ninject/Ninject.Web.Mvc" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Microsoft.AspNet.Mvc" version="5.2.3" exclude="Build,Analyzers" />
+        <dependency id="Ninject.Web.Common.WebHost" version="3.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

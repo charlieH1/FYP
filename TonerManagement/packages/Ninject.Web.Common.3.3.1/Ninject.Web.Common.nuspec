@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Ninject.Web.Common</id>
+    <version>3.3.1</version>
+    <authors>Ninject Project Contributors</authors>
+    <owners>Ninject Project Contributors</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/ninject/Ninject.Web.Common/raw/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://www.ninject.org/</projectUrl>
+    <iconUrl>https://github.com/ninject/ninject/raw/master/logos/Ninject-Logo32.png</iconUrl>
+    <description>Bootstrapper for web projects.</description>
+    <releaseNotes>https://github.com/ninject/Ninject.Web.Common/blob/master/CHANGELOG.md</releaseNotes>
+    <copyright>2010-2011 bbv Software Services AG. 2011-2017 Ninject Project Contributors.</copyright>
+    <tags>IoC DI Ninject Web</tags>
+    <repository type="git" url="https://github.com/ninject/Ninject.Web.Common" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Ninject" version="3.3.3" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Ninject" version="3.3.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
