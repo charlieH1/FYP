@@ -1,4 +1,8 @@
 ﻿
+@section styles
+{
+    <link href=@Url.Content("~/Content/Login.css") rel="stylesheet" type="text/css"/>
+}
 
 @{
     ViewBag.Title = "Login";
@@ -8,13 +12,18 @@
 
 
 <form id="LoginForm">
-    <table class="table">
+    <table class="Form RoundedCorners-Grey" >
         <tr>
             <td>UserId</td>
+        </tr>
+        <tr>
             <td><input type="text" required id="userId" placeholder="Enter User Id" /></td>
         </tr>
         <tr>
             <td>Password</td>
+        </tr>
+        <tr>
+
             <td><input type="password" id="password" required /></td>
         </tr>
         <tr>
@@ -22,6 +31,9 @@
         </tr>
     </table>
 </form>
+
+
+
 
 @section scripts
 {
@@ -72,8 +84,9 @@
                         error: function(xhr) {
                             if (xhr.status === 401) {
                                 alert("Username or password is invalid");
+                            } else {
+                                alert("Login failed error code:" + xhr.status);
                             }
-                            alert("Login failed");
                         }
                     });
                 });

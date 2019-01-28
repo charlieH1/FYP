@@ -1,0 +1,13 @@
+﻿table.Form {
+    margin: 0 auto;
+}
+table.Form td {
+    text-align: center;
+    padding: 12px 24px;
+}
+.RoundedCorners-Grey {
+    -ms-border-radius: 25px;
+    border-radius: 25px;
+    background: darkgrey;
+
+}

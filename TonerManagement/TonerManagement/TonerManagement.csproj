@@ -244,6 +244,7 @@
     <Content Include="Content\jqx.ui-sunny.css" />
     <Content Include="Content\jqx.web.css" />
     <Content Include="Content\jqx.windowsphone.css" />
+    <Content Include="Content\Login.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
