@@ -163,6 +163,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />
     <Compile Include="Repository\Interface\IUserRepo.cs" />
+    <Compile Include="Repository\Interface\ITonerPrinterRepo.cs" />
     <Compile Include="Repository\UserRepo.cs" />
     <Compile Include="Models\Printer.cs">
       <DependentUpon>TonerManagementDB.tt</DependentUpon>
@@ -201,6 +202,8 @@
     <Compile Include="Models\UserCustomer.cs">
       <DependentUpon>TonerManagementDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Toolsets\CoverageToolset.cs" />
+    <Compile Include="Repository\TonerPrinterRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
