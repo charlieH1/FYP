@@ -16,7 +16,7 @@ namespace TonerManagement.Toolsets
             M = 3,
             K = 0
         }
-        private ITonerPrinterRepo _tonerPrinterRepo;
+        private readonly ITonerPrinterRepo _tonerPrinterRepo;
 
         public CoverageToolset(ITonerPrinterRepo tonerPrinterRepo)
         {
@@ -25,7 +25,7 @@ namespace TonerManagement.Toolsets
 
         public double[] GetArrayRangeOfCoverageDaily(DateTime startDate, DateTime endDate,int printerId,ColorType color)
         {
-            var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate., endDate,color);
+            var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate,color);
             var coverageList = new List<double>();
             
             foreach (var tP in tonerPrinterList)
