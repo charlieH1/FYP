@@ -9,6 +9,13 @@ namespace TonerManagement.Toolsets
 {
     public class CoverageToolset
     {
+        public enum ColorType
+        {
+            C = 1,
+            Y = 2,
+            M = 3,
+            K = 0
+        }
         private ITonerPrinterRepo _tonerPrinterRepo;
 
         public CoverageToolset(ITonerPrinterRepo tonerPrinterRepo)
@@ -16,18 +23,33 @@ namespace TonerManagement.Toolsets
             _tonerPrinterRepo = tonerPrinterRepo;
         }
 
-        public int[] GetArrayRangeOfCoverageDaily(DateTime startDate, DateTime endDate,int printerId)
+        public double[] GetArrayRangeOfCoverageDaily(DateTime startDate, DateTime endDate,int printerId,ColorType color)
         {
-            var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate);
-            foreach()
+            var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate., endDate,color);
+            var coverageList = new List<double>();
+            
+            foreach (var tP in tonerPrinterList)
+            {
+                var tonerMasterYield = tP.tonerExpectedYield;
+                var pagesPrinted = tP.totalPagesPrinted;
+                var tonerChanges = tP.tonerBottelsChanged;
+                var nominalCoverage = tP.nominalCoverage;
+                var tonerPercentage = tP.tonerPercentage;
+
+                double coverage = (tonerMasterYield / pagesPrinted) * (tonerChanges + (tonerPercentage / 100)) *
+                                  nominalCoverage;
+                coverageList.Add(coverage);
+            }
+
+            return coverageList.ToArray();
         }
 
-        public int[] GetArrayRangeOfCoverageMonthly(DateTime starDate, DateTime endDate, int printerId)
+        public double[] GetArrayRangeOfCoverageMonthly(DateTime starDate, DateTime endDate, int printerId)
         {
-
+            //end of month values
         }
 
-        public int CalculateCoverage()
+        public double CalculateCoverage()
         {
 
         }
