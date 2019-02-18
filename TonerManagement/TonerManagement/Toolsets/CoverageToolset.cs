@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls.Expressions;
+using TonerManagement.Models;
 using TonerManagement.Repository.Interface;
 
 namespace TonerManagement.Toolsets
@@ -29,15 +30,12 @@ namespace TonerManagement.Toolsets
             
             foreach (var tP in tonerPrinterList)
             {
-                double tonerMasterYield = tP.tonerExpectedYield;
-                double pagesPrinted = tP.totalPagesPrinted;
-                double tonerChanges = tP.tonerBottelsChanged;
-                double nominalCoverage = tP.nominalCoverage;
-                double tonerPercentage = tP.tonerPercentage;
-
-                var coverage = CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage,
-                    tonerPercentage);
-                coverageList.Add(coverage);
+                var tonerMasterYield = tP.tonerExpectedYield;
+                var pagesPrinted = tP.totalPagesPrinted;
+                var tonerChanges = tP.tonerBottelsChanged;
+                var nominalCoverage = tP.nominalCoverage;
+                var tonerPercentage = tP.tonerPercentage;
+                coverageList.Add(CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage, tonerPercentage));
             }
 
             return coverageList.ToArray();
@@ -45,9 +43,24 @@ namespace TonerManagement.Toolsets
 
         public double[] GetArrayRangeOfCoverageMonthly(DateTime startDate, DateTime endDate, int printerId,ColorType color)
         {
-            var tonerPrinterList = from tp in _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate, color) group tp by new{tp.timestamp.Year, tp.timestamp.Month} into tpg orderby tpg.Key select tpg.OrderByDescending(tpgx=> tpgx.timestamp).FirstOrDefault();
+            var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate, color)
+                .OrderBy(tp => tp.timestamp)
+                .GroupBy(tp => new { tp.timestamp.Year, tp.timestamp.Month })
+                .Select(group => group.LastOrDefault()); ;
 
-            return (from tP in tonerPrinterList let tonerMasterYield = tP.tonerExpectedYield let pagesPrinted = tP.totalPagesPrinted let tonerChanges = tP.tonerBottelsChanged let nominalCoverage = tP.nominalCoverage let tonerPercentage = tP.tonerPercentage select CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage, tonerPercentage)).ToArray();
+            var coverageList = new List<double>();
+            foreach (var tP in tonerPrinterList)
+            {
+                if (tP == null) continue;
+                var tonerMasterYield = tP.tonerExpectedYield;
+                var pagesPrinted = tP.totalPagesPrinted;
+                var tonerChanges = tP.tonerBottelsChanged;
+                var nominalCoverage = tP.nominalCoverage;
+                var tonerPercentage = tP.tonerPercentage;
+                coverageList.Add(CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage, tonerPercentage));
+            }
+
+            return coverageList.ToArray();
         }
 
         public double CalculateCoverage(double tonerMasterYield,double pagesPrinted, double tonerChanges, double nominalCoverage, double tonerPercentage)
