@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TonerManagement.Models
+﻿namespace TonerManagement.Models
 {
     public class LoginModel
     {

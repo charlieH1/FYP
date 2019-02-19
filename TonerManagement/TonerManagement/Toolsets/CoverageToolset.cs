@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.UI.WebControls.Expressions;
 using TonerManagement.Models;
 using TonerManagement.Repository.Interface;
 
@@ -50,7 +49,7 @@ namespace TonerManagement.Toolsets
             var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate, color)
                 .OrderBy(tp => tp.timestamp)
                 .GroupBy(tp => new { tp.timestamp.Year, tp.timestamp.Month })
-                .Select(group => group.LastOrDefault()); ;
+                .Select(group => group.LastOrDefault()); 
 
             var coverageList = new List<CoverageDateModel>();
             foreach (var tP in tonerPrinterList)

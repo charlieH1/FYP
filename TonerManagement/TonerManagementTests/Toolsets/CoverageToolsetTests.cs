@@ -84,7 +84,7 @@ namespace TonerManagementTests.Toolsets
         }
 
         [TestMethod()]
-        public void GetArrayRangeOfCoverageMonthlyTestWithValidDataReturnsCoverageForMonthsAvailiable()
+        public void GetArrayRangeOfCoverageMonthlyTestWithValidDataReturnsCoverageForMonthsAvailable()
         {
             //setup
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();

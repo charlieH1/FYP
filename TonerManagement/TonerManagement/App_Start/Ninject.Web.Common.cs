@@ -68,10 +68,15 @@ namespace TonerManagement.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            //db bindings
             kernel.Bind<DbContext>().To<TonerManagementEntities>();
+            //repo bindings
             kernel.Bind<IUserRepo>().To<UserRepo>();
+            kernel.Bind<ITonerPrinterRepo>().To<TonerPrinterRepo>();
+            //handler bindings
             kernel.Bind<IRegistrationHandler>().To<RegistrationHandler>();
             kernel.Bind<ILoginHandler>().To<LoginHandler>();
+
         }        
     }
 }

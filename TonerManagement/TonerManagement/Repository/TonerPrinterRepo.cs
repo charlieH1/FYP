@@ -29,13 +29,13 @@ namespace TonerManagement.Repository
             switch (color)
             {
                 case CoverageToolset.ColorType.C:
-                    return tonerPrinters.Where(tp => tp.Toner.isCyan == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isCyan).ToList();
                 case CoverageToolset.ColorType.Y:
-                    return tonerPrinters.Where(tp => tp.Toner.isYellow == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isYellow).ToList();
                 case CoverageToolset.ColorType.M:
-                    return tonerPrinters.Where(tp => tp.Toner.isMagenta == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isMagenta).ToList();
                 case CoverageToolset.ColorType.K:
-                    return tonerPrinters.Where(tp => tp.Toner.isKeying == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isKeying).ToList();
                 default:
                     return null;
             }
@@ -49,13 +49,13 @@ namespace TonerManagement.Repository
             switch (color)
             {
                 case CoverageToolset.ColorType.C:
-                    return tonerPrinters.Where(tp => tp.Toner.isCyan==true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isCyan).ToList();
                 case CoverageToolset.ColorType.Y:
-                    return tonerPrinters.Where(tp => tp.Toner.isYellow == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isYellow).ToList();
                 case CoverageToolset.ColorType.M:
-                    return tonerPrinters.Where(tp => tp.Toner.isMagenta == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isMagenta).ToList();
                 case CoverageToolset.ColorType.K:
-                    return tonerPrinters.Where(tp => tp.Toner.isKeying == true).ToList();
+                    return tonerPrinters.Where(tp => tp.Toner.isKeying).ToList();
                 default:
                     return null;
             }
