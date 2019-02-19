@@ -60,5 +60,25 @@ namespace TonerManagement.Repository
                     return null;
             }
         }
+
+        public List<TonerPrinter> GetTonerPrinterForCustomer(int customerId, DateTime startDate, DateTime endDate,
+            CoverageToolset.ColorType color)
+        {
+            var tonerPrinters = _tonerManagementEntities.TonerPrinters.Where(tp =>
+                tp.Printer.customerId==customerId && tp.timestamp <= endDate && tp.timestamp >= startDate);
+            switch (color)
+            {
+                case CoverageToolset.ColorType.C:
+                    return tonerPrinters.Where(tp => tp.Toner.isCyan).ToList();
+                case CoverageToolset.ColorType.Y:
+                    return tonerPrinters.Where(tp => tp.Toner.isYellow).ToList();
+                case CoverageToolset.ColorType.M:
+                    return tonerPrinters.Where(tp => tp.Toner.isMagenta).ToList();
+                case CoverageToolset.ColorType.K:
+                    return tonerPrinters.Where(tp => tp.Toner.isKeying).ToList();
+                default:
+                    return null;
+            }
+        }
     }
 }

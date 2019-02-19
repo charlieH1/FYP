@@ -73,6 +73,7 @@ namespace TonerManagement.App_Start
             //repo bindings
             kernel.Bind<IUserRepo>().To<UserRepo>();
             kernel.Bind<ITonerPrinterRepo>().To<TonerPrinterRepo>();
+            kernel.Bind<IPrinterRepo>().To<PrinterRepo>();
             //handler bindings
             kernel.Bind<IRegistrationHandler>().To<RegistrationHandler>();
             kernel.Bind<ILoginHandler>().To<LoginHandler>();
