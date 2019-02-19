@@ -201,6 +201,8 @@
     <Compile Include="Models\UserRegisterModel.cs" />
     <Compile Include="Repository\Interface\IUserRepo.cs" />
     <Compile Include="Repository\Interface\ITonerPrinterRepo.cs" />
+    <Compile Include="Repository\Interface\IPrinterRepo.cs" />
+    <Compile Include="Repository\PrinterRepo.cs" />
     <Compile Include="Repository\UserRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Toolsets\CoverageToolset.cs" />

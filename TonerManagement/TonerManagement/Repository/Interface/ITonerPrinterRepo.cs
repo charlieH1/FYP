@@ -13,5 +13,7 @@ namespace TonerManagement.Repository.Interface
         List<TonerPrinter> GetTonerPrinterForDevice(int printerId, CoverageToolset.ColorType color);
         List<TonerPrinter> GetTonerPrinterForDevice(int printerId, DateTime startDate, DateTime endDate,
             CoverageToolset.ColorType color);
+        List<TonerPrinter> GetTonerPrinterForCustomer(int customerId, DateTime startDate, DateTime endDate,
+            CoverageToolset.ColorType color);
     }
 }
