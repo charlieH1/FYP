@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TonerManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="customerID" />
+    </Key>
+    <Property Name="customerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="customerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="customerContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Printers" Relationship="Self.FK_Printer_Customer" FromRole="Customer" ToRole="Printer" />
+    <NavigationProperty Name="StockLocations" Relationship="Self.FK_StockLocation_Customer" FromRole="Customer" ToRole="StockLocation" />
+    <NavigationProperty Name="UserCustomers" Relationship="Self.FK_UserCustomer_Customer" FromRole="Customer" ToRole="UserCustomer" />
+  </EntityType>
+  <EntityType Name="Printer">
+    <Key>
+      <PropertyRef Name="printerId" />
+    </Key>
+    <Property Name="printerId" Type="Int32" Nullable="false" />
+    <Property Name="customerId" Type="Int32" Nullable="false" />
+    <Property Name="printerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="isColour" Type="Boolean" Nullable="false" />
+    <Property Name="cyanLowPercentage" Type="Int32" />
+    <Property Name="yellowLowPercentage" Type="Int32" />
+    <Property Name="magentaLowPercentage" Type="Int32" />
+    <Property Name="keyingLowPercentage" Type="Int32" Nullable="false" />
+    <Property Name="stockLocationId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Printer_Customer" FromRole="Printer" ToRole="Customer" />
+    <NavigationProperty Name="StockLocation" Relationship="Self.FK_Printer_StockLocation" FromRole="Printer" ToRole="StockLocation" />
+    <NavigationProperty Name="TonerPrinters" Relationship="Self.FK_TonerPrinter_Printer" FromRole="Printer" ToRole="TonerPrinter" />
+  </EntityType>
+  <EntityType Name="StockLocation">
+    <Key>
+      <PropertyRef Name="stockLocationId" />
+    </Key>
+    <Property Name="stockLocationId" Type="Int32" Nullable="false" />
+    <Property Name="customerId" Type="Int32" Nullable="false" />
+    <Property Name="stockLocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="stockLocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="stockLocationContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_StockLocation_Customer" FromRole="StockLocation" ToRole="Customer" />
+    <NavigationProperty Name="Printers" Relationship="Self.FK_Printer_StockLocation" FromRole="StockLocation" ToRole="Printer" />
+    <NavigationProperty Name="StockLocationToners" Relationship="Self.FK_StockLocationToner_StockLocation" FromRole="StockLocation" ToRole="StockLocationToner" />
+  </EntityType>
+  <EntityType Name="StockLocationToner">
+    <Key>
+      <PropertyRef Name="stockLocationTonerId" />
+    </Key>
+    <Property Name="stockLocationTonerId" Type="Int32" Nullable="false" />
+    <Property Name="tonerId" Type="Int32" Nullable="false" />
+    <Property Name="stockLocationId" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="StockLocation" Relationship="Self.FK_StockLocationToner_StockLocation" FromRole="StockLocationToner" ToRole="StockLocation" />
+    <NavigationProperty Name="Toner" Relationship="Self.FK_StockLocationToner_Toner" FromRole="StockLocationToner" ToRole="Toner" />
+  </EntityType>
+  <EntityType Name="Toner">
+    <Key>
+      <PropertyRef Name="tonerId" />
+    </Key>
+    <Property Name="tonerId" Type="Int32" Nullable="false" />
+    <Property Name="tonerCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="tonerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="isCyan" Type="Boolean" Nullable="false" />
+    <Property Name="isYellow" Type="Boolean" Nullable="false" />
+    <Property Name="isMagenta" Type="Boolean" Nullable="false" />
+    <Property Name="isKeying" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="StockLocationToners" Relationship="Self.FK_StockLocationToner_Toner" FromRole="Toner" ToRole="StockLocationToner" />
+    <NavigationProperty Name="TonerPrinters" Relationship="Self.FK_TonerPrinter_Toner" FromRole="Toner" ToRole="TonerPrinter" />
+  </EntityType>
+  <EntityType Name="TonerPrinter">
+    <Key>
+      <PropertyRef Name="tonerPrinterId" />
+    </Key>
+    <Property Name="tonerPrinterId" Type="Int32" Nullable="false" />
+    <Property Name="printerId" Type="Int32" Nullable="false" />
+    <Property Name="tonerId" Type="Int32" Nullable="false" />
+    <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="tonerPercentage" Type="Int32" Nullable="false" />
+    <Property Name="tonerExpectedYield" Type="Int32" Nullable="false" />
+    <Property Name="totalPagesPrinted" Type="Int32" Nullable="false" />
+    <Property Name="tonerBottelsChanged" Type="Int32" Nullable="false" />
+    <Property Name="nominalCoverage" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Printer" Relationship="Self.FK_TonerPrinter_Printer" FromRole="TonerPrinter" ToRole="Printer" />
+    <NavigationProperty Name="Toner" Relationship="Self.FK_TonerPrinter_Toner" FromRole="TonerPrinter" ToRole="Toner" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userLogin" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="hashedPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="UserCustomers" Relationship="Self.FK_UserCustomer_User" FromRole="User" ToRole="UserCustomer" />
+  </EntityType>
+  <EntityType Name="UserCustomer">
+    <Key>
+      <PropertyRef Name="userCustomerID" />
+    </Key>
+    <Property Name="userCustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userID" Type="Int32" Nullable="false" />
+    <Property Name="customerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_UserCustomer_Customer" FromRole="UserCustomer" ToRole="Customer" />
+    <NavigationProperty Name="User" Relationship="Self.FK_UserCustomer_User" FromRole="UserCustomer" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Printer_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Printer" Type="Self.Printer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="Printer">
+        <PropertyRef Name="customerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockLocation_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="StockLocation" Type="Self.StockLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="StockLocation">
+        <PropertyRef Name="customerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserCustomer_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserCustomer" Type="Self.UserCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="UserCustomer">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Printer_StockLocation">
+    <End Role="StockLocation" Type="Self.StockLocation" Multiplicity="1" />
+    <End Role="Printer" Type="Self.Printer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StockLocation">
+        <PropertyRef Name="stockLocationId" />
+      </Principal>
+      <Dependent Role="Printer">
+        <PropertyRef Name="stockLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TonerPrinter_Printer">
+    <End Role="Printer" Type="Self.Printer" Multiplicity="1" />
+    <End Role="TonerPrinter" Type="Self.TonerPrinter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Printer">
+        <PropertyRef Name="printerId" />
+      </Principal>
+      <Dependent Role="TonerPrinter">
+        <PropertyRef Name="printerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockLocationToner_StockLocation">
+    <End Role="StockLocation" Type="Self.StockLocation" Multiplicity="1" />
+    <End Role="StockLocationToner" Type="Self.StockLocationToner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StockLocation">
+        <PropertyRef Name="stockLocationId" />
+      </Principal>
+      <Dependent Role="StockLocationToner">
+        <PropertyRef Name="stockLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockLocationToner_Toner">
+    <End Role="Toner" Type="Self.Toner" Multiplicity="1" />
+    <End Role="StockLocationToner" Type="Self.StockLocationToner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Toner">
+        <PropertyRef Name="tonerId" />
+      </Principal>
+      <Dependent Role="StockLocationToner">
+        <PropertyRef Name="tonerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TonerPrinter_Toner">
+    <End Role="Toner" Type="Self.Toner" Multiplicity="1" />
+    <End Role="TonerPrinter" Type="Self.TonerPrinter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Toner">
+        <PropertyRef Name="tonerId" />
+      </Principal>
+      <Dependent Role="TonerPrinter">
+        <PropertyRef Name="tonerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserCustomer_User">
+    <End Role="User" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserCustomer" Type="Self.UserCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="UserCustomer">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TonerManagementEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Printers" EntityType="Self.Printer" />
+    <EntitySet Name="StockLocations" EntityType="Self.StockLocation" />
+    <EntitySet Name="StockLocationToners" EntityType="Self.StockLocationToner" />
+    <EntitySet Name="Toners" EntityType="Self.Toner" />
+    <EntitySet Name="TonerPrinters" EntityType="Self.TonerPrinter" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="UserCustomers" EntityType="Self.UserCustomer" />
+    <AssociationSet Name="FK_Printer_Customer" Association="Self.FK_Printer_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Printer" EntitySet="Printers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockLocation_Customer" Association="Self.FK_StockLocation_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="StockLocation" EntitySet="StockLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserCustomer_Customer" Association="Self.FK_UserCustomer_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="UserCustomer" EntitySet="UserCustomers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Printer_StockLocation" Association="Self.FK_Printer_StockLocation">
+      <End Role="StockLocation" EntitySet="StockLocations" />
+      <End Role="Printer" EntitySet="Printers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TonerPrinter_Printer" Association="Self.FK_TonerPrinter_Printer">
+      <End Role="Printer" EntitySet="Printers" />
+      <End Role="TonerPrinter" EntitySet="TonerPrinters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockLocationToner_StockLocation" Association="Self.FK_StockLocationToner_StockLocation">
+      <End Role="StockLocation" EntitySet="StockLocations" />
+      <End Role="StockLocationToner" EntitySet="StockLocationToners" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockLocationToner_Toner" Association="Self.FK_StockLocationToner_Toner">
+      <End Role="Toner" EntitySet="Toners" />
+      <End Role="StockLocationToner" EntitySet="StockLocationToners" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TonerPrinter_Toner" Association="Self.FK_TonerPrinter_Toner">
+      <End Role="Toner" EntitySet="Toners" />
+      <End Role="TonerPrinter" EntitySet="TonerPrinters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserCustomer_User" Association="Self.FK_UserCustomer_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserCustomer" EntitySet="UserCustomers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

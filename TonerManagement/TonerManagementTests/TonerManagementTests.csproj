@@ -108,6 +108,7 @@
     <Compile Include="Handlers\RegistrationHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\MockSessionStateBase.cs" />
+    <Compile Include="Toolsets\CoverageToolsetTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

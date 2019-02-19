@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="de630a14bc4c4eb79de8b73d75ae10be" Name="Diagram1">
+      <Diagram DiagramId="696cb1faa7104ddda879c4df65f6b83e" Name="Diagram1">
         <EntityTypeShape EntityType="TonerManagementModel.Customer" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.Printer" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.StockLocation" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.StockLocationToner" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.Toner" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.TonerPrinter" Width="1.5" PointX="7.5" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TonerManagementModel.User" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.User" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.UserCustomer" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="TonerManagementModel.FK_Printer_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="TonerManagementModel.FK_StockLocation_Customer" ManuallyRouted="false" />
