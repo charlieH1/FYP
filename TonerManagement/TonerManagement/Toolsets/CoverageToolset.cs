@@ -23,10 +23,10 @@ namespace TonerManagement.Toolsets
             _tonerPrinterRepo = tonerPrinterRepo;
         }
 
-        public double[] GetArrayRangeOfCoverageDaily(DateTime startDate, DateTime endDate,int printerId,ColorType color)
+        public CoverageDateModel[] GetArrayRangeOfCoverageDaily(DateTime startDate, DateTime endDate,int printerId,ColorType color)
         {
             var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate,color);
-            var coverageList = new List<double>();
+            var coverageList = new List<CoverageDateModel>();
             
             foreach (var tP in tonerPrinterList)
             {
@@ -35,20 +35,24 @@ namespace TonerManagement.Toolsets
                 var tonerChanges = tP.tonerBottelsChanged;
                 var nominalCoverage = tP.nominalCoverage;
                 var tonerPercentage = tP.tonerPercentage;
-                coverageList.Add(CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage, tonerPercentage));
+                var date = tP.timestamp;
+                var coverage = CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage,
+                    tonerPercentage);
+                var coverageDateModel = new CoverageDateModel {Coverage = coverage, Date = date};
+                coverageList.Add(coverageDateModel);
             }
 
             return coverageList.ToArray();
         }
 
-        public double[] GetArrayRangeOfCoverageMonthly(DateTime startDate, DateTime endDate, int printerId,ColorType color)
+        public CoverageDateModel[] GetArrayRangeOfCoverageMonthly(DateTime startDate, DateTime endDate, int printerId,ColorType color)
         {
             var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate, color)
                 .OrderBy(tp => tp.timestamp)
                 .GroupBy(tp => new { tp.timestamp.Year, tp.timestamp.Month })
                 .Select(group => group.LastOrDefault()); ;
 
-            var coverageList = new List<double>();
+            var coverageList = new List<CoverageDateModel>();
             foreach (var tP in tonerPrinterList)
             {
                 if (tP == null) continue;
@@ -57,10 +61,24 @@ namespace TonerManagement.Toolsets
                 var tonerChanges = tP.tonerBottelsChanged;
                 var nominalCoverage = tP.nominalCoverage;
                 var tonerPercentage = tP.tonerPercentage;
-                coverageList.Add(CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage, tonerPercentage));
+                var date = tP.timestamp;
+                var coverage = CalculateCoverage(tonerMasterYield, pagesPrinted, tonerChanges, nominalCoverage,
+                    tonerPercentage);
+                var coverageDateModel = new CoverageDateModel { Coverage = coverage, Date = date };
+                coverageList.Add(coverageDateModel);
             }
 
             return coverageList.ToArray();
+        }
+
+        public double CalculateAverageCoverageForWholeLife(int printerId, ColorType color)
+        {
+            var tonerPrinter = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, color).OrderBy(tp=> tp.timestamp).LastOrDefault();
+            if (tonerPrinter != null)
+                return CalculateCoverage(tonerPrinter.tonerExpectedYield, tonerPrinter.totalPagesPrinted,
+                    tonerPrinter.tonerBottelsChanged, tonerPrinter.nominalCoverage, tonerPrinter.tonerPercentage);
+            else
+                return 0.0;
         }
 
         public double CalculateCoverage(double tonerMasterYield,double pagesPrinted, double tonerChanges, double nominalCoverage, double tonerPercentage)

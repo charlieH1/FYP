@@ -14,9 +14,9 @@ namespace TonerManagement.Models
     
     public partial class UserCustomer
     {
+        public int userCustomerID { get; set; }
         public int userID { get; set; }
         public int customerID { get; set; }
-        public int userCustomerID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual User User { get; set; }

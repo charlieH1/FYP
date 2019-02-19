@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TonerManagementModelStoreContainer" CdmEntityContainer="TonerManagementEntities">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="TonerManagementModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="customerName" ColumnName="customerName" />
+          <ScalarProperty Name="customerAddress" ColumnName="customerAddress" />
+          <ScalarProperty Name="customerContactNumber" ColumnName="customerContactNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Printers">
+      <EntityTypeMapping TypeName="TonerManagementModel.Printer">
+        <MappingFragment StoreEntitySet="Printer">
+          <ScalarProperty Name="printerId" ColumnName="printerId" />
+          <ScalarProperty Name="customerId" ColumnName="customerId" />
+          <ScalarProperty Name="printerName" ColumnName="printerName" />
+          <ScalarProperty Name="isColour" ColumnName="isColour" />
+          <ScalarProperty Name="cyanLowPercentage" ColumnName="cyanLowPercentage" />
+          <ScalarProperty Name="yellowLowPercentage" ColumnName="yellowLowPercentage" />
+          <ScalarProperty Name="magentaLowPercentage" ColumnName="magentaLowPercentage" />
+          <ScalarProperty Name="keyingLowPercentage" ColumnName="keyingLowPercentage" />
+          <ScalarProperty Name="stockLocationId" ColumnName="stockLocationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StockLocations">
+      <EntityTypeMapping TypeName="TonerManagementModel.StockLocation">
+        <MappingFragment StoreEntitySet="StockLocation">
+          <ScalarProperty Name="stockLocationId" ColumnName="stockLocationId" />
+          <ScalarProperty Name="customerId" ColumnName="customerId" />
+          <ScalarProperty Name="stockLocationName" ColumnName="stockLocationName" />
+          <ScalarProperty Name="stockLocationAddress" ColumnName="stockLocationAddress" />
+          <ScalarProperty Name="stockLocationContactNumber" ColumnName="stockLocationContactNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StockLocationToners">
+      <EntityTypeMapping TypeName="TonerManagementModel.StockLocationToner">
+        <MappingFragment StoreEntitySet="StockLocationToner">
+          <ScalarProperty Name="stockLocationTonerId" ColumnName="stockLocationTonerId" />
+          <ScalarProperty Name="tonerId" ColumnName="tonerId" />
+          <ScalarProperty Name="stockLocationId" ColumnName="stockLocationId" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Toners">
+      <EntityTypeMapping TypeName="TonerManagementModel.Toner">
+        <MappingFragment StoreEntitySet="Toner">
+          <ScalarProperty Name="tonerId" ColumnName="tonerId" />
+          <ScalarProperty Name="tonerCode" ColumnName="tonerCode" />
+          <ScalarProperty Name="tonerName" ColumnName="tonerName" />
+          <ScalarProperty Name="isCyan" ColumnName="isCyan" />
+          <ScalarProperty Name="isYellow" ColumnName="isYellow" />
+          <ScalarProperty Name="isMagenta" ColumnName="isMagenta" />
+          <ScalarProperty Name="isKeying" ColumnName="isKeying" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TonerPrinters">
+      <EntityTypeMapping TypeName="TonerManagementModel.TonerPrinter">
+        <MappingFragment StoreEntitySet="TonerPrinter">
+          <ScalarProperty Name="tonerPrinterId" ColumnName="tonerPrinterId" />
+          <ScalarProperty Name="printerId" ColumnName="printerId" />
+          <ScalarProperty Name="tonerId" ColumnName="tonerId" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="tonerPercentage" ColumnName="tonerPercentage" />
+          <ScalarProperty Name="tonerExpectedYield" ColumnName="tonerExpectedYield" />
+          <ScalarProperty Name="totalPagesPrinted" ColumnName="totalPagesPrinted" />
+          <ScalarProperty Name="tonerBottelsChanged" ColumnName="tonerBottelsChanged" />
+          <ScalarProperty Name="nominalCoverage" ColumnName="nominalCoverage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="TonerManagementModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="userLogin" ColumnName="userLogin" />
+          <ScalarProperty Name="hashedPassword" ColumnName="hashedPassword" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserCustomers">
+      <EntityTypeMapping TypeName="TonerManagementModel.UserCustomer">
+        <MappingFragment StoreEntitySet="UserCustomer">
+          <ScalarProperty Name="userCustomerID" ColumnName="userCustomerID" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

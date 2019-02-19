@@ -22,7 +22,7 @@ namespace TonerManagement.Models
         public int tonerExpectedYield { get; set; }
         public int totalPagesPrinted { get; set; }
         public int tonerBottelsChanged { get; set; }
-        public int nominalCoverage { get; set; }
+        public double nominalCoverage { get; set; }
     
         public virtual Printer Printer { get; set; }
         public virtual Toner Toner { get; set; }
