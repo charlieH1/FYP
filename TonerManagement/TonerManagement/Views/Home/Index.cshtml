@@ -24,3 +24,39 @@
 <div id="LowTonerGrid"></div>
 
 </body>
+
+@section scripts{
+    <script type="text/javascript">
+        $("document").ready(function() {
+            var url = '@Url.Action("GetCustomersForUser","Customer")';
+            var customerDropdown = $("#customerDropdown");
+            var startDateCalender = $("#startDateDropdown");
+            var endDateCalender = $("#endDateDropdown");
+            var source = {
+                datatype: 'json',
+                datafields: [
+                    { name: "customerId" },
+                    { name: "customerName" },
+                    { name: "customerAddress" },
+                    { name: "customerContactNumber" },
+                    { name: "Printers" },
+                    { name: "StockLocations" },
+                    { name: "UserCustomers" }
+                ],
+                url:url
+            }
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
+            customerDropdown.jqxDropDownList({
+                source: dataAdapterForCustomerDropdown,
+                displayMember: "customerName",
+                valueMember: "customerId"
+            });
+
+            startDateCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy" });
+            endDateCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy" });
+            var today = new Date();
+            endDateCalender.jqxDateTimeInput('val', today);
+
+        })
+    </script>
+}
