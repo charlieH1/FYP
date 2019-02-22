@@ -147,9 +147,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Ninject.Web.Common.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Handlers\CustomerHandler.cs" />
+    <Compile Include="Handlers\Interface\ICustomerHandler.cs" />
     <Compile Include="Handlers\Interface\ILoginHandler.cs" />
     <Compile Include="Handlers\Interface\IRegistrationHandler.cs" />
     <Compile Include="Handlers\LoginHandler.cs" />
@@ -199,6 +202,8 @@
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserRegisterModel.cs" />
+    <Compile Include="Repository\CustomerRepo.cs" />
+    <Compile Include="Repository\Interface\ICustomerRepo.cs" />
     <Compile Include="Repository\Interface\IUserRepo.cs" />
     <Compile Include="Repository\Interface\ITonerPrinterRepo.cs" />
     <Compile Include="Repository\Interface\IPrinterRepo.cs" />
@@ -215,6 +220,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Home.css" />
     <Content Include="Content\jqx.android.css" />
     <Content Include="Content\jqx.arctic.css" />
     <Content Include="Content\jqx.base.css" />
@@ -433,6 +439,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

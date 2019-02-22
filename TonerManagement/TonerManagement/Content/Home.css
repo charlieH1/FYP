@@ -1,0 +1,10 @@
+﻿.ChartControlsHome {
+    display: inline-block;
+    width: 25%;
+    margin: 32px 16px;
+}
+.ChartInline {
+    display: inline-block;
+    width: 50%;
+    margin: 32px;
+}
