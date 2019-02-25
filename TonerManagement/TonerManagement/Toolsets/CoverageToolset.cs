@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TonerManagement.Models;
 using TonerManagement.Repository.Interface;
+using TonerManagement.Toolsets.Interface;
 
 namespace TonerManagement.Toolsets
 {
-    public class CoverageToolset
+    public class CoverageToolset : ICoverageToolset
     {
         public enum ColorType
         {
@@ -80,7 +81,7 @@ namespace TonerManagement.Toolsets
         }
 
 
-        public List<CoverageDateModel> GetListOfCoverageMonthlyForCompany(int customerId, DateTime startDate, DateTime endDate,ColorType color)
+        public List<CoverageDateModel> GetListOfCoverageMonthlyForCustomer(int customerId, DateTime startDate, DateTime endDate,ColorType color)
         {
             //fetch all printer ids for a company
             var printers =_printerRepo.GetPrintersFromCustomer(customerId);
@@ -131,7 +132,7 @@ namespace TonerManagement.Toolsets
 
         }
 
-        public List<CoverageDateModel> GetListOfCoverageDailyForCompany(int customerId, DateTime startDate, DateTime endDate, ColorType color)
+        public List<CoverageDateModel> GetListOfCoverageDailyForCustomer(int customerId, DateTime startDate, DateTime endDate, ColorType color)
         {
             //fetch all printer ids for a company
             var printers = _printerRepo.GetPrintersFromCustomer(customerId);

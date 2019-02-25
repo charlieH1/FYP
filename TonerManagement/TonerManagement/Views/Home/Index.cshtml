@@ -10,11 +10,13 @@
 
 <div id="customerDropdown" class="ChartControlsHome"></div>
 
-<div id="startDateDropdown" class="ChartControlsHome"></div>
+<div id="leftCalender" class="ChartControlsHome"></div>
 
-<div id="endDateDropdown" class="ChartControlsHome"></div>
+<div id="rightCalender" class="ChartControlsHome"></div>
 
-<div id="chartOptionsDropdown" class="ChartControlsHome"></div>
+<div id="chartOptionsDropdownLeft" class="ChartControlsHome"></div>
+
+<div id="chartOptionsDropdownRight" class="ChartControlsHome"></div>
 
 <br/>
 <div id="LeftHandChart" class="ChartInline"></div>
@@ -30,8 +32,10 @@
         $("document").ready(function() {
             var url = '@Url.Action("GetCustomersForUser","Customer")';
             var customerDropdown = $("#customerDropdown");
-            var startDateCalender = $("#startDateDropdown");
-            var endDateCalender = $("#endDateDropdown");
+            var leftCalender = $("#leftCalender");
+            var rightCalender = $("#rightCalender");
+            var chartOptionsDropdownLeft = $("#chartOptionsDropdownLeft");
+            var chartOptionsDropdownRight = $("#chartOptionsDropdownRight");
             var source = {
                 datatype: 'json',
                 datafields: [
@@ -49,14 +53,80 @@
             customerDropdown.jqxDropDownList({
                 source: dataAdapterForCustomerDropdown,
                 displayMember: "customerName",
-                valueMember: "customerId"
+                valueMember: "customerId",
+                selectedIndex:0
             });
 
-            startDateCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy" });
-            endDateCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy" });
+            leftCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy",selectionMode:"range" });
+            rightCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy",selectionMode:"range" });
             var today = new Date();
-            endDateCalender.jqxDateTimeInput('val', today);
+            var monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+            var sixMonthAgo = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+            leftCalender.jqxDateTimeInput('setRange', monthAgo, today);
+            rightCalender.jqxDateTimeInput('setRange', sixMonthAgo, today);
 
+            
+            var sourceForChartType = [
+                // Monthly
+                { DisplayMember: "Cyan", ValueMember: "CyanMonthly", group: "Monthly" },
+                { DisplayMember: "Yellow", ValueMember: "YellowMonthly", group: "Monthly" },
+                { DisplayMember: "Magenta", ValueMember: "MagentaMonthly", group: "Monthly" },
+                { DisplayMember: "Keying", ValueMember: "KeyingMonthly", group: "Monthly" },
+                { DisplayMember: "Color", ValueMember: "ColorMonthly", group: "Monthly" },
+                { DisplayMember: "All", ValueMember: "AllMonthly", group: "Monthly" },
+                //Daily
+                { DisplayMember: "Cyan", ValueMember: "CyanDaily", group: "Daily" },
+                { DisplayMember: "Yellow", ValueMember: "YellowDaily", group: "Daily" },
+                { DisplayMember: "Magenta", ValueMember: "MagentaDaily", group: "Daily" },
+                { DisplayMember: "Keying", ValueMember: "KeyingDaily", group: "Daily" },
+                { DisplayMember: "Color", ValueMember: "ColorDaily", group: "Daily" },
+                { DisplayMember: "All", ValueMember: "AllDaily", group: "Daily" }
+            ];
+            chartOptionsDropdownLeft.jqxDropDownList({
+                source: sourceForChartType,
+                displayMember: "DisplayMember",
+                valueMember: "ValueMember",
+                selectedIndex: 11
+            });
+            chartOptionsDropdownLeft.jqxDropDownList({
+                source: sourceForChartType,
+                displayMember: "DisplayMember",
+                valueMember: "ValueMember",
+                selectedIndex: 5
+            });
+            var dataForLeftChart = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
+                StartDate: leftCalender.jqxDateTimeInput('getRange').from,
+                EndDate: leftCalender.jqxDateTimeInput('getRange').to,
+                CoverageType: chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').value
+            };
+            var dataForRightChart = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
+                StartDate: rightCalender.jqxDateTimeInput('getRange').from,
+                EndDate: rightCalender.jqxDateTimeInput('getRange').to,
+                CoverageType: chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').value
+            };
+            var sourceLeftChart = {
+                dataType: "json",
+                dataFields: [
+                    { name: 'Coverage' },
+                    { name: 'Date' }
+                ],
+                url: '@Url.Action("GetCoverage","Home")',
+                data: JSON.stringify(dataForLeftChart)
+            };
+            var sourceRightChart = {
+                dataType: "json",
+                dataFields: [
+                    { name: 'Coverage' },
+                    { name: 'Date' }
+                ],
+                url: '@Url.Action("GetCoverage","Home")',
+                data: JSON.stringify(dataForRightChart)
+            };
+
+            var dataAdapterLeftChart = new $.jqx.dataAdapter(sourceLeftChart);
+            var dataAdapterRightChart = new $.jqx.dataAdapter(sourceRightChart);
         })
     </script>
 }

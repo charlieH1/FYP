@@ -3,6 +3,8 @@ using TonerManagement.Handlers;
 using TonerManagement.Handlers.Interface;
 using TonerManagement.Repository;
 using TonerManagement.Repository.Interface;
+using TonerManagement.Toolsets;
+using TonerManagement.Toolsets.Interface;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(TonerManagement.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(TonerManagement.App_Start.NinjectWebCommon), "Stop")]
@@ -79,7 +81,8 @@ namespace TonerManagement.App_Start
             kernel.Bind<IRegistrationHandler>().To<RegistrationHandler>();
             kernel.Bind<ILoginHandler>().To<LoginHandler>();
             kernel.Bind<ICustomerHandler>().To<CustomerHandler>();
-
+            //toolset bindings
+            kernel.Bind<ICoverageToolset>().To<CoverageToolset>();
         }        
     }
 }
