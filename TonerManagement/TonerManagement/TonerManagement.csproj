@@ -197,6 +197,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TonerManagementEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\TonerPercentageAndPrinterIdModel.cs" />
     <Compile Include="Models\TonerPrinter.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>

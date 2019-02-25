@@ -6,5 +6,6 @@ namespace TonerManagement.Handlers.Interface
     public interface IPrinterTonerHandler
     {
         ActionResult GetCoverage(CoverageForCompanyRequestModel coverageRequest, int userId);
+        ActionResult GetLowTonerLevelsOfCustomerPrinters(int customerId, int userId);
     }
 }
