@@ -7,23 +7,27 @@
 }
 
 <body>
+<div class="centerChild">
+    <div id="customerDropdown" class="ChartControlsHome"></div>
 
-<div id="customerDropdown" class="ChartControlsHome"></div>
+    <div id="leftCalender" class="ChartControlsHome"></div>
 
-<div id="leftCalender" class="ChartControlsHome"></div>
+    <div id="rightCalender" class="ChartControlsHome"></div>
 
-<div id="rightCalender" class="ChartControlsHome"></div>
+    <div id="chartOptionsDropdownLeft" class="ChartControlsHome"></div>
 
-<div id="chartOptionsDropdownLeft" class="ChartControlsHome"></div>
+    <div id="chartOptionsDropdownRight" class="ChartControlsHome"></div>
 
-<div id="chartOptionsDropdownRight" class="ChartControlsHome"></div>
+    <br/>
+    <div id="LeftHandChart" class="ChartInline"></div>
+    <div id="RightHandChart" class="ChartInline"></div>
 
-<br/>
-<div id="LeftHandChart" class="ChartInline"></div>
-<div id="RightHandChart" class="ChartInline"></div>
+    <br/>
 
-<br/>
-<div id="LowTonerGrid"></div>
+    <div id="LowTonerGrid"></div>
+</div>
+
+
 
 </body>
 
@@ -45,7 +49,7 @@
             var source = {
                 datatype: 'json',
                 datafields: [
-                    { name: "customerId" },
+                    { name: "customerID" },
                     { name: "customerName" },
                     { name: "customerAddress" },
                     { name: "customerContactNumber" },
@@ -53,13 +57,15 @@
                     { name: "StockLocations" },
                     { name: "UserCustomers" }
                 ],
-                url: url
+                url: url,
+                async: false
+
             }
             var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
             customerDropdown.jqxDropDownList({
                 source: dataAdapterForCustomerDropdown,
                 displayMember: "customerName",
-                valueMember: "customerId",
+                valueMember: "customerID",
                 selectedIndex: 0
             });
             //initialise calenders
@@ -100,6 +106,8 @@
                 valueMember: "ValueMember",
                 selectedIndex: 5
             });
+
+            console.log(customerDropdown.jqxDropDownList('getSelectedItem'));
             var dataForLeftChart = {
                 CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
                 StartDate: leftCalender.jqxDateTimeInput('getRange').from,
@@ -115,22 +123,24 @@
 
             //initialise source for charts
             var sourceLeftChart = {
-                dataType: "json",
+                dataType: 'json',
+                contentType: 'application/json',
                 dataFields: [
                     { name: 'Coverage' },
                     { name: 'Date' }
                 ],
                 url: '@Url.Action("GetCoverage", "Home")',
-                data: JSON.stringify(dataForLeftChart)
+                data: dataForLeftChart
             };
             var sourceRightChart = {
-                dataType: "json",
+                dataType: 'json',
+                contentType: 'application/json',
                 dataFields: [
                     { name: 'Coverage' },
                     { name: 'Date' }
                 ],
                 url: '@Url.Action("GetCoverage", "Home")',
-                data: JSON.stringify(dataForRightChart)
+                data: dataForRightChart
             };
             //initialise dataAdapters and base units for charts
             var dataAdapterLeftChart = new $.jqx.dataAdapter(sourceLeftChart);
@@ -154,45 +164,11 @@
                 source: dataAdapterLeftChart,
                 xAxis: {
                     dataField: 'Date',
-                    formatFunction: function(value) {
-                        return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
-                    },
-                    type: 'date',
-                    baseUnit: baseUnitLeft,
-                    tickMarks: {
-                        visible: true,
-                        interval: 1
-                    }
-                },
-                valueAxis: {
-                    visible: true,
-                    title: { text: 'Coverage Percentage<br>' }
-                },
-                seriesGroups:
-                [
-                    {
-                        type: 'line',
-                        series:
-                        [
-                            { dataField: 'Coverage', displayText: "Coverage" }
-                        ]
-                    }
-                ]
-            };
-            leftChart.jqxChart(leftChartSettings);
-
-
-            var rightChartSettings = {
-                title: "Coverage Chart",
-                enableAnimations: true,
-                source: dataAdapterRightChart,
-                xAxis: {
-                    dataField: 'Date',
                     formatFunction: function (value) {
                         return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
                     },
                     type: 'date',
-                    baseUnit: baseUnitRight,
+                    baseUnit: baseUnitLeft,
                     tickMarks: {
                         visible: true,
                         interval: 1
@@ -213,21 +189,58 @@
                         }
                     ]
             };
+            leftChart.jqxChart(leftChartSettings);
+
+
+            var rightChartSettings = {
+                title: "Coverage Chart",
+                enableAnimations: true,
+                source: dataAdapterRightChart,
+                xAxis: {
+                    dataField: 'Date',
+                    formatFunction: function(value) {
+                        return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                    },
+                    type: 'date',
+                    baseUnit: baseUnitRight,
+                    tickMarks: {
+                        visible: true,
+                        interval: 1
+                    }
+                },
+                valueAxis: {
+                    visible: true,
+                    title: { text: 'Coverage Percentage<br>' }
+                },
+                seriesGroups:
+                [
+                    {
+                        type: 'line',
+                        series:
+                        [
+                            { dataField: 'Coverage', displayText: "Coverage" }
+                        ]
+                    }
+                ]
+            };
             rightChart.jqxChart(rightChartSettings);
 
             //grid 
-            var tonerLowUrl = '@Url.Action("GetTonerLowForCustomer","Home")';
+            var tonerLowUrl = '@Url.Action("GetTonerLowForCustomer", "Home")';
             var sourceTonerLowGrid = {
                 dataType: "json",
+                contentType: 'application/json',
                 dataFields: [
-                    { name: 'PrinterId', type:'int'},
+                    { name: 'PrinterId', type: 'int' },
                     { name: 'Cyan', type: 'int' },
                     { name: 'Yellow', type: 'int' },
                     { name: 'Magenta', type: 'int' },
                     { name: 'Keying', type: 'int' }
                 ],
                 url: tonerLowUrl,
-                data: JSON.stringify(customerDropdown.jqxDropDownList("getSelectedItem").value)
+                data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value }
+
+
             };
             var dataAdapterForTonerLowGrid = new $.jqx.dataAdapter(sourceTonerLowGrid);
 
@@ -249,7 +262,7 @@
 
             //changes to dropdowns
             customerDropdown.on('select',
-                function () {
+                function() {
                     leftChart.jqxChart('getInstance').update();
                     rightChart.jqxChart('getInstance').update();
                 });
@@ -261,18 +274,18 @@
                     }
                 });
             rightCalender.on('change',
-                function (args) {
+                function(args) {
                     var selection = rightCalender.jqxDateTimeInput('getRange')
                     if (selection.from != null) {
                         rightChart.jqxChart('getInstance').update();
                     }
                 });
             chartOptionsDropdownLeft.on('select',
-                function () {
+                function() {
                     leftChart.jqxChart('getInstance').update();
                 });
             chartOptionsDropdownRight.on('select',
-                function () {
+                function() {
                     rightChart.jqxChart('getInstance').update();
                 });
         })

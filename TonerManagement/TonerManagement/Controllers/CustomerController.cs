@@ -18,7 +18,7 @@ namespace TonerManagement.Controllers
         }
         public ActionResult GetCustomersForUser()
         {
-            return Session["UserName"] == null ? new HttpStatusCodeResult(HttpStatusCode.Unauthorized) : _customerHandler.GetCustomersForUser(Session["UserName"].ToString());
+            return Session["UserName"] == null ? new HttpStatusCodeResult(HttpStatusCode.Unauthorized) : _customerHandler.GetCustomersForUser((string)Session["UserName"]);
         }
         
     }

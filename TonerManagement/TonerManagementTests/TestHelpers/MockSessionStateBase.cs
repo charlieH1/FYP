@@ -12,5 +12,10 @@ namespace TonerManagementTests.TestHelpers
             get => _sessionDictionary[name];
             set => _sessionDictionary[name] = value;
         }
+
+        public override void Remove(string name)
+        {
+            _sessionDictionary.Remove(name);
+        }
     }
 }

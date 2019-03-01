@@ -28,15 +28,15 @@
     <div id="Menu">
         <ul>
             @{
-                var userId = (string)Session["UserID"];
-                if (userId == null)
+                var userName = (string)Session["UserName"];
+                if (userName == null)
                 {
                     <li><a> @Html.ActionLink("Log In", "Login", "Login")</a></li>
                 }
                 else
                 {
                     <li><a>@Html.ActionLink("Home","Index","Home")</a></li>
-                    <li><a> @Html.ActionLink("Log In", "Login", "Login")</a></li>
+                    <li><a> @Html.ActionLink("Log Out", "LogOut", "Login")</a></li>
                 }
             }
         </ul>

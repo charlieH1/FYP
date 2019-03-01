@@ -29,5 +29,11 @@ namespace TonerManagement.Controllers
 
             return httpStatusCodeResult;
         }
+
+        public ActionResult Logout()
+        {
+            Session.Remove("UserName");
+            return View("Login");
+        }
     }
 }

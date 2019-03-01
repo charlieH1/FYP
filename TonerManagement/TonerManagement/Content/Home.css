@@ -1,10 +1,18 @@
 ﻿.ChartControlsHome {
     display: inline-block;
-    width: 20%;
-    margin: 32px 16px;
+    width: 15%;
+    margin: 16px 8px;
 }
 .ChartInline {
     display: inline-block;
-    width: 50%;
+    width: 40%;
+    height: 250px;
     margin: 32px;
 }
+#LowTonerGrid {
+    display: inline-block;
+}
+.centerChild {
+    text-align: center;
+}
+

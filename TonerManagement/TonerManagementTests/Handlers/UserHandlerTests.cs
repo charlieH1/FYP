@@ -1,16 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TonerManagement.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TonerManagement.Handlers;
 using TonerManagement.Models;
 using TonerManagement.Repository.Interface;
 
-namespace TonerManagement.Handlers.Tests
+namespace TonerManagementTests.Handlers
 {
     [TestClass()]
     public class UserHandlerTests
