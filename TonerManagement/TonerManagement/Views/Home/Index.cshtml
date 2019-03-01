@@ -2,30 +2,292 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+@section styles{
+    <link href="~/Content/Home.css" rel="stylesheet" type="text/css"/>
+}
+
+<body>
+<div class="centerChild">
+    <div id="customerDropdown" class="ChartControlsHome"></div>
+
+    <div id="leftCalender" class="ChartControlsHome"></div>
+
+    <div id="rightCalender" class="ChartControlsHome"></div>
+
+    <div id="chartOptionsDropdownLeft" class="ChartControlsHome"></div>
+
+    <div id="chartOptionsDropdownRight" class="ChartControlsHome"></div>
+
+    <br/>
+    <div id="LeftHandChart" class="ChartInline"></div>
+    <div id="RightHandChart" class="ChartInline"></div>
+
+    <br/>
+
+    <div id="LowTonerGrid"></div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+
+</body>
+
+@section scripts{
+    <script type="text/javascript">
+        $("document").ready(function() {
+            //Get ids of items
+            var customerDropdown = $("#customerDropdown");
+            var leftCalender = $("#leftCalender");
+            var rightCalender = $("#rightCalender");
+            var chartOptionsDropdownLeft = $("#chartOptionsDropdownLeft");
+            var chartOptionsDropdownRight = $("#chartOptionsDropdownRight");
+            var leftChart = $('#LeftHandChart');
+            var rightChart = $('#RightHandChart');
+            var tonerLowGrid = $('#LowTonerGrid');
+            //initialise All items
+            //initialise customer dropdown
+            var url = '@Url.Action("GetCustomersForUser", "Customer")';
+            var source = {
+                datatype: 'json',
+                datafields: [
+                    { name: "customerID" },
+                    { name: "customerName" },
+                    { name: "customerAddress" },
+                    { name: "customerContactNumber" },
+                    { name: "Printers" },
+                    { name: "StockLocations" },
+                    { name: "UserCustomers" }
+                ],
+                url: url,
+                async: false
+
+            }
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
+            customerDropdown.jqxDropDownList({
+                source: dataAdapterForCustomerDropdown,
+                displayMember: "customerName",
+                valueMember: "customerID",
+                selectedIndex: 0
+            });
+            //initialise calenders
+            leftCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy", selectionMode: "range" });
+            rightCalender.jqxDateTimeInput({ formatString: "dd/MM/yyyy", selectionMode: "range" });
+            var today = new Date();
+            var monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+            var sixMonthAgo = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+            leftCalender.jqxDateTimeInput('setRange', monthAgo, today);
+            rightCalender.jqxDateTimeInput('setRange', sixMonthAgo, today);
+
+            //initialise chart types dropdown
+            var sourceForChartType = [
+                // Monthly
+                { DisplayMember: "Cyan", ValueMember: "CyanMonthly", group: "Monthly" },
+                { DisplayMember: "Yellow", ValueMember: "YellowMonthly", group: "Monthly" },
+                { DisplayMember: "Magenta", ValueMember: "MagentaMonthly", group: "Monthly" },
+                { DisplayMember: "Keying", ValueMember: "KeyingMonthly", group: "Monthly" },
+                { DisplayMember: "Color", ValueMember: "ColorMonthly", group: "Monthly" },
+                { DisplayMember: "All", ValueMember: "AllMonthly", group: "Monthly" },
+                //Daily
+                { DisplayMember: "Cyan", ValueMember: "CyanDaily", group: "Daily" },
+                { DisplayMember: "Yellow", ValueMember: "YellowDaily", group: "Daily" },
+                { DisplayMember: "Magenta", ValueMember: "MagentaDaily", group: "Daily" },
+                { DisplayMember: "Keying", ValueMember: "KeyingDaily", group: "Daily" },
+                { DisplayMember: "Color", ValueMember: "ColorDaily", group: "Daily" },
+                { DisplayMember: "All", ValueMember: "AllDaily", group: "Daily" }
+            ];
+            chartOptionsDropdownLeft.jqxDropDownList({
+                source: sourceForChartType,
+                displayMember: "DisplayMember",
+                valueMember: "ValueMember",
+                selectedIndex: 11
+            });
+            chartOptionsDropdownRight.jqxDropDownList({
+                source: sourceForChartType,
+                displayMember: "DisplayMember",
+                valueMember: "ValueMember",
+                selectedIndex: 5
+            });
+
+            console.log(customerDropdown.jqxDropDownList('getSelectedItem'));
+            var dataForLeftChart = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
+                StartDate: leftCalender.jqxDateTimeInput('getRange').from,
+                EndDate: leftCalender.jqxDateTimeInput('getRange').to,
+                CoverageType: chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').value
+            };
+            var dataForRightChart = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
+                StartDate: rightCalender.jqxDateTimeInput('getRange').from,
+                EndDate: rightCalender.jqxDateTimeInput('getRange').to,
+                CoverageType: chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').value
+            };
+
+            //initialise source for charts
+            var sourceLeftChart = {
+                dataType: 'json',
+                contentType: 'application/json',
+                dataFields: [
+                    { name: 'Coverage' },
+                    { name: 'Date' }
+                ],
+                url: '@Url.Action("GetCoverage", "Home")',
+                data: dataForLeftChart
+            };
+            var sourceRightChart = {
+                dataType: 'json',
+                contentType: 'application/json',
+                dataFields: [
+                    { name: 'Coverage' },
+                    { name: 'Date' }
+                ],
+                url: '@Url.Action("GetCoverage", "Home")',
+                data: dataForRightChart
+            };
+            //initialise dataAdapters and base units for charts
+            var dataAdapterLeftChart = new $.jqx.dataAdapter(sourceLeftChart);
+            var baseUnitLeft;
+            if (chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').group == "Monthly") {
+                baseUnitLeft = "month";
+            } else {
+                baseUnitLeft = "day";
+            }
+            var dataAdapterRightChart = new $.jqx.dataAdapter(sourceRightChart);
+            var baseUnitRight;
+            if (chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').group == "Monthly") {
+                baseUnitLeft = "month";
+            } else {
+                baseUnitLeft = "day";
+            }
+            //initialise chart settings and charts
+            var leftChartSettings = {
+                title: "Coverage Chart",
+                enableAnimations: true,
+                source: dataAdapterLeftChart,
+                xAxis: {
+                    dataField: 'Date',
+                    formatFunction: function (value) {
+                        return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                    },
+                    type: 'date',
+                    baseUnit: baseUnitLeft,
+                    tickMarks: {
+                        visible: true,
+                        interval: 1
+                    }
+                },
+                valueAxis: {
+                    visible: true,
+                    title: { text: 'Coverage Percentage<br>' }
+                },
+                seriesGroups:
+                    [
+                        {
+                            type: 'line',
+                            series:
+                                [
+                                    { dataField: 'Coverage', displayText: "Coverage" }
+                                ]
+                        }
+                    ]
+            };
+            leftChart.jqxChart(leftChartSettings);
+
+
+            var rightChartSettings = {
+                title: "Coverage Chart",
+                enableAnimations: true,
+                source: dataAdapterRightChart,
+                xAxis: {
+                    dataField: 'Date',
+                    formatFunction: function(value) {
+                        return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                    },
+                    type: 'date',
+                    baseUnit: baseUnitRight,
+                    tickMarks: {
+                        visible: true,
+                        interval: 1
+                    }
+                },
+                valueAxis: {
+                    visible: true,
+                    title: { text: 'Coverage Percentage<br>' }
+                },
+                seriesGroups:
+                [
+                    {
+                        type: 'line',
+                        series:
+                        [
+                            { dataField: 'Coverage', displayText: "Coverage" }
+                        ]
+                    }
+                ]
+            };
+            rightChart.jqxChart(rightChartSettings);
+
+            //grid 
+            var tonerLowUrl = '@Url.Action("GetTonerLowForCustomer", "Home")';
+            var sourceTonerLowGrid = {
+                dataType: "json",
+                contentType: 'application/json',
+                dataFields: [
+                    { name: 'PrinterId', type: 'int' },
+                    { name: 'Cyan', type: 'int' },
+                    { name: 'Yellow', type: 'int' },
+                    { name: 'Magenta', type: 'int' },
+                    { name: 'Keying', type: 'int' }
+                ],
+                url: tonerLowUrl,
+                data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value }
+
+
+            };
+            var dataAdapterForTonerLowGrid = new $.jqx.dataAdapter(sourceTonerLowGrid);
+
+            tonerLowGrid.jqxGrid({
+                width: "90%",
+                source: dataAdapterForTonerLowGrid,
+                selectionmode: 'none',
+                columnsResize: true,
+                filterable: true,
+                columns: [
+                    { text: 'Printer Id', datafield: 'PrinterId', width: '20%', filterType: 'range' },
+                    { text: 'Cyan', datafield: 'Cyan', width: '20%', filtertype: 'range' },
+                    { text: 'Yellow', datafield: 'Yellow', width: '20%', filtertype: 'range' },
+                    { text: 'Magenta', datafield: 'Magenta', width: '20%', filtertype: 'range' },
+                    { text: 'Keying', datafield: 'Keying', width: '20%', filtertype: 'range' }
+                ]
+
+            });
+
+            //changes to dropdowns
+            customerDropdown.on('select',
+                function() {
+                    leftChart.jqxChart('getInstance').update();
+                    rightChart.jqxChart('getInstance').update();
+                });
+            leftCalender.on('change',
+                function(args) {
+                    var selection = leftCalender.jqxDateTimeInput('getRange')
+                    if (selection.from != null) {
+                        leftChart.jqxChart('getInstance').update();
+                    }
+                });
+            rightCalender.on('change',
+                function(args) {
+                    var selection = rightCalender.jqxDateTimeInput('getRange')
+                    if (selection.from != null) {
+                        rightChart.jqxChart('getInstance').update();
+                    }
+                });
+            chartOptionsDropdownLeft.on('select',
+                function() {
+                    leftChart.jqxChart('getInstance').update();
+                });
+            chartOptionsDropdownRight.on('select',
+                function() {
+                    rightChart.jqxChart('getInstance').update();
+                });
+        })
+    </script>
+}

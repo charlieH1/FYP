@@ -69,17 +69,16 @@
             $('#LoginForm').on('validationSuccess',
                 function() {
                     var userData = {
-                        UserId: $('#userId').val(),
+                        UserName: $('#userId').val(),
                         Password: $('#password').val()
                     };
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("LoginRequest", "Login")',
-                        dataType: 'json',
                         contentType: 'application/json',
                         data: JSON.stringify(userData),
                         success: function() {
-                            alert("Successfully Logged In");
+                            window.location.href = '@Url.Action("Index","Home")';
                         },
                         error: function(xhr) {
                             if (xhr.status === 401) {

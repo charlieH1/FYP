@@ -3,6 +3,8 @@ using TonerManagement.Handlers;
 using TonerManagement.Handlers.Interface;
 using TonerManagement.Repository;
 using TonerManagement.Repository.Interface;
+using TonerManagement.Toolsets;
+using TonerManagement.Toolsets.Interface;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(TonerManagement.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(TonerManagement.App_Start.NinjectWebCommon), "Stop")]
@@ -69,15 +71,22 @@ namespace TonerManagement.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             //db bindings
-            kernel.Bind<DbContext>().To<TonerManagementEntities>();
+            TonerManagementEntities db = new TonerManagementEntities();
+            db.Configuration.ProxyCreationEnabled = false;
+            kernel.Bind<DbContext>().ToConstant(db);
             //repo bindings
             kernel.Bind<IUserRepo>().To<UserRepo>();
             kernel.Bind<ITonerPrinterRepo>().To<TonerPrinterRepo>();
             kernel.Bind<IPrinterRepo>().To<PrinterRepo>();
+            kernel.Bind<ICustomerRepo>().To<CustomerRepo>();
             //handler bindings
             kernel.Bind<IRegistrationHandler>().To<RegistrationHandler>();
             kernel.Bind<ILoginHandler>().To<LoginHandler>();
-
+            kernel.Bind<ICustomerHandler>().To<CustomerHandler>();
+            kernel.Bind<IUserHandler>().To<UserHandler>();
+            kernel.Bind<IPrinterTonerHandler>().To<PrinterTonerHandler>();
+            //toolset bindings
+            kernel.Bind<ICoverageToolset>().To<CoverageToolset>();
         }        
     }
 }

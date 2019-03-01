@@ -80,5 +80,25 @@ namespace TonerManagementTests.Controllers
             res.ViewName.Should().Be("Login");
             mockLoginHandler.VerifyNoOtherCalls();
         }
+
+        [TestMethod()]
+        public void LogoutReturnsLoginPage()
+        {
+            //setup
+            var mockSession = new MockSessionStateBase {["UserName"] = "Test"};
+            var mockContext = new Mock<ControllerContext>();
+            mockContext.Setup(mC => mC.HttpContext.Session).Returns(mockSession);
+
+            var mockLoginHandler = new Mock<ILoginHandler>();
+
+            var sut = new LoginController(mockLoginHandler.Object) {ControllerContext = mockContext.Object};
+
+            //action
+            var res = (ViewResult) sut.Logout();
+
+            //assert
+            res.ViewName.Should().Be("Login");
+        }
+
     }
 }

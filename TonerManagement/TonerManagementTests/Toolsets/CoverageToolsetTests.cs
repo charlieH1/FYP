@@ -310,7 +310,7 @@ namespace TonerManagementTests.Toolsets
 
             //action
 
-            var res = sut.GetListOfCoverageDailyForCompany(1, startDate, endDate, color);
+            var res = sut.GetListOfCoverageDailyForCustomer(1, startDate, endDate, color);
 
             //assert
             var expected = new List<CoverageDateModel>
@@ -403,7 +403,7 @@ namespace TonerManagementTests.Toolsets
             var sut = new CoverageToolset(mockTonerPrinterRepo.Object, mockPrinterRepo.Object);
 
             //action
-            var res = sut.GetListOfCoverageMonthlyForCompany(customerId,startDate, endDate, colorType);
+            var res = sut.GetListOfCoverageMonthlyForCustomer(customerId,startDate, endDate, colorType);
 
             //assert
             var expectedResultList = new List<CoverageDateModel>
