@@ -1,0 +1,116 @@
+﻿@model TonerManagement.Models.User
+@{
+    ViewBag.Title = "Profile";
+
+}
+
+<h2>Profile</h2>
+
+<form id="updateProfileForm">
+    <table class="Form RoundedCorners-Grey">
+
+        <tr>
+            <td><input type="text" required id="userName" /></td>
+        </tr>
+        <tr>
+            <td><input type="password" id="currentPassword" required /></td>
+        </tr>
+        <tr>
+            <td><input type="password" id="newPassword" /></td>
+        </tr>
+        <tr>
+            <td><input type="password" id="confirmNewPassword" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="updateProfileButton" value="Update Profile" /></td>
+        </tr>
+    </table>
+</form>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#userName').val = @Model.userLogin;
+            //jqxButton
+            $('#updateProfileButton').jqxButton({ width: 120, height: 40 });
+
+            var updateProfileButton = $('#updateProfileButton');
+
+            $('#updateProfileForm').jqxValidator({
+                hintType: 'tooltip',
+                rules: [
+                    {
+                        input: '#userName',
+                        message: 'A username is required',
+                        action: 'blur',
+                        rule: 'required'
+                    },
+                    {
+                        input: '#currentPassword',
+                        message: 'Current password is required',
+                        action: 'blur',
+                        rule: 'required'
+                    },
+                    {
+                        input: '#newPassword',
+                        message:
+                            'Passwords must be 6 long and contain the following: Uppercase,Lowercase,Number,Special',
+                        action: 'keyup, blur',
+                        rule: function() {
+                            var password = $('#password').jqxPasswordInput('val');
+                            var validPassword =
+                                (/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,})/g.test(password));
+                            var noPassword = password === "";
+                            return (validPassword || noPassword);
+                        }
+                    },
+                    {
+                        input: '#confirmNewPassword',
+                        message: 'Passwords must match',
+                        action: 'blur',
+                        rule: function() {
+                            var password = $('#password').val();
+                            var confirmPassword = $('#confirmPassword').val();
+                            return password === confirmPassword;
+                        }
+                    }
+                ]
+            });
+
+            updateProfileButton.on('click',
+                function() {
+                    $('#LoginForm').jqxValidator('validate');
+                });
+            $('#LoginForm').on('validationSuccess',
+                function() {
+                    var userData = {
+                        UserId: @Model.userId,
+                        UserName: $('#userName').val(),
+                        CurrentPassword: $('#currentPassword').val(),
+                        NewPassword: $('#newPassword').val(),
+                        ConfirmNewPassword:$('#confirmNewPassword').val()
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UpdateProfileRequest", "Profile")',
+                        contentType: 'application/json',
+                        data: JSON.stringify(userData),
+                        success: function() {
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 401) {
+                                alert("Username or password is invalid");
+                            } else {
+                                alert("Login failed error code:" + xhr.status);
+                            }
+                        }
+                    });
+                });
+
+        });
+    </script>
+}
+
