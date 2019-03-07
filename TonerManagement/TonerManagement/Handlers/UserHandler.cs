@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using TonerManagement.Handlers.Interface;
 using TonerManagement.Models;
 using TonerManagement.Repository.Interface;
@@ -17,6 +18,11 @@ namespace TonerManagement.Handlers
         public List<User> GetUsers(string userName)
         {
             return _userRepo.GetUsers(userName);
+        }
+
+        public HttpStatusCodeResult UpdateUser(UserUpdateModel updateUser)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

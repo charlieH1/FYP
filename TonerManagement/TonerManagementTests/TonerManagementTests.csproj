@@ -105,6 +105,7 @@
     <Compile Include="Controllers\CustomerControllerTests.cs" />
     <Compile Include="Controllers\HomeControllerTests.cs" />
     <Compile Include="Controllers\LoginControllerTests.cs" />
+    <Compile Include="Controllers\ProfileControllerTests.cs" />
     <Compile Include="Controllers\RegistrationControllerTests.cs" />
     <Compile Include="Handlers\CustomerHandlerTests.cs" />
     <Compile Include="Handlers\LoginHandlerTests.cs" />

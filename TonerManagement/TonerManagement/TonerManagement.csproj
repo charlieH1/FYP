@@ -209,6 +209,7 @@
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserRegisterModel.cs" />
+    <Compile Include="Models\UserUpdateModel.cs" />
     <Compile Include="Repository\CustomerRepo.cs" />
     <Compile Include="Repository\Interface\ICustomerRepo.cs" />
     <Compile Include="Repository\Interface\IUserRepo.cs" />
@@ -444,11 +445,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Registration\Register.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
