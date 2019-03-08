@@ -12,10 +12,10 @@ namespace TonerManagement.Controllers
 {
     public class ProfileController : Controller
     {
-        private readonly UserHandler _userHandler;
+        private readonly IUserHandler _userHandler;
         public ProfileController(IUserHandler userHandler)
         {
-            _userHandler = (UserHandler)userHandler;
+            _userHandler = userHandler;
         }
         // GET: Profile
         public ActionResult Index()
@@ -34,6 +34,15 @@ namespace TonerManagement.Controllers
 
         public ActionResult UpdateProfileRequest(UserUpdateModel updateUser)
         {
+            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+            var user = _userHandler.GetUsers((string) Session["UserName"])[0];
+            if (user.userId != updateUser.UserId)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
             var result = _userHandler.UpdateUser(updateUser);
             if (result.StatusCode == 200)
             {
