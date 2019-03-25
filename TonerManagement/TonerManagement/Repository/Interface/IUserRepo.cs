@@ -9,6 +9,7 @@ namespace TonerManagement.Repository.Interface
         void AddUser(User user);
         DbSet<User> GetAllUsers();
         List<User> GetUsers(string userName);
-        void UpdateUser(User user);
+        bool UpdateUser(User user);
+        User GetUser(int userId);
     }
 }

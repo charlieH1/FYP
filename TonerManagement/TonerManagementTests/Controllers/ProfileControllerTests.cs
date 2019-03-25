@@ -144,5 +144,44 @@ namespace TonerManagementTests.Controllers
             //assert
             res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Unauthorized));
         }
+
+        [TestMethod()]
+        public void UpdateProfileRequestMismatchedLoggedInUserReturnsWithHttpStatusCodeForbidden()
+        {
+
+            //setup
+            const string username = "test";
+            const string password = "Pa$$w0rd";
+            var user = new User()
+            {
+                hashedPassword = Sodium.PasswordHash.ArgonHashString(password),
+                userId = 2,
+                userLogin = username
+            };
+            var updateUser = new UserUpdateModel()
+            {
+                UserId = 1,
+                CurrentPassword = "PA$$w0rd",
+                NewPassword = "Pa$$w0rd!1",
+                ConfirmNewPassword = "Pa$$w0rd!1",
+                UserName = "NewUserName"
+            };
+            var userHandlerUpdateReturn = new HttpStatusCodeResult(HttpStatusCode.OK);
+            var mockUserHandler = new Mock<IUserHandler>();
+            mockUserHandler.Setup(mUH => mUH.GetUsers(username)).Returns(new List<User> { user });
+            mockUserHandler.Setup(mUH => mUH.UpdateUser(updateUser)).Returns(userHandlerUpdateReturn);
+            var mockSession = new MockSessionStateBase { ["UserName"] = username };
+            var mockControllerContext = new Mock<ControllerContext>();
+            mockControllerContext.Setup(mCC => mCC.HttpContext.Session).Returns(mockSession);
+            var sut = new ProfileController(mockUserHandler.Object) { ControllerContext = mockControllerContext.Object };
+
+            //Action
+            var res = (HttpStatusCodeResult)sut.UpdateProfileRequest(updateUser);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Forbidden));
+        }
     }
+
+
 }
