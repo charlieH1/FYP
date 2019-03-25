@@ -21,3 +21,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.centreChild {
+    text-align: center
+}

@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Stock Location";
+}
+
+<h2>Stock Location</h2>
+
+<div class="centreChild">
+    <table>
+        <tr>
+            <td><div id="customerDropdown"></div></td>
+            <td> <div id="stockLocationDropdown"></div></td>
+        </tr>
+        <tr>
+            <td><div id="stockLocationAddress"></div></td>
+            <td>
+                <div id="stockLocationNameChangeField"></div>
+                <div id="stockLocationPhoneNumber"></div>
+            </td>
+        </tr>
+    </table>
+    <input id="saveChangesButton" type="button" title="Save Changes"\>
+    <div id="stockLocationTonerGrid"></div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $("document").ready(function() {
+            var customerDropdown = $("#customerDropdown");
+            //initialise customer dropdown
+            var url = '@Url.Action("GetCustomersForUser", "Customer")';
+            var source = {
+                datatype: 'json',
+                datafields: [
+                    { name: "customerID" },
+                    { name: "customerName" },
+                    { name: "customerAddress" },
+                    { name: "customerContactNumber" },
+                    { name: "Printers" },
+                    { name: "StockLocations" },
+                    { name: "UserCustomers" }
+                ],
+                url: url,
+                async: false
+
+            }
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
+            customerDropdown.jqxDropDownList({
+                source: dataAdapterForCustomerDropdown,
+                displayMember: "customerName",
+                valueMember: "customerID",
+                selectedIndex: 0
+            });
+        });
+    </script>
+
+
+}
