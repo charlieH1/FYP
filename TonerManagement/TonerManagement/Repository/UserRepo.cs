@@ -24,6 +24,11 @@ namespace TonerManagement.Repository
             return _db.Users.Where(a => a.userLogin == userName).ToList();
         }
 
+        public User GetUser(int userId)
+        {
+            return _db.Users.Find(userId);
+        }
+
         public void AddUser(User user)
         {
             var newUser = _db.Users.Create();
@@ -33,12 +38,13 @@ namespace TonerManagement.Repository
             _db.SaveChanges();
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
             var oldUser = _db.Users.Single(a => a.userId == user.userId);
             oldUser.userLogin = user.userLogin;
             oldUser.hashedPassword = user.hashedPassword;
-            _db.SaveChanges();
+            var updated = _db.SaveChanges();
+            return updated > 0;
         }
     }
 }

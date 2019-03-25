@@ -150,6 +150,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Handlers\CustomerHandler.cs" />
     <Compile Include="Handlers\Interface\ICustomerHandler.cs" />
@@ -208,6 +209,7 @@
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserRegisterModel.cs" />
+    <Compile Include="Models\UserUpdateModel.cs" />
     <Compile Include="Repository\CustomerRepo.cs" />
     <Compile Include="Repository\Interface\ICustomerRepo.cs" />
     <Compile Include="Repository\Interface\IUserRepo.cs" />
@@ -443,6 +445,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Registration\Register.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
