@@ -6,20 +6,21 @@
 <h2>Stock Location</h2>
 
 <div class="centreChild">
-    <table>
-        <tr>
-            <td><div id="customerDropdown"></div></td>
-            <td> <div id="stockLocationDropdown"></div></td>
-        </tr>
-        <tr>
-            <td><div id="stockLocationAddress"></div></td>
-            <td>
-                <div id="stockLocationNameChangeField"></div>
-                <div id="stockLocationPhoneNumber"></div>
-            </td>
-        </tr>
-    </table>
-    <input id="saveChangesButton" type="button" title="Save Changes"\>
+    <div id="customerDropdown"></div>
+
+    <div id="stockLocationDropdown"></div>
+    <form id="stockLocationForm">
+        <table>
+            <tr>
+                <td><textarea id="stockLocationAddress"></textarea></td>
+                <td>
+                    <input type="text" id="stockLocationNameChangeField" />
+                    <input type="text" id="stockLocationPhoneNumber" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <input id="saveChangesButton" type="button" value="Save Changes" \>
     <div id="stockLocationTonerGrid"></div>
 </div>
 
@@ -28,9 +29,23 @@
 
         $("document").ready(function() {
             var customerDropdown = $("#customerDropdown");
+            var stockLocationNameChangeField = $("#stockLocationNameChangeField");
+            stockLocationNameChangeField.jqxInput({ placeHolder: "Stock Location Name" });
+            var stockLocationAddressField = $("#stockLocationAddress");
+            var stockLocationForm = $("#stockLocationForm");
+            stockLocationAddressField.jqxTextArea({
+                placeHolder: "Enter a stock location address",
+                height: 140,
+                width: 336
+            });
+            var stockLocationPhoneNumber = $("#stockLocationPhoneNumber");
+            stockLocationPhoneNumber.jqxInput({ placeHolder: "Stock Location Phone Number" });
+            var saveChangesButton = $("#saveChangesButton");
+            saveChangesButton.jqxButton({ width: 150, height: 25 });
+
             //initialise customer dropdown
             var url = '@Url.Action("GetCustomersForUser", "Customer")';
-            var source = {
+            var customerDropdownSource = {
                 datatype: 'json',
                 datafields: [
                     { name: "customerID" },
@@ -44,15 +59,164 @@
                 url: url,
                 async: false
 
-            }
-            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
+            };
+
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(customerDropdownSource);
             customerDropdown.jqxDropDownList({
                 source: dataAdapterForCustomerDropdown,
                 displayMember: "customerName",
                 valueMember: "customerID",
                 selectedIndex: 0
             });
+
+
+            var stockLocationDropdown = $("#stockLocationDropdown");
+            var dataForStockLocationDropdown = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value
+            };
+
+            var url = '@Url.Action("GetStockLocationsForCustomer", "StockLocation")';
+            var stockLocationSource = {
+                datatype: 'json',
+                datafields: [
+                    { name: "stockLocationId", type: "int" },
+                    { name: "customerId", type: "int" },
+                    { name: "stockLocationName", type: "string" },
+                    { name: "stockLocationAddress", type: "string" },
+                    { name: "stockLocationContactNumber", type: "string" },
+                    { name: "Customer" },
+                    { name: "Printers" },
+                    { name: "StockLocationToners" }
+                ],
+                url: url,
+                async: false,
+                data: dataForStockLocationDropdown,
+                loadError: function (jqXHR, status, error) {
+                    alert("An error occured getting the stock locations " + error);
+                }
+            };
+            var dataAdapterForStockLocationDropdown = new $.jqx.dataAdapter(stockLocationSource);
+            stockLocationDropdown.jqxDropDownList({
+                source: dataAdapterForStockLocationDropdown,
+                displayMember: "stockLocationName",
+                valueMember: "stockLocationId",
+                selectedIndex: 0
+            });
+
+            var StockLocationId;
+
+            var stockLocation = Object.create(StockLocation);
+
+            stockLocationDropdown.on('bindingComplete selected',
+                function() {
+                    $.ajax(
+                        {
+                            type:'GET',
+                            url: '@Url.Action("GetStockLocation", "StockLocation")',
+                            data: {
+                                stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success === true) {
+                                    StockLocationId = response.StockLocation.stockLocationId;
+                                   
+                                    stockLocationNameChangeField.val = response.StockLocation.stockLocationName;
+                                    stockLocationAddressField.val = response.StockLocation.stockLocationAddress;
+                                    stockLocationPhoneNumber.val = response.StockLocation.stockLocationContactNumber;
+                                    //ToDo update grid
+                                } else {
+                                    alert("Failed to get stock location", response.errorMessage);
+                                }
+                            },
+                            error: function (response) {
+                                alert("An error occured getting stock location: " + response.status + " " + response.statusText);
+                            }
+                        });
+                });
+
+
+            stockLocationForm.jqxValidator({
+                hintType: 'tooltip',
+                rules: [
+                    {
+                        input: '#stockLocationNameChangeField',
+                        rule: 'required',
+                        message: 'Stock Location Name Required',
+                        action: 'blur'
+                    },
+                    {
+                        input: '#stockLocationPhoneNumber',
+                        rule: 'required',
+                        message: 'Stock Location Phone Number Required',
+                        action: 'blur'
+                    },
+                    {
+                        input: '#stockLocationPhoneNumber',
+                        rule: function() {
+                            return /((?: \+| 00)[17](?: |\-) ?| (?: \+| 00)[1 - 9]\d{ 0, 2 } (?: |\-)?| (?: \+| 00) 1\-\d{ 3 } (?: |\-)?)?(0\d |\([0 - 9]{ 3 } \)| [1 - 9]{ 0, 3 }) (?: ((?: |\-)[0 - 9]{ 2 }) { 4 }| ((?: [0 - 9]{ 2 }) { 4 })| ((?: |\-)[0 - 9]{ 3 } (?: |\-)[0 - 9]{ 4 })| ([0 - 9]{ 7 }))/g
+                                .test($("#stockLocationPhoneNumber").val().trim());
+                        },
+                        message: 'Please enter a valid phone number',
+                        action: 'blur'
+                    },
+                    {
+                        input: '#stockLocationAddress',
+                        rule: 'required',
+                        message: 'A stock location address is required',
+                        action: 'blur'
+                    }
+                ]
+
+            });
+
+            saveChangesButton.on('click',
+                function() {
+                    stockLocationForm.jqxValidator('validate');
+                });
+            stockLocationForm.on('validationSuccess', function() {
+                var stockLocationId = StockLocationId;
+                var stockLocationName = stockLocationNameChangeField.val();
+                var stockLocationAddress = stockLocationAddressField.val();
+                var stockLocationContactNumber = stockLocationPhoneNumber.val();
+
+                var updateStockLocationData = {
+                    StockLocationId: stockLocationId,
+                    StockLocationName: stockLocationName,
+                    StockLocationAddress: stockLocationAddress,
+                    StockLocationContactNumber: stockLocationContactNumber
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateStockLocation","StockLocation")',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updateStockLocationData),
+                    success: function(data) {
+                        if (data.success === true) {
+                            alert("Stock Location Successfully Updated");
+
+
+                        } else {
+                            alert("The details given failed to update");
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            alert(
+                                "An error has occured validating the update request: "+ xhr.statusText);
+                        } else {
+                            alert("An error occured updating the database: " + xhr.status + " " + xhr.statusText);
+                        }
+
+                    }
+                });
+            });
+
+
+            //ToDo setup grid
         });
+
     </script>
 
 
