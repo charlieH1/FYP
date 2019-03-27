@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
+using TonerManagement.Handlers.Interface;
 using TonerManagement.Models;
 using TonerManagement.Repository.Interface;
 
@@ -16,11 +17,15 @@ namespace TonerManagement.Handlers
         private readonly IStockLocationRepo _stockLocationRepo;
         private readonly ICustomerRepo _customerRepo;
         private readonly IUserRepo _userRepo;
-        public StockLocationHandler(IStockLocationRepo stockLocationRepo, ICustomerRepo customerRepo, IUserRepo userRepo)
+        private readonly ITonerRepo _tonerRepo;
+        private readonly IStockLocationTonerRepo _stockLocationTonerRepo;
+        public StockLocationHandler(IStockLocationRepo stockLocationRepo, ICustomerRepo customerRepo, IUserRepo userRepo, ITonerRepo tonerRepo,IStockLocationTonerRepo stockLocationTonerRepo)
         {
             _stockLocationRepo = stockLocationRepo;
             _customerRepo = customerRepo;
             _userRepo = userRepo;
+            _tonerRepo = tonerRepo;
+            _stockLocationTonerRepo = stockLocationTonerRepo;
         }
 
         
@@ -77,7 +82,7 @@ namespace TonerManagement.Handlers
             }
 
             
-            var data = new { sucesss = true, StockLocation = stockLocation };
+            var data = new { success = true, StockLocation = stockLocation };
 
             var json = new JsonResult()
             {
@@ -111,8 +116,7 @@ namespace TonerManagement.Handlers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "User does not have access to this customer");
             }
 
-            var phoneNumberRegEx = new Regex(
-                @"((?: \+| 00)[17](?: |\-) ?| (?: \+| 00)[1 - 9]\d{ 0, 2 } (?: |\-)?| (?: \+| 00) 1\-\d{ 3 } (?: |\-)?)?(0\d |\([0 - 9]{ 3 } \)| [1 - 9]{ 0, 3 }) (?: ((?: |\-)[0 - 9]{ 2 }) { 4 }| ((?: [0 - 9]{ 2 }) { 4 })| ((?: |\-)[0 - 9]{ 3 } (?: |\-)[0 - 9]{ 4 })| ([0 - 9]{ 7 }))");
+           
 
             if (stockLocationToUpdate.StockLocationAddress.IsNullOrWhiteSpace())
             {
@@ -129,10 +133,7 @@ namespace TonerManagement.Handlers
                 return new HttpStatusCodeResult(422, "Stock Location phone number cant be null or whitespace");
             }
 
-            if (!phoneNumberRegEx.IsMatch(stockLocationToUpdate.StockLocationContactNumber))
-            {
-                return new HttpStatusCodeResult(422, "Phone number is not valid");
-            }
+            
 
             
 
@@ -146,6 +147,66 @@ namespace TonerManagement.Handlers
 
             var success = _stockLocationRepo.UpdateStockLocation(stockLocationValidated);
             return success == true ? new HttpStatusCodeResult(HttpStatusCode.OK) : new HttpStatusCodeResult(422, "Failed to update DB");
+
+        }
+
+        public ActionResult GetTonerStockLocationForGrid(int stockLocationId, string userName)
+        {
+            var users = _userRepo.GetUsers(userName);
+            var stockLocation = _stockLocationRepo.GetStockLocation(stockLocationId);
+            if (users.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized, "User not known");
+            }
+
+            if (stockLocation == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "The stock location could not be found");
+            }
+            var user = users.First();
+            var customer = _customerRepo.GetCustomer(stockLocation.customerId);
+            var customers = _customerRepo.GetCustomersForUser(user.userId);
+            if (!customers.Contains(customer))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "User does not have access to this customer");
+            }
+
+            var gridData = new List<TonerStockLocationGridModel>();
+
+            var stockLocationToners = _stockLocationTonerRepo.GetStockLocationTonersForStockLocation(stockLocationId);
+            foreach (var stockLocationToner in stockLocationToners)
+            {
+                var gridDataElement = new TonerStockLocationGridModel {TonerId = stockLocationToner.tonerId};
+                var tonerItem = _tonerRepo.GetToner(stockLocationToner.tonerId);
+                if (tonerItem == null) continue;
+                if (tonerItem.isCyan)
+                {
+                    gridDataElement.Color = "Cyan";
+                }
+                else if (tonerItem.isKeying)
+                {
+                    gridDataElement.Color = "Keying";
+                }
+                else if (tonerItem.isMagenta)
+                {
+                    gridDataElement.Color = "Magenta";
+                }
+                else if (tonerItem.isYellow)
+                {
+                    gridDataElement.Color = "Yellow";
+                }
+
+                gridDataElement.Quantity = stockLocationToner.quantity;
+                gridDataElement.TonerName = tonerItem.tonerName;
+                gridData.Add(gridDataElement);
+            }
+            return new JsonResult()
+            {
+                ContentType = null,
+                ContentEncoding = null,
+                Data=gridData,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
 
         }
     }

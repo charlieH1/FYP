@@ -112,6 +112,7 @@
     <Compile Include="Handlers\LoginHandlerTests.cs" />
     <Compile Include="Handlers\PrinterTonerHandlerTests.cs" />
     <Compile Include="Handlers\RegistrationHandlerTests.cs" />
+    <Compile Include="Handlers\StockLocationHandlerTests.cs" />
     <Compile Include="Handlers\UserHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\MockSessionStateBase.cs" />

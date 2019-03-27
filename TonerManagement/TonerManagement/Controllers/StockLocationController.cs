@@ -17,6 +17,7 @@ namespace TonerManagement.Controllers
         public StockLocationController(IUserHandler userHandler, IStockLocationHandler stockLocationHandler)
         {
             _userHandler = userHandler;
+            _stockLocationHandler = stockLocationHandler;
         }
         // GET: StockLocation
         public ActionResult Index()
@@ -57,6 +58,16 @@ namespace TonerManagement.Controllers
             }
 
             return _stockLocationHandler.UpdateStockLocation(stockLocationToUpdate, (string) Session["UserName"]);
+        }
+
+        public ActionResult GetTonerStockLocationForStockLocationForGrid(int stockLocation)
+        {
+            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            return _stockLocationHandler.GetTonerStockLocationForGrid(stockLocation, (string) Session["UserName"]);
         }
     }
 }
