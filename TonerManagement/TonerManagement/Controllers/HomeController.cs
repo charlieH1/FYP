@@ -26,17 +26,7 @@ namespace TonerManagement.Controllers
             return View("Index");
         }
 
-        public ActionResult GetCoverage(CoverageForCompanyRequestModel request)
-        {
-            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count==0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            }
-
-            var userId = _userHandler.GetUsers((string)Session["UserName"]).First().userId;
-            return _printerTonerHandler.GetCoverage(request, userId);
-
-        }
+        
 
         public ActionResult GetTonerLowForCustomer(int customerId)
         {

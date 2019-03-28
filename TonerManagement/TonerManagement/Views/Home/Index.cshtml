@@ -107,7 +107,7 @@
                 selectedIndex: 5
             });
 
-            console.log(customerDropdown.jqxDropDownList('getSelectedItem'));
+
             var dataForLeftChart = {
                 CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
                 StartDate: leftCalender.jqxDateTimeInput('getRange').from,
@@ -129,7 +129,7 @@
                     { name: 'Coverage' },
                     { name: 'Date' }
                 ],
-                url: '@Url.Action("GetCoverage", "Home")',
+                url: '@Url.Action("GetCoverage", "Coverage")',
                 data: dataForLeftChart
             };
             var sourceRightChart = {
@@ -139,7 +139,7 @@
                     { name: 'Coverage' },
                     { name: 'Date' }
                 ],
-                url: '@Url.Action("GetCoverage", "Home")',
+                url: '@Url.Action("GetCoverage", "Coverage")',
                 data: dataForRightChart
             };
             //initialise dataAdapters and base units for charts

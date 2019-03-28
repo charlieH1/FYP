@@ -25,6 +25,14 @@ namespace TonerManagement.Toolsets
             _printerRepo = printerRepo;
         }
 
+        /// <summary>
+        /// Gets daily coverage for a printer
+        /// </summary>
+        /// <param name="startDate"> the start date</param>
+        /// <param name="endDate"> the end date</param>
+        /// <param name="printerId"> the prineter id</param>
+        /// <param name="color"> the color</param>
+        /// <returns> a list of type CoverageDateModel that contains the coverage details</returns>
         public List<CoverageDateModel> GetListOfCoverageDaily(DateTime startDate, DateTime endDate,int printerId,ColorType color)
         {
             var tonerPrinterList = _tonerPrinterRepo.GetTonerPrinterForDevice(printerId, startDate, endDate,color);
@@ -47,6 +55,14 @@ namespace TonerManagement.Toolsets
             return coverageList;
         }
 
+        /// <summary>
+        /// Gets the monthly coverage for a device 
+        /// </summary>
+        /// <param name="startDate"> the start date</param>
+        /// <param name="endDate"> the end date</param>
+        /// <param name="printerId"> the printer id</param>
+        /// <param name="color"> the color</param>
+        /// <returns> the monthly coverage for a device</returns>
         public List<CoverageDateModel> GetListOfCoverageMonthly(DateTime startDate, DateTime endDate, int printerId,ColorType color)
         {
             var startDateForMonth = new DateTime(startDate.Year,startDate.Month,1);
@@ -80,7 +96,14 @@ namespace TonerManagement.Toolsets
             return coverageList;
         }
 
-
+        /// <summary>
+        /// Gets the monthly coverage for a customer
+        /// </summary>
+        /// <param name="customerId"> the customer id</param>
+        /// <param name="startDate"> the start date</param>
+        /// <param name="endDate"> the end date</param>
+        /// <param name="color"> the color</param>
+        /// <returns>the monthly coverage for a customer</returns>
         public List<CoverageDateModel> GetListOfCoverageMonthlyForCustomer(int customerId, DateTime startDate, DateTime endDate,ColorType color)
         {
             //fetch all printer ids for a company
@@ -132,6 +155,14 @@ namespace TonerManagement.Toolsets
 
         }
 
+        /// <summary>
+        /// Gets the daily coverage for a customer
+        /// </summary>
+        /// <param name="customerId"> the customer id</param>
+        /// <param name="startDate"> the start date</param>
+        /// <param name="endDate"> the end date</param>
+        /// <param name="color"> the color</param>
+        /// <returns>the daily coverage for a customer</returns>
         public List<CoverageDateModel> GetListOfCoverageDailyForCustomer(int customerId, DateTime startDate, DateTime endDate, ColorType color)
         {
             //fetch all printer ids for a company

@@ -102,6 +102,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\CoverageControllerTests.cs" />
     <Compile Include="Controllers\CustomerControllerTests.cs" />
     <Compile Include="Controllers\HomeControllerTests.cs" />
     <Compile Include="Controllers\LoginControllerTests.cs" />
