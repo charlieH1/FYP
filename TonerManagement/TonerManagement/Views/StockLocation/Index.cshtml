@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "Stock Location";
+}
+
+<h2>Stock Location</h2>
+
+<div class="centreChild">
+    <div id="customerDropdown"></div>
+
+    <div id="stockLocationDropdown"></div>
+    <form id="stockLocationForm">
+        <table>
+            <tr>
+                <td><textarea id="stockLocationAddress"></textarea></td>
+                <td>
+                    <input type="text" id="stockLocationNameChangeField" />
+                    <input type="text" id="stockLocationPhoneNumber" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <input id="saveChangesButton" type="button" value="Save Changes" \>
+    <div id="stockLocationTonerGrid"></div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $("document").ready(function() {
+            var customerDropdown = $("#customerDropdown");
+            var stockLocationNameChangeField = $("#stockLocationNameChangeField");
+            stockLocationNameChangeField.jqxInput({ placeHolder: "Stock Location Name" });
+            var stockLocationAddressField = $("#stockLocationAddress");
+            var stockLocationForm = $("#stockLocationForm");
+            var stockLocationTonerGrid = $("#stockLocationTonerGrid");
+            var locationId;
+            var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
+            var stockLocationSource = {
+                datafields: [
+                    { name: 'TonerId', type: 'int' },
+                    { name: 'TonerName', type: 'string' },
+                    { name: 'Color', type: 'string' },
+                    { name: 'Quantity', type: 'int' }
+                ],
+                data: { stockLocationId: locationId },
+                datatype: 'json',
+                url: urlForStockLocationTonerGrid
+
+            };
+
+            var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
+
+
+            stockLocationAddressField.jqxTextArea({
+                placeHolder: "Enter a stock location address",
+                height: 140,
+                width: 336
+            });
+            var stockLocationPhoneNumber = $("#stockLocationPhoneNumber");
+            stockLocationPhoneNumber.jqxInput({ placeHolder: "Stock Location Phone Number" });
+            var saveChangesButton = $("#saveChangesButton");
+            saveChangesButton.jqxButton({ width: 150, height: 25 });
+
+            //initialise customer dropdown
+            var url = '@Url.Action("GetCustomersForUser", "Customer")';
+            var customerDropdownSource = {
+                datatype: 'json',
+                datafields: [
+                    { name: "customerID" },
+                    { name: "customerName" },
+                    { name: "customerAddress" },
+                    { name: "customerContactNumber" },
+                    { name: "Printers" },
+                    { name: "StockLocations" },
+                    { name: "UserCustomers" }
+                ],
+                url: url,
+                async: false
+
+            };
+
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(customerDropdownSource);
+            customerDropdown.jqxDropDownList({
+                source: dataAdapterForCustomerDropdown,
+                displayMember: "customerName",
+                valueMember: "customerID",
+                selectedIndex: 0
+            });
+
+
+            var stockLocationDropdown = $("#stockLocationDropdown");
+            var dataForStockLocationDropdown = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value
+            };
+
+            var url = '@Url.Action("GetStockLocationsForCustomer", "StockLocation")';
+            var stockLocationSource = {
+                datatype: 'json',
+                datafields: [
+                    { name: "stockLocationId", type: "int" },
+                    { name: "customerId", type: "int" },
+                    { name: "stockLocationName", type: "string" },
+                    { name: "stockLocationAddress", type: "string" },
+                    { name: "stockLocationContactNumber", type: "string" },
+                    { name: "Customer" },
+                    { name: "Printers" },
+                    { name: "StockLocationToners" }
+                ],
+                url: url,
+                async: false,
+                data: dataForStockLocationDropdown,
+                loadError: function(jqXHR, status, error) {
+                    alert("An error occured getting the stock locations " + error);
+                }
+            };
+            var dataAdapterForStockLocationDropdown = new $.jqx.dataAdapter(stockLocationSource);
+            stockLocationDropdown.jqxDropDownList({
+                source: dataAdapterForStockLocationDropdown,
+                displayMember: "stockLocationName",
+                valueMember: "stockLocationId",
+                selectedIndex: 0
+            });
+
+
+            stockLocationDropdown.on('bindingComplete',
+                function () {
+                    locationId = stockLocationDropdown.jqxDropDownList("getSelectedItem").value();
+                    stockLocationTonerGrid.jqxGrid({
+                        width: '40%',
+                        height: '40%',
+                        source: stockLocationTonerDataAdapter,
+                        pageable: true,
+                        sortable: true,
+                        filterable: true,
+                        selectionMode: 'none',
+                        columns: [
+                            { text: "Toner ID", dataField: 'TonerId', width: "15%" },
+                            { text: "Toner Name", dataField: 'TonerName', width: "40" },
+                            { text: "Color", dataField: 'Color', width: "30%" },
+                            { text: "Quantity", dataField: 'Quantity', width: "15%" }
+                        ]
+                    });
+                });
+            stockLocationDropdown.on('bindingComplete selected',
+                function() {
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: '@Url.Action("GetStockLocation", "StockLocation")',
+                            data: {
+                                stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success === true) {
+                                    locationId = response.StockLocation.stockLocationId;
+
+                                    stockLocationNameChangeField.val = response.StockLocation.stockLocationName;
+                                    stockLocationAddressField.val = response.StockLocation.stockLocationAddress;
+                                    stockLocationPhoneNumber.val = response.StockLocation.stockLocationContactNumber;
+                                    stockLocationTonerGrid.jqxGrid("updateBoundData");
+                                } else {
+                                    alert("Failed to get stock location", response.errorMessage);
+                                }
+                            },
+                            error: function(response) {
+                                alert("An error occured getting stock location: " +
+                                    response.status +
+                                    " " +
+                                    response.statusText);
+                            }
+                        });
+                });
+
+
+            stockLocationForm.jqxValidator({
+                hintType: 'tooltip',
+                rules: [
+                    {
+                        input: '#stockLocationNameChangeField',
+                        rule: 'required',
+                        message: 'Stock Location Name Required',
+                        action: 'blur'
+                    },
+                    {
+                        input: '#stockLocationPhoneNumber',
+                        rule: 'required',
+                        message: 'Stock Location Phone Number Required',
+                        action: 'blur'
+                    },
+                    {
+                        input: '#stockLocationAddress',
+                        rule: 'required',
+                        message: 'A stock location address is required',
+                        action: 'blur'
+                    }
+                ]
+
+            });
+
+            saveChangesButton.on('click',
+                function() {
+                    stockLocationForm.jqxValidator('validate');
+                });
+            stockLocationForm.on('validationSuccess',
+                function() {
+                    var stockLocationId = locationId;
+                    var stockLocationName = stockLocationNameChangeField.val();
+                    var stockLocationAddress = stockLocationAddressField.val();
+                    var stockLocationContactNumber = stockLocationPhoneNumber.val();
+
+                    var updateStockLocationData = {
+                        StockLocationId: stockLocationId,
+                        StockLocationName: stockLocationName,
+                        StockLocationAddress: stockLocationAddress,
+                        StockLocationContactNumber: stockLocationContactNumber
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UpdateStockLocation", "StockLocation")',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(updateStockLocationData),
+                        success: function(data) {
+                            if (data.success === true) {
+                                alert("Stock Location Successfully Updated");
+
+
+                            } else {
+                                alert("The details given failed to update");
+                            }
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                alert(
+                                    "An error has occured validating the update request: " + xhr.statusText);
+                            } else {
+                                alert("An error occured updating the database: " + xhr.status + " " + xhr.statusText);
+                            }
+
+                        }
+                    });
+                });
+
+
+        });
+
+    </script>
+
+
+}

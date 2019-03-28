@@ -152,14 +152,17 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\StockLocationController.cs" />
     <Compile Include="Handlers\CustomerHandler.cs" />
     <Compile Include="Handlers\Interface\ICustomerHandler.cs" />
     <Compile Include="Handlers\Interface\ILoginHandler.cs" />
     <Compile Include="Handlers\Interface\IRegistrationHandler.cs" />
     <Compile Include="Handlers\Interface\IUserHandler.cs" />
     <Compile Include="Handlers\Interface\IPrinterTonerHandler.cs" />
+    <Compile Include="Handlers\Interface\IStockLocationHandler.cs" />
     <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="Handlers\PrinterTonerHandler.cs" />
+    <Compile Include="Handlers\StockLocationHandler.cs" />
     <Compile Include="Handlers\UserHandler.cs" />
     <Compile Include="Models\CoverageDateModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -202,6 +205,8 @@
     <Compile Include="Models\TonerPrinter.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TonerStockLocationGridModel.cs" />
+    <Compile Include="Models\UpdatedStockLocationModel.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
@@ -215,7 +220,13 @@
     <Compile Include="Repository\Interface\IUserRepo.cs" />
     <Compile Include="Repository\Interface\ITonerPrinterRepo.cs" />
     <Compile Include="Repository\Interface\IPrinterRepo.cs" />
+    <Compile Include="Repository\Interface\IStockLocationRepo.cs" />
+    <Compile Include="Repository\Interface\IStockLocationTonerRepo.cs" />
+    <Compile Include="Repository\Interface\ITonerRepo.cs" />
     <Compile Include="Repository\PrinterRepo.cs" />
+    <Compile Include="Repository\StockLocationRepo.cs" />
+    <Compile Include="Repository\TonerRepo.cs" />
+    <Compile Include="Repository\StockLocationTonerRepo.cs" />
     <Compile Include="Repository\UserRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Toolsets\CoverageToolset.cs" />
@@ -446,6 +457,7 @@
     <Content Include="Views\Registration\Register.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\StockLocation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

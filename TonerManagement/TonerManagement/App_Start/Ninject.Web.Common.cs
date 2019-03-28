@@ -79,12 +79,16 @@ namespace TonerManagement.App_Start
             kernel.Bind<ITonerPrinterRepo>().To<TonerPrinterRepo>();
             kernel.Bind<IPrinterRepo>().To<PrinterRepo>();
             kernel.Bind<ICustomerRepo>().To<CustomerRepo>();
+            kernel.Bind<IStockLocationRepo>().To<StockLocationRepo>();
+            kernel.Bind<IStockLocationTonerRepo>().To<StockLocationTonerRepo>();
+            kernel.Bind<ITonerRepo>().To<TonerRepo>();
             //handler bindings
             kernel.Bind<IRegistrationHandler>().To<RegistrationHandler>();
             kernel.Bind<ILoginHandler>().To<LoginHandler>();
             kernel.Bind<ICustomerHandler>().To<CustomerHandler>();
             kernel.Bind<IUserHandler>().To<UserHandler>();
             kernel.Bind<IPrinterTonerHandler>().To<PrinterTonerHandler>();
+            kernel.Bind<IStockLocationHandler>().To<StockLocationHandler>();
             //toolset bindings
             kernel.Bind<ICoverageToolset>().To<CoverageToolset>();
         }        
