@@ -1089,6 +1089,855 @@ namespace TonerManagementTests.Handlers
             res.Data.Should().BeEquivalentTo(expected);
             res.JsonRequestBehavior.Should().BeEquivalentTo(JsonRequestBehavior.AllowGet);
         }
+
+
+        [TestMethod()]
+        public void GetCoverageForPrinterCyanDailyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "CyanDaily";
+            const int customerId = 1;
+            var endDate = new DateTime(2019, 02, 25);
+            var startDate = new DateTime(2019, 02, 21);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddDays(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddDays(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddDays(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = endDate}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate,PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterYellowDailyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "YellowDaily";
+            const int customerId = 1;
+            var endDate = new DateTime(2019, 02, 25);
+            var startDate = new DateTime(2019, 02, 21);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddDays(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddDays(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddDays(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = endDate}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate, PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.Y))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterMagentaDailyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "MagentaDaily";
+            const int customerId = 1;
+            var endDate = new DateTime(2019, 02, 25);
+            var startDate = new DateTime(2019, 02, 21);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddDays(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddDays(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddDays(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = endDate}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate,PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.M))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterKeyingDailyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "KeyingDaily";
+            const int customerId = 1;
+            var endDate = new DateTime(2019, 02, 25);
+            var startDate = new DateTime(2019, 02, 21);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddDays(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddDays(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddDays(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = endDate}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate };
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.K))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterColorDailyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "ColorDaily";
+            const int customerId = 1;
+            var endDate = new DateTime(2019, 02, 25);
+            var startDate = new DateTime(2019, 02, 21);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddDays(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddDays(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddDays(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = endDate}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate, PrinterId=1 };
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.Y))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.M))
+                .Returns(coverageDateList);
+
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.C));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.Y));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.M));
+            mockCoverageToolset.VerifyNoOtherCalls();
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterAllDailyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "AllDaily";
+            const int customerId = 1;
+            var endDate = new DateTime(2019, 02, 25);
+            var startDate = new DateTime(2019, 02, 21);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddDays(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddDays(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddDays(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = endDate}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate,PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily(startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.Y))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.M))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.K))
+                .Returns(coverageDateList);
+
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.C));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.Y));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.M));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.K));
+            mockCoverageToolset.VerifyNoOtherCalls();
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterCyanMonthlyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "CyanMonthly";
+            const int customerId = 1;
+            var endDate = new DateTime(2018, 02, 28);
+            var startDate = new DateTime(2019, 09, 01);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddMonths(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddMonths(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddMonths(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = startDate.AddMonths(1)}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate,PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterYellowMonthlyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "YellowMonthly";
+            const int customerId = 1;
+            var endDate = new DateTime(2018, 02, 28);
+            var startDate = new DateTime(2019, 09, 01);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddMonths(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddMonths(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddMonths(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = startDate.AddMonths(1)}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate, PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.Y))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterMagentaMonthlyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "MagentaMonthly";
+            const int customerId = 1;
+            var endDate = new DateTime(2018, 02, 28);
+            var startDate = new DateTime(2019, 09, 01);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddMonths(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddMonths(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddMonths(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = startDate.AddMonths(1)}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate, PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.M))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterKeyingMonthlyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "KeyingMonthly";
+            const int customerId = 1;
+            var endDate = new DateTime(2018, 02, 28);
+            var startDate = new DateTime(2019, 09, 01);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddMonths(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddMonths(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddMonths(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = startDate.AddMonths(1)}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate,PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly(startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.K))
+                .Returns(coverageDateList);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterColorMonthlyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "ColorMonthly";
+            const int customerId = 1;
+            var endDate = new DateTime(2018, 02, 28);
+            var startDate = new DateTime(2019, 09, 01);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddMonths(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddMonths(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddMonths(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = startDate.AddMonths(1)}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate, PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly(startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.Y))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly(startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.M))
+                .Returns(coverageDateList);
+
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.C));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.Y));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.M));
+            mockCoverageToolset.VerifyNoOtherCalls();
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterAllMonthlyValidRequestAndUserReturnsCoverage()
+        {
+            //setup
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            const int userId = 1;
+            const string coverageType = "AllMonthly";
+            const int customerId = 1;
+            var endDate = new DateTime(2018, 02, 28);
+            var startDate = new DateTime(2019, 09, 01);
+            var customer = new Customer()
+            {
+                customerAddress = "testAddress1",
+                customerContactNumber = "123456",
+                customerID = customerId,
+                customerName = "TestCustomer"
+            };
+            var coverageDateList = new List<CoverageDateModel>()
+            {
+                new CoverageDateModel() {Coverage = 23.9, Date = startDate},
+                new CoverageDateModel() {Coverage = 23.85, Date = startDate.AddMonths(1)},
+                new CoverageDateModel() {Coverage = 23.95, Date = startDate.AddMonths(2)},
+                new CoverageDateModel() {Coverage = 23.12, Date = startDate.AddMonths(3)},
+                new CoverageDateModel() {Coverage = 23.65, Date = startDate.AddMonths(1)}
+            };
+
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            { CoverageType = coverageType, CustomerId = customerId, EndDate = endDate, StartDate = startDate, PrinterId = 1};
+
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.Y))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.M))
+                .Returns(coverageDateList);
+            mockCoverageToolset
+                .Setup(mCT =>
+                    mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.K))
+                .Returns(coverageDateList);
+
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(coverageDateList);
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.C));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.Y));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.M));
+            mockCoverageToolset.Verify(mCT => mCT.GetListOfCoverageMonthly(startDate, endDate, coverageRequest.PrinterId, CoverageToolset.ColorType.K));
+            mockCoverageToolset.VerifyNoOtherCalls();
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterInvalidCoverageTypeReturnsHttpStatusCode422()
+        {
+            //setup
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            {
+                CoverageType = "INVALID",
+                CustomerId = 1,
+                EndDate = new DateTime(2019, 02, 02),
+                StartDate = new DateTime(2019, 02, 02),
+                PrinterId = 1
+                
+            };
+            const int userId = 1;
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (HttpStatusCodeResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(422));
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterInvalidCustomerIdReturnsHttpStatusCode422()
+        {
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            {
+                CoverageType = "CyanDaily",
+                CustomerId = 66,
+                EndDate = new DateTime(2019, 02, 25),
+                StartDate = new DateTime(2019, 02, 23),
+                PrinterId = 1
+            };
+            const int userId = 1;
+
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(coverageRequest.CustomerId)).Returns((Customer)null);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (HttpStatusCodeResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(422));
+        }
+
+        [TestMethod()]
+        public void GetCoverageForPrinterCustomerNotAssignedToUserReturnsHttpStatusCodeForbidden()
+        {
+            //setup
+            var coverageRequest = new CoverageForPrinterRequestModel()
+            {
+                CoverageType = "CyanDaily",
+                CustomerId = 66,
+                EndDate = new DateTime(2019, 02, 25),
+                StartDate = new DateTime(2019, 02, 23),
+                PrinterId = 1
+                
+            };
+            var customer = new Customer()
+            {
+                customerAddress = "TestAddress1",
+                customerContactNumber = "123456",
+                customerID = 66,
+                customerName = "Test customer"
+            };
+            const int userId = 1;
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(coverageRequest.CustomerId)).Returns(customer);
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>());
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+
+            var res = (HttpStatusCodeResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Forbidden));
+        }
+
+        [TestMethod()]
+        public void GetCoverageGridForPrinterInvalidCustomerIdReturnsHttpStatusCode422()
+        {
+            const int customerId = 66;
+            const int userId = 1;
+
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns((Customer)null);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+            var res = (HttpStatusCodeResult)sut.GetCoverageGridForCustomer(customerId, userId);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(422));
+        }
+
+        [TestMethod()]
+        public void GetCoverageGridCustomerNotAssignedToUserReturnsHttpStatusCodeForbidden()
+        {
+            //setup
+            
+            var customer = new Customer()
+            {
+                customerAddress = "TestAddress1",
+                customerContactNumber = "123456",
+                customerID = 66,
+                customerName = "Test customer"
+            };
+            const int userId = 1;
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customer.customerID)).Returns(customer);
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>());
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+
+            var res = (HttpStatusCodeResult)sut.GetCoverageGridForCustomer( userId,customer.customerID);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Forbidden));
+        }
+
+        [TestMethod()]
+        public void GetCoverageGridValidUserAndRequestUserReturnsCoverage()
+        {
+            //setup
+            var customer = new Customer()
+            {
+                customerAddress = "TestAddress1",
+                customerContactNumber = "123456",
+                customerID = 66,
+                customerName = "Test customer"
+            };
+            var printer = new Printer()
+            {
+                printerId = 1,
+                customerId = customer.customerID,
+                cyanLowPercentage = 25,
+                isColour = true,
+                keyingLowPercentage = 25,
+                magentaLowPercentage = 25,
+                printerName = "Test Printer",
+                stockLocationId = 23,
+                yellowLowPercentage = 25,
+            };
+            var printerList = new List<Printer>()
+            {
+                printer
+            };
+            var coverage = new CoverageDateModel()
+            {
+                Date = DateTime.Today,
+                Coverage = 28.0d
+            };
+            var coverageGridModel = new CoverageGridModel()
+            {
+                CurrentCoverage = 28.0d,
+                MonthCoverage = 28.0d,
+                SixMonthCoverage = 28.0d,
+                YearCoverage = 28.0d,
+                PrinterId = printer.printerId
+            };
+            const int userId = 1;
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customer.customerID)).Returns(customer);
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>(){customer});
+            mockPrinterRepo.Setup(mPR => mPR.GetPrintersFromCustomer(customer.customerID)).Returns(printerList);
+            mockCoverageToolset.Setup(mCT =>
+                    mCT.CalculateAverageCoverageForWholeLife(printer.printerId, It.IsAny<CoverageToolset.ColorType>()))
+                .Returns(28.0d);
+            mockCoverageToolset.Setup(mCT => mCT.GetListOfCoverageMonthly(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
+                printer.printerId, It.IsAny<CoverageToolset.ColorType>())).Returns(new List<CoverageDateModel>{coverage});
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            //action
+
+            var res = (JsonResult)sut.GetCoverageGridForCustomer(userId, customer.customerID);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(new List<CoverageGridModel>{coverageGridModel});
+            res.JsonRequestBehavior.Should().Be(JsonRequestBehavior.AllowGet);
+        }
     }
 
     

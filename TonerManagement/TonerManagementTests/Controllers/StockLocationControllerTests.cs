@@ -281,7 +281,6 @@ namespace TonerManagement.Controllers.Tests
         {
             //setup
             const string userName = "Test";
-            const int stockLocationId = 1;
             var mockSession = new MockSessionStateBase { ["UserName"] = null };
             var mockUserHandler = new Mock<IUserHandler>();
             var mockStockLocationHandler = new Mock<IStockLocationHandler>();

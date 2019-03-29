@@ -147,6 +147,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Ninject.Web.Common.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CoverageController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -170,6 +171,8 @@
     </Compile>
     <Compile Include="Handlers\RegistrationHandler.cs" />
     <Compile Include="Models\CoverageForCompanyRequestModel.cs" />
+    <Compile Include="Models\CoverageForPrinterRequestModel.cs" />
+    <Compile Include="Models\CoverageGridModel.cs" />
     <Compile Include="Models\Customer.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
@@ -240,6 +243,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Coverage.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\jqx.android.css" />
     <Content Include="Content\jqx.arctic.css" />
@@ -458,6 +462,7 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\StockLocation\Index.cshtml" />
+    <Content Include="Views\Coverage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

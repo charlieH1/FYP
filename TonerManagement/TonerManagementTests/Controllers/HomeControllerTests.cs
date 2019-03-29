@@ -89,70 +89,7 @@ namespace TonerManagementTests.Controllers
 
         
 
-        [TestMethod()]
-        public void GetCoverageValidUserNameReturnsWhatPrinterTonerHandlerReturnsWhenGettingCoverage()
-        {
-            const string userName = "Test";
-            var coverageRequest = new CoverageForCompanyRequestModel()
-            {
-                CoverageType = "DailyColor",
-                CustomerId = 1,
-                EndDate = new DateTime(2019,02,27),
-                StartDate = new DateTime(2019,02,21)
-            };
-            var resultOfGetCoverage= new HttpStatusCodeResult(HttpStatusCode.OK);
-            var mockSession = new MockSessionStateBase { ["UserName"] = userName };
-            var mockUserHandler = new Mock<IUserHandler>();
-            var mockPrinterTonerHandler = new Mock<IPrinterTonerHandler>();
-            var mockContext = new Mock<ControllerContext>();
-            mockUserHandler.Setup(mUH => mUH.GetUsers(userName)).Returns(new List<User>
-                {new User() {hashedPassword = "junk", userId = 1, userLogin = userName}});
-            mockContext.Setup(mC => mC.HttpContext.Session).Returns(mockSession);
-            mockPrinterTonerHandler.Setup(mPTH => mPTH.GetCoverage(coverageRequest, 1)).Returns(resultOfGetCoverage);
-
-            var sut = new HomeController(mockUserHandler.Object, mockPrinterTonerHandler.Object)
-            {
-                ControllerContext = mockContext.Object
-            };
-
-            //action
-            var res = (HttpStatusCodeResult) sut.GetCoverage(coverageRequest);
-
-            //assert
-            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.OK));
-        }
-
-        [TestMethod()]
-        public void GetCoverageInvalidUserNameReturnsHttpStatusCodeUnauthorized()
-        {
-            const string userName = "Test";
-            var coverageRequest = new CoverageForCompanyRequestModel()
-            {
-                CoverageType = "DailyColor",
-                CustomerId = 1,
-                EndDate = new DateTime(2019, 02, 27),
-                StartDate = new DateTime(2019, 02, 21)
-            };
-            var resultOfGetCoverage = new HttpStatusCodeResult(HttpStatusCode.OK);
-            var mockSession = new MockSessionStateBase { ["UserName"] = userName };
-            var mockUserHandler = new Mock<IUserHandler>();
-            var mockPrinterTonerHandler = new Mock<IPrinterTonerHandler>();
-            var mockContext = new Mock<ControllerContext>();
-            mockUserHandler.Setup(mUH => mUH.GetUsers(userName)).Returns(new List<User>());
-            mockContext.Setup(mC => mC.HttpContext.Session).Returns(mockSession);
-            mockPrinterTonerHandler.Setup(mPTH => mPTH.GetCoverage(coverageRequest, 1)).Returns(resultOfGetCoverage);
-
-            var sut = new HomeController(mockUserHandler.Object, mockPrinterTonerHandler.Object)
-            {
-                ControllerContext = mockContext.Object
-            };
-
-            //action
-            var res = (HttpStatusCodeResult)sut.GetCoverage(coverageRequest);
-
-            //assert
-            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Unauthorized));
-        }
+        
 
         [TestMethod()]
         public void GetTonerLowForCustomerWithValidCustomerReturnsGetTonerLow()
