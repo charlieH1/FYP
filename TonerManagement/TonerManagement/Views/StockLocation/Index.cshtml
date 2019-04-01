@@ -3,19 +3,25 @@
     ViewBag.Title = "Stock Location";
 }
 
+@section styles{
+    <link href=@Url.Content("~/Content/StockLocation.css") rel="stylesheet" type="text/css"/>
+}
+
 <h2>Stock Location</h2>
 
 <div class="centreChild">
-    <div id="customerDropdown"></div>
+    
 
-    <div id="stockLocationDropdown"></div>
-    <form id="stockLocationForm">
-        <table>
+    <div id="customerDropdown" class="d-inline-block"></div>
+    <div id="stockLocationDropdown" class="d-inline-block"></div>
+    <form id="stockLocationForm" class="centreChild">
+        <table class="Form">
             <tr>
                 <td><textarea id="stockLocationAddress"></textarea></td>
                 <td>
-                    <input type="text" id="stockLocationNameChangeField" />
-                    <input type="text" id="stockLocationPhoneNumber" />
+                    <input type="text" id="stockLocationNameChangeField"/>
+                    <br/>
+                    <input type="text" id="stockLocationPhoneNumber"/>
                 </td>
             </tr>
         </table>
@@ -30,7 +36,7 @@
         $("document").ready(function() {
             var customerDropdown = $("#customerDropdown");
             var stockLocationNameChangeField = $("#stockLocationNameChangeField");
-            stockLocationNameChangeField.jqxInput({ placeHolder: "Stock Location Name" });
+            stockLocationNameChangeField.jqxInput({ placeHolder: "Stock Location Name", width:336});
             var stockLocationAddressField = $("#stockLocationAddress");
             var stockLocationForm = $("#stockLocationForm");
             var stockLocationTonerGrid = $("#stockLocationTonerGrid");
@@ -51,16 +57,16 @@
 
             var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
 
-
+            
             stockLocationAddressField.jqxTextArea({
                 placeHolder: "Enter a stock location address",
                 height: 140,
                 width: 336
             });
             var stockLocationPhoneNumber = $("#stockLocationPhoneNumber");
-            stockLocationPhoneNumber.jqxInput({ placeHolder: "Stock Location Phone Number" });
+            stockLocationPhoneNumber.jqxInput({ placeHolder: "Stock Location Phone Number", width:336 });
             var saveChangesButton = $("#saveChangesButton");
-            saveChangesButton.jqxButton({ width: 150, height: 25 });
+            saveChangesButton.jqxButton({ width: 150});
 
             //initialise customer dropdown
             var url = '@Url.Action("GetCustomersForUser", "Customer")';

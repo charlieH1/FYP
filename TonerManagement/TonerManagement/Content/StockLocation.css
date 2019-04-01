@@ -1,0 +1,10 @@
+﻿table.Form {
+    margin: 0 auto;
+}
+table.Form td {
+    text-align: center;
+    padding: 12px 24px;
+}
+input{
+    padding: 12px 24px;
+}

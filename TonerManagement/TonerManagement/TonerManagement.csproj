@@ -149,6 +149,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CoverageController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Handlers\PrinterTonerHandler.cs" />
     <Compile Include="Handlers\StockLocationHandler.cs" />
     <Compile Include="Handlers\UserHandler.cs" />
+    <Compile Include="Models\PrinterResponseModelWithAverageTonerCoverage.cs" />
     <Compile Include="Models\CoverageDateModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -244,6 +246,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Coverage.css" />
+    <Content Include="Content\Devices.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\jqx.android.css" />
     <Content Include="Content\jqx.arctic.css" />
@@ -281,6 +284,7 @@
     <Content Include="Content\jqx.web.css" />
     <Content Include="Content\jqx.windowsphone.css" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\StockLocation.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -463,6 +467,7 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\StockLocation\Index.cshtml" />
     <Content Include="Views\Coverage\Index.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

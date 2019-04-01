@@ -145,7 +145,7 @@
     overflow: hidden !important;
 }
 /*jqxButton, jqxToggleButton, jqxRepeatButton Style*/
-.jqx-button{outline: none; border: 1px solid transparent; padding: 5px; text-align: center; vertical-align: central; margin: 0 0 0 0; cursor: default; }
+.jqx-button{outline: none; border: 1px solid transparent; padding: 5px; text-align: center; vertical-align: middle; margin: 0 0 0 0; cursor: default; }
 button.jqx-button, input[type=button].jqx-button,  input[type=submit].jqx-button {
     box-sizing: border-box !important; -moz-box-sizing: border-box !important; 
 }
