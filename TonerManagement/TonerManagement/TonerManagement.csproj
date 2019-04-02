@@ -156,6 +156,8 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\StockLocationController.cs" />
     <Compile Include="Handlers\CustomerHandler.cs" />
+    <Compile Include="Handlers\DevicesHandler.cs" />
+    <Compile Include="Handlers\Interface\IDevicesHandler.cs" />
     <Compile Include="Handlers\Interface\ICustomerHandler.cs" />
     <Compile Include="Handlers\Interface\ILoginHandler.cs" />
     <Compile Include="Handlers\Interface\IRegistrationHandler.cs" />

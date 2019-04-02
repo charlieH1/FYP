@@ -27,6 +27,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "CyanDaily";
             const int customerId = 1;
@@ -56,7 +57,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDailyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.C))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult) sut.GetCoverage(coverageRequest, userId);
@@ -73,6 +74,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "YellowDaily";
             const int customerId = 1;
@@ -104,7 +106,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDailyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.Y))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -121,6 +123,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "MagentaDaily";
             const int customerId = 1;
@@ -152,7 +155,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDailyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.M))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -169,6 +172,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "KeyingDaily";
             const int customerId = 1;
@@ -200,7 +204,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDailyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.K))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -217,6 +221,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "ColorDaily";
             const int customerId = 1;
@@ -257,7 +262,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -278,6 +283,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "AllDaily";
             const int customerId = 1;
@@ -322,7 +328,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -344,6 +350,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "CyanMonthly";
             const int customerId = 1;
@@ -375,7 +382,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthlyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.C))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -392,6 +399,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "YellowMonthly";
             const int customerId = 1;
@@ -423,7 +431,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthlyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.Y))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -440,6 +448,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "MagentaMonthly";
             const int customerId = 1;
@@ -471,7 +480,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthlyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.M))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -488,6 +497,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "KeyingMonthly";
             const int customerId = 1;
@@ -519,7 +529,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthlyForCustomer(customerId, startDate, endDate, CoverageToolset.ColorType.K))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -536,6 +546,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "ColorMonthly";
             const int customerId = 1;
@@ -576,7 +587,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -597,6 +608,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "AllMonthly";
             const int customerId = 1;
@@ -641,7 +653,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
@@ -671,8 +683,9 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object,mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object,mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (HttpStatusCodeResult) sut.GetCoverage(coverageRequest, userId);
@@ -697,9 +710,10 @@ namespace TonerManagementTests.Handlers
             var mockCoverageToolset = new Mock<ICoverageToolset>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(coverageRequest.CustomerId)).Returns((Customer) null);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object,mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object,mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (HttpStatusCodeResult) sut.GetCoverage(coverageRequest, userId);
@@ -731,10 +745,11 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(coverageRequest.CustomerId)).Returns(customer);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>());
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object,mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object,mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
 
@@ -753,6 +768,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
 
             var printers = new List<Printer>
             {
@@ -842,7 +858,7 @@ namespace TonerManagementTests.Handlers
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> {customer});
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,
-                mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             // action
             var res = (JsonResult) sut.GetLowTonerLevelsOfCustomerPrinters(customerId,userId);
@@ -872,6 +888,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
 
             var printers = new List<Printer>
             {
@@ -961,7 +978,7 @@ namespace TonerManagementTests.Handlers
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns((Customer) null);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> ());
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,
-                mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             // action
             var res = (HttpStatusCodeResult)sut.GetLowTonerLevelsOfCustomerPrinters(customerId, userId);
@@ -980,6 +997,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
 
             var printers = new List<Printer>
             {
@@ -1069,7 +1087,7 @@ namespace TonerManagementTests.Handlers
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns(customer);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer> { customer });
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,
-                mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
 
             // action
             var res = (JsonResult)sut.GetLowTonerLevelsOfCustomerPrinters(customerId, userId);
@@ -1099,6 +1117,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "CyanDaily";
             const int customerId = 1;
@@ -1130,7 +1149,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1147,6 +1166,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "YellowDaily";
             const int customerId = 1;
@@ -1178,7 +1198,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDaily( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.Y))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1195,6 +1215,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "MagentaDaily";
             const int customerId = 1;
@@ -1226,7 +1247,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDaily( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.M))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1243,6 +1264,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "KeyingDaily";
             const int customerId = 1;
@@ -1274,7 +1296,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageDaily( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.K))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1291,6 +1313,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "ColorDaily";
             const int customerId = 1;
@@ -1331,7 +1354,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1352,6 +1375,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "AllDaily";
             const int customerId = 1;
@@ -1396,7 +1420,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1418,6 +1442,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "CyanMonthly";
             const int customerId = 1;
@@ -1449,7 +1474,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.C))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1466,6 +1491,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "YellowMonthly";
             const int customerId = 1;
@@ -1497,7 +1523,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthly( startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.Y))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1514,6 +1540,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "MagentaMonthly";
             const int customerId = 1;
@@ -1545,7 +1572,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthly( startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.M))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1562,6 +1589,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "KeyingMonthly";
             const int customerId = 1;
@@ -1593,7 +1621,7 @@ namespace TonerManagementTests.Handlers
                     mCT.GetListOfCoverageMonthly(startDate, endDate,coverageRequest.PrinterId, CoverageToolset.ColorType.K))
                 .Returns(coverageDateList);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1610,6 +1638,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "ColorMonthly";
             const int customerId = 1;
@@ -1650,7 +1679,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1671,6 +1700,7 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             const int userId = 1;
             const string coverageType = "AllMonthly";
             const int customerId = 1;
@@ -1715,7 +1745,7 @@ namespace TonerManagementTests.Handlers
                 .Returns(coverageDateList);
 
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1747,8 +1777,10 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
 
             //action
             var res = (HttpStatusCodeResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1774,9 +1806,10 @@ namespace TonerManagementTests.Handlers
             var mockCoverageToolset = new Mock<ICoverageToolset>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(coverageRequest.CustomerId)).Returns((Customer)null);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (HttpStatusCodeResult)sut.GetCoverageForPrinter(coverageRequest, userId);
@@ -1810,10 +1843,12 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(coverageRequest.CustomerId)).Returns(customer);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>());
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
 
@@ -1833,9 +1868,10 @@ namespace TonerManagementTests.Handlers
             var mockCoverageToolset = new Mock<ICoverageToolset>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customerId)).Returns((Customer)null);
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
             var res = (HttpStatusCodeResult)sut.GetCoverageGridForCustomer(customerId, userId);
@@ -1861,10 +1897,11 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customer.customerID)).Returns(customer);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>());
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
 
@@ -1875,7 +1912,7 @@ namespace TonerManagementTests.Handlers
         }
 
         [TestMethod()]
-        public void GetCoverageGridValidUserAndRequestUserReturnsCoverage()
+        public void GetCoverageColorGridValidUserAndRequestUserReturnsCoverage()
         {
             //setup
             var customer = new Customer()
@@ -1919,16 +1956,18 @@ namespace TonerManagementTests.Handlers
             var mockCustomerRepo = new Mock<ICustomerRepo>();
             var mockPrinterRepo = new Mock<IPrinterRepo>();
             var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
             mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customer.customerID)).Returns(customer);
             mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>(){customer});
             mockPrinterRepo.Setup(mPR => mPR.GetPrintersFromCustomer(customer.customerID)).Returns(printerList);
             mockCoverageToolset.Setup(mCT =>
                     mCT.CalculateAverageCoverageForWholeLife(printer.printerId, It.IsAny<CoverageToolset.ColorType>()))
                 .Returns(28.0d);
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(printer.printerId)).Returns(printer);
             mockCoverageToolset.Setup(mCT => mCT.GetListOfCoverageMonthly(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                 printer.printerId, It.IsAny<CoverageToolset.ColorType>())).Returns(new List<CoverageDateModel>{coverage});
 
-            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object);
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
 
@@ -1938,6 +1977,272 @@ namespace TonerManagementTests.Handlers
             res.Data.Should().BeEquivalentTo(new List<CoverageGridModel>{coverageGridModel});
             res.JsonRequestBehavior.Should().Be(JsonRequestBehavior.AllowGet);
         }
+
+        [TestMethod()]
+        public void GetCoverageBAndWGridValidUserAndRequestUserReturnsCoverage()
+        {
+            //setup
+            var customer = new Customer()
+            {
+                customerAddress = "TestAddress1",
+                customerContactNumber = "123456",
+                customerID = 66,
+                customerName = "Test customer"
+            };
+            var printer = new Printer()
+            {
+                printerId = 1,
+                customerId = customer.customerID,
+                cyanLowPercentage = 25,
+                isColour = false,
+                keyingLowPercentage = 25,
+                magentaLowPercentage = 25,
+                printerName = "Test Printer",
+                stockLocationId = 23,
+                yellowLowPercentage = 25,
+            };
+            var printerList = new List<Printer>()
+            {
+                printer
+            };
+            var coverage = new CoverageDateModel()
+            {
+                Date = DateTime.Today,
+                Coverage = 28.0d
+            };
+            var coverageGridModel = new CoverageGridModel()
+            {
+                CurrentCoverage = 28.0d,
+                MonthCoverage = 28.0d,
+                SixMonthCoverage = 28.0d,
+                YearCoverage = 28.0d,
+                PrinterId = printer.printerId
+            };
+            const int userId = 1;
+            var mockCoverageToolset = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(customer.customerID)).Returns(customer);
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(userId)).Returns(new List<Customer>() { customer });
+            mockPrinterRepo.Setup(mPR => mPR.GetPrintersFromCustomer(customer.customerID)).Returns(printerList);
+            mockCoverageToolset.Setup(mCT =>
+                    mCT.CalculateAverageCoverageForWholeLife(printer.printerId, It.IsAny<CoverageToolset.ColorType>()))
+                .Returns(28.0d);
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(printer.printerId)).Returns(printer);
+            mockCoverageToolset.Setup(mCT => mCT.GetListOfCoverageMonthly(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
+                printer.printerId, CoverageToolset.ColorType.K)).Returns(new List<CoverageDateModel> { coverage });
+
+            var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
+
+            //action
+
+            var res = (JsonResult)sut.GetCoverageGridForCustomer(userId, customer.customerID);
+
+            //assert
+            res.Data.Should().BeEquivalentTo(new List<CoverageGridModel> { coverageGridModel });
+            res.JsonRequestBehavior.Should().Be(JsonRequestBehavior.AllowGet);
+        }
+
+        [TestMethod()]
+        public void GetCurrentTonerLevelsPrinterNotFoundReturnsHttpStatusCodeNotFound()
+        {
+            //setup
+            var mockCoverageToolSet = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
+
+            const int printerId = 1;
+            const string userName = "Test";
+
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(printerId)).Returns((Printer) null);
+
+            var sut = new PrinterTonerHandler(mockCoverageToolSet.Object, mockCustomerRepo.Object,
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
+
+            //action
+            var res = (HttpStatusCodeResult) sut.GetCurrentTonerLevel(printerId, userName);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(404, "Printer couldn't be found"));
+
+        }
+
+        [TestMethod()]
+        public void GetCurrentTonerLevelsUserNotFoundReturnsHttpStatusCodeNotFound()
+        {
+            //setup
+            var mockCoverageToolSet = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
+
+            const int printerId = 1;
+            const string userName = "Test";
+
+            var printer = new Printer()
+            {
+                printerId = printerId,
+                printerName = "Test Printer",
+                customerId = 1,
+                isColour = true,
+                cyanLowPercentage = 25,
+                yellowLowPercentage = 25,
+                magentaLowPercentage = 25,
+                keyingLowPercentage = 25,
+                stockLocationId = 1,
+            };
+
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(printerId)).Returns(printer);
+            mockUserRepo.Setup(mUR => mUR.GetUsers(userName)).Returns(new List<User>());
+
+            var sut = new PrinterTonerHandler(mockCoverageToolSet.Object, mockCustomerRepo.Object,
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
+
+            //action
+            var res = (HttpStatusCodeResult)sut.GetCurrentTonerLevel(printerId, userName);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(404, userName + " User not found"));
+
+        }
+
+
+        [TestMethod()]
+        public void GetCurrentTonerLevelsUserDoesntHaveAccessReturnsHttpStatusCodeForbiden()
+        {
+            //setup
+            var mockCoverageToolSet = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
+
+            const int printerId = 1;
+            const string userName = "Test";
+
+            var printer = new Printer()
+            {
+                printerId = printerId,
+                printerName = "Test Printer",
+                customerId = 1,
+                isColour = true,
+                cyanLowPercentage = 25,
+                yellowLowPercentage = 25,
+                magentaLowPercentage = 25,
+                keyingLowPercentage = 25,
+                stockLocationId = 1,
+            };
+
+            var user = new User()
+            {
+                hashedPassword = Sodium.PasswordHash.ArgonHashString("Pa$$w0rd1!"),
+                userId = 1,
+                userLogin = userName
+            };
+
+            var customer = new Customer()
+            {
+                customerAddress = "Test Customer Address",
+                customerContactNumber = "07700900000",
+                customerID = printer.customerId,
+                customerName = "Test Customer Name",
+            };
+
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(printerId)).Returns(printer);
+            mockUserRepo.Setup(mUR => mUR.GetUsers(userName)).Returns(new List<User>(){user});
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(printer.customerId)).Returns(customer);
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(user.userId)).Returns(new List<Customer>());
+
+            var sut = new PrinterTonerHandler(mockCoverageToolSet.Object, mockCustomerRepo.Object,
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
+
+            //action
+            var res = (HttpStatusCodeResult)sut.GetCurrentTonerLevel(printerId, userName);
+
+            //assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Forbidden, "User does not have access to this customer"));
+
+        }
+
+        [TestMethod()]
+        public void GetCurrentTonerLevelsValidReturnsTonerLevels()
+        {
+            //setup
+            var mockCoverageToolSet = new Mock<ICoverageToolset>();
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var mockPrinterRepo = new Mock<IPrinterRepo>();
+            var mockTonerPrinterRepo = new Mock<ITonerPrinterRepo>();
+            var mockUserRepo = new Mock<IUserRepo>();
+
+            const int printerId = 1;
+            const string userName = "Test";
+
+            var printer = new Printer()
+            {
+                printerId = printerId,
+                printerName = "Test Printer",
+                customerId = 1,
+                isColour = true,
+                cyanLowPercentage = 25,
+                yellowLowPercentage = 25,
+                magentaLowPercentage = 25,
+                keyingLowPercentage = 25,
+                stockLocationId = 1,
+            };
+
+            var user = new User()
+            {
+                hashedPassword = Sodium.PasswordHash.ArgonHashString("Pa$$w0rd1!"),
+                userId = 1,
+                userLogin = userName
+            };
+
+            var customer = new Customer()
+            {
+                customerAddress = "Test Customer Address",
+                customerContactNumber = "07700900000",
+                customerID = printer.customerId,
+                customerName = "Test Customer Name",
+            };
+
+            var tonerPrinter = new TonerPrinter
+            {
+                printerId = 1,
+                tonerPercentage = 25,
+                timestamp = new DateTime(2019, 02, 25)
+            };
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(printerId)).Returns(printer);
+            mockUserRepo.Setup(mUR => mUR.GetUsers(userName)).Returns(new List<User>() { user });
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomer(printer.customerId)).Returns(customer);
+            mockCustomerRepo.Setup(mCR => mCR.GetCustomersForUser(user.userId)).Returns(new List<Customer>(){customer});
+            mockTonerPrinterRepo.Setup(mTPR =>
+                mTPR.GetTonerPrinterForDevice(printer.printerId, It.IsAny<CoverageToolset.ColorType>())).Returns(new List<TonerPrinter>(){tonerPrinter});
+
+            var sut = new PrinterTonerHandler(mockCoverageToolSet.Object, mockCustomerRepo.Object,
+                mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
+
+            //action
+            var res = (JsonResult)sut.GetCurrentTonerLevel(printerId, userName);
+
+            //assert
+            var expectedResult = new TonerPercentageAndPrinterIdModel()
+            {
+                Cyan = tonerPrinter.tonerPercentage,
+                Yellow = tonerPrinter.tonerPercentage,
+                Magenta = tonerPrinter.tonerPercentage,
+                Keying = tonerPrinter.tonerPercentage,
+                PrinterID = printer.printerId
+            };
+            res.Data.Should().BeEquivalentTo(expectedResult);
+            res.JsonRequestBehavior.Should().Be(JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 
     

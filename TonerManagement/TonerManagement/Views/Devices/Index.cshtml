@@ -26,6 +26,7 @@
             <p class="loadRequired">Magenta Low Toner Percentage : </p> <div class="loadRequired" id="magentaLowToner" ></div>
             <br/>
             <p class="loadRequired">Keying Low Toner Percentage : </p> <div class="loadRequired" id="keyingLowToner" ></div>
+            <input class="loadRequired" id="saveTonerLowButton" type="button" value="Save"/>
             
         </div>
     </div>
@@ -71,17 +72,45 @@
 
             var searchButton = $("#searchButton");
             var deviceIdInput = $("#deviceIDInput");
+            var saveTonerLowButton = $("#saveTonerLowButton");
             deviceIdInput.jqxNumberInput({ decimalDigits: 0, min: 0, inputMode: 'simple' });
             searchButton.jqxButton({ width: 120 });
+            saveTonerLowButton.jqxButton({ width: 120 });
 
             var cyanLowToner = $("#cyanLowToner");
-            cyanLowToner.jqxNumberInput({ decimalDigits: 0, min: 0, max: 100, inputMode: 'simple', width:32 });
+            cyanLowToner.jqxNumberInput({ decimalDigits: 0, min: 0, max: 100, inputMode: 'simple', width: 32 });
             var yellowLowToner = $("#yellowLowToner");
             yellowLowToner.jqxNumberInput({ decimalDigits: 0, min: 0, max: 100, inputMode: 'simple', width: 32 });
             var magentaLowToner = $("#magentaLowToner");
             magentaLowToner.jqxNumberInput({ decimalDigits: 0, min: 0, max: 100, inputMode: 'simple', width: 32 });
             var keyingLowToner = $("#keyingLowToner");
             keyingLowToner.jqxNumberInput({ decimalDigits: 0, min: 0, max: 100, inputMode: 'simple', width: 32 });
+
+
+
+            saveTonerLowButton.on('click',
+                function () {
+                    var tonerData = {
+                        PrinterID: printerId,
+                        Cyan: cyanLowToner.val,
+                        Yellow: yellowLowToner.val,
+                        Magenta: magentaLowToner.val,
+                        Keying: keyingLowToner.val
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UpdateTonerLow","Devices")',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(tonerData),
+                        success: function () {
+                            alert("Toner low successfully updated");
+                        },
+                        error: function (xhr) {
+                            alert("An error occured " + xhr.status + " " + xhr.statusMessage);
+                        }
+                    })
+                });
 
             var tonerPercentageChart = $("#tonerPercentageChart");
             var coverageChart = $("#coverageChart");
@@ -92,7 +121,7 @@
                 { DisplayMember: "Cyan", ValueMember: "CyanDaily" },
                 { DisplayMember: "Yellow", ValueMember: "YellowDaily" },
                 { DisplayMember: "Magenta", ValueMember: "MagentaDaily" },
-                { DisplayMember: "Keying", ValueMember: "KeyingDaily"},
+                { DisplayMember: "Keying", ValueMember: "KeyingDaily" },
                 { DisplayMember: "Color", ValueMember: "ColorDaily" },
                 { DisplayMember: "All", ValueMember: "AllDaily" }
             ];
@@ -103,19 +132,19 @@
                 selectedIndex: 5
             });
 
-            
+
             var sourceForTonerPercentageChart = {
                 dataType: 'json',
                 contentType: 'application/json',
                 dataFields: [
-                    { name: 'CyanPercentage' },
-                    { name: 'YellowPercentage' },
-                    { name: 'MagentaPercentage' },
-                    { name: 'KeyingPercentage' },
-                    { name: 'PrinterId' }
+                    { name: 'Cyan' },
+                    { name: 'Yellow' },
+                    { name: 'Magenta' },
+                    { name: 'Keying' },
+                    { name: 'PrinterID' }
                 ],
                 url: '@Url.Action("GetTonerPercentage", "Devices")',
-                data: printerId
+                data: { printerId: printerId }
             }
             var dataAdapterForTonerPercentageChart = new $.jqx.dataAdapter(sourceForTonerPercentageChart,
                 {
@@ -131,9 +160,9 @@
                 titlePadding: { left: 8, right: 8, top: 8, bottom: 8 },
                 source: dataAdapterForTonerPercentageChart,
                 xAxis: {
-                    dataField: 'PrinterId',
+                    dataField: 'PrinterID',
                     gridlines: { visible: false },
-                    valuesOnTicks:false
+                    valuesOnTicks: false
                 },
                 columnSeriesOverlap: false,
                 seriesGroups: [
@@ -142,15 +171,16 @@
                         valueAxis: {
                             visible: true,
                             unitInterval: 10,
-                            title: {text:'Toner Percentage<br>'}
+                            title: { text: 'Toner Percentage<br>' }
                         },
                         series: [
-                            { dataField: 'CyanPercentage', displayText: 'Cyan Percentage', color: '#00FFFF' },
-                            { dataField: 'YellowPercentage', displayText: 'Yellow Percentage', color: '#FFFF00' },
-                            { dataField: 'MagentaPercentage', displayText: 'Magenta Percentage', color: '#FF00FF' },
-                            { dataField: 'KeyingPercentage', displayText: 'Keying Percentage', color: '#000000' }
+                            { dataField: 'Cyan', displayText: 'Cyan Percentage', color: '#00FFFF' },
+                            { dataField: 'Yellow', displayText: 'Yellow Percentage', color: '#FFFF00' },
+                            { dataField: 'Magenta', displayText: 'Magenta Percentage', color: '#FF00FF' },
+                            { dataField: 'Keying', displayText: 'Keying Percentage', color: '#000000' }
                         ]
-                    }]
+                    }
+                ]
 
             }
             var today = new Date();
@@ -164,10 +194,10 @@
             };
 
             coverageChartOptionsDropdown.on('select',
-                function () {
+                function() {
                     coverageChart.jqxChart('getInstance').update();
                 });
-            
+
             //initialise source for charts
             var sourceCoverageChart = {
                 dataType: 'json',
@@ -187,7 +217,7 @@
                 source: dataAdapterCoverageChart,
                 xAxis: {
                     dataField: 'Date',
-                    formatFunction: function (value) {
+                    formatFunction: function(value) {
                         return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
                     },
                     type: 'date',
@@ -202,15 +232,15 @@
                     title: { text: 'Coverage Percentage<br>' }
                 },
                 seriesGroups:
-                    [
-                        {
-                            type: 'line',
-                            series:
-                                [
-                                    { dataField: 'Coverage', displayText: "Coverage" }
-                                ]
-                        }
-                    ]
+                [
+                    {
+                        type: 'line',
+                        series:
+                        [
+                            { dataField: 'Coverage', displayText: "Coverage" }
+                        ]
+                    }
+                ]
             };
             searchButton.on('click',
                 function() {
@@ -226,7 +256,7 @@
                                 if (!loadedItem) {
                                     loadRequiredElems.css("display", "inline-block");
                                     visiblePreLoad.css("display", "none");
-                                    
+
                                     tonerPercentageChart.jqxChart(settingsForTonerPercentageChart);
                                     coverageChart.jqxChart(chartSettingsCoverageChart);
                                     loadedItem = true;
@@ -241,12 +271,16 @@
                                 $("#customerName").text(response.customer.customerName);
                                 $("#customerAddressArea").text(response.customer.customerAddress);
                                 $("#customerPhoneNumber").text(response.customer.customerContactNumber);
+                                $("#cyanLowToner").val(response.printer.CyanLowTonerPercentage);
+                                $("#yellowLowToner").val(response.printer.YellowLowTonerPercentage);
+                                $("#magentaLowToner").val(response.printer.MagentaLowTonerPercentage);
+                                $("#keyingLowToner").val(response.printer.KeyingLowTonerPercentage);
                             } else {
                                 alert("An Error occured" + response.errorMessage);
                             }
                         },
                         error: function(response) {
-                            alert("An error occured"+response.status+" "+response.statusText)
+                            alert("An error occured" + response.status + " " + response.statusText);
                         }
                     });
                 });
