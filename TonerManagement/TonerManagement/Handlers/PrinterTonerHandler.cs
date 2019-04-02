@@ -17,13 +17,15 @@ namespace TonerManagement.Handlers
         private readonly ICustomerRepo _customerRepo;
         private readonly IPrinterRepo _printerRepo;
         private readonly ITonerPrinterRepo _tonerPrinterRepo;
+        private readonly IUserRepo _userRepo;
 
-        public PrinterTonerHandler(ICoverageToolset coverageToolset, ICustomerRepo customerRepo,IPrinterRepo printerRepo,ITonerPrinterRepo tonerPrinterRepo)
+        public PrinterTonerHandler(ICoverageToolset coverageToolset, ICustomerRepo customerRepo,IPrinterRepo printerRepo,ITonerPrinterRepo tonerPrinterRepo, IUserRepo userRepo)
         {
             _coverageToolset = coverageToolset;
             _customerRepo = customerRepo;
             _printerRepo = printerRepo;
             _tonerPrinterRepo = tonerPrinterRepo;
+            _userRepo = userRepo;
         }
 
         public ActionResult GetCoverage(CoverageForCompanyRequestModel coverageRequest, int userId)
@@ -552,47 +554,71 @@ namespace TonerManagement.Handlers
 
             foreach (var printerId in printerIds)
             {
-                var coverageModel = new CoverageGridModel
+                var printer = _printerRepo.GetPrinter(printerId);
+                CoverageGridModel coverageModel;
+                if (printer.isColour)
                 {
-                    PrinterId = printerId,
-                    CurrentCoverage = Math.Round(
-                        (_coverageToolset.CalculateAverageCoverageForWholeLife(printerId, CoverageToolset.ColorType.C) +
-                         _coverageToolset.CalculateAverageCoverageForWholeLife(printerId, CoverageToolset.ColorType.Y) +
-                         _coverageToolset.CalculateAverageCoverageForWholeLife(printerId, CoverageToolset.ColorType.M) +
-                         _coverageToolset.CalculateAverageCoverageForWholeLife(printerId, CoverageToolset.ColorType.K)
-                        ) /
-                        4.0, 2, MidpointRounding.AwayFromZero),
-                    MonthCoverage = Math.Round(
-                        (_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                             CoverageToolset.ColorType.C)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                             CoverageToolset.ColorType.Y)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                             CoverageToolset.ColorType.M)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                             CoverageToolset.ColorType.K)[0].Coverage) /
-                        4.0, 2, MidpointRounding.AwayFromZero),
-                    SixMonthCoverage = Math.Round(
-                        (_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                             CoverageToolset.ColorType.C)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                             CoverageToolset.ColorType.Y)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                             CoverageToolset.ColorType.M)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                             CoverageToolset.ColorType.K)[0].Coverage) /
-                        4.0, 2, MidpointRounding.AwayFromZero),
-                    YearCoverage = Math.Round(
-                        (_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                             CoverageToolset.ColorType.C)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                             CoverageToolset.ColorType.Y)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                             CoverageToolset.ColorType.M)[0].Coverage +
-                         _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                             CoverageToolset.ColorType.K)[0].Coverage) /
-                        4.0, 2, MidpointRounding.AwayFromZero)
-                };
+                    coverageModel = new CoverageGridModel
+                    {
+
+                        PrinterId = printerId,
+                        CurrentCoverage = Math.Round(
+                            (_coverageToolset.CalculateAverageCoverageForWholeLife(printerId,
+                                 CoverageToolset.ColorType.C) +
+                             _coverageToolset.CalculateAverageCoverageForWholeLife(printerId,
+                                 CoverageToolset.ColorType.Y) +
+                             _coverageToolset.CalculateAverageCoverageForWholeLife(printerId,
+                                 CoverageToolset.ColorType.M) +
+                             _coverageToolset.CalculateAverageCoverageForWholeLife(printerId,
+                                 CoverageToolset.ColorType.K)
+                            ) /
+                            4.0, 2, MidpointRounding.AwayFromZero),
+                        MonthCoverage = Math.Round(
+                            (_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.C)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.Y)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.M)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.K)[0].Coverage) /
+                            4.0, 2, MidpointRounding.AwayFromZero),
+                        SixMonthCoverage = Math.Round(
+                            (_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.C)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.Y)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.M)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.K)[0].Coverage) /
+                            4.0, 2, MidpointRounding.AwayFromZero),
+                        YearCoverage = Math.Round(
+                            (_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.C)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.Y)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.M)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.K)[0].Coverage) /
+                            4.0, 2, MidpointRounding.AwayFromZero)
+                    };
+                }
+                else
+                {
+                    coverageModel = new CoverageGridModel
+                    {
+
+                        PrinterId = printerId,
+                        CurrentCoverage = Math.Round(_coverageToolset.CalculateAverageCoverageForWholeLife(printerId,CoverageToolset.ColorType.K), 2, MidpointRounding.AwayFromZero),
+                        MonthCoverage = Math.Round(_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero),
+                        SixMonthCoverage = Math.Round(_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero),
+                        YearCoverage = Math.Round(_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero)
+                    };
+                }
+
+
                 coverageModels.Add(coverageModel);
 
             }
@@ -604,6 +630,68 @@ namespace TonerManagement.Handlers
                 Data = coverageModels,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public ActionResult GetCurrentTonerLevel(int printerId, string userName)
+        {
+            var printer = _printerRepo.GetPrinter(printerId);
+            if (printer == null)
+            {
+                return new HttpStatusCodeResult(404, "Printer couldn't be found");
+            }
+
+            var users = _userRepo.GetUsers(userName);
+            if (users.Count == 0)
+            {
+                return new HttpStatusCodeResult(404, userName + " User not found");
+            }
+
+            var user = users.First();
+            var customer = _customerRepo.GetCustomer(printer.customerId);
+            var customersForUser = _customerRepo.GetCustomersForUser(user.userId);
+            if (!customersForUser.Contains(customer))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "User does not have access to this customer");
+            }
+
+            var model = new TonerPercentageAndPrinterIdModel {PrinterID = printerId};
+            var cyanLevels =
+                _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.C);
+            var yellowLevels =
+                _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.Y);
+            var magentaLevels =
+                _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M);
+            var keyingLevels =
+                _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
+            if (cyanLevels != null)
+            {
+                model.Cyan = cyanLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
+            }
+
+            if (yellowLevels != null)
+            {
+                model.Yellow = yellowLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
+            }
+
+            if (magentaLevels != null)
+            {
+                model.Magenta = magentaLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
+            }
+
+            if (keyingLevels != null)
+            {
+                model.Keying = keyingLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = model,
+                ContentType = null,
+                ContentEncoding = null,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+            return jsonResult;
+
         }
 
     }

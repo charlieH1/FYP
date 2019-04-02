@@ -63,7 +63,8 @@ namespace TonerManagement
                 "~/Scripts/jqxform.js",
                 "~/Scripts/jqxgrid.columnsresize.js",
                 "~/Scripts/webcomponents-lite.min.js",
-                "~/Scripts/jqxmaskedinput.js"
+                "~/Scripts/jqxmaskedinput.js",
+                "~/Scripts/jqxtextarea.js"
             ));
         }
     }

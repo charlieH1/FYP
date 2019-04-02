@@ -9,5 +9,7 @@ namespace TonerManagement.Handlers.Interface
         ActionResult GetCoverageForPrinter(CoverageForPrinterRequestModel coverageRequest, int userId);
         ActionResult GetLowTonerLevelsOfCustomerPrinters(int customerId, int userId);
         ActionResult GetCoverageGridForCustomer(int userId, int customerId);
+        ActionResult GetCurrentTonerLevel(int printerId, string userName);
+
     }
 }

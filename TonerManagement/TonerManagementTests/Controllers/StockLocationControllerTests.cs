@@ -1,19 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TonerManagement.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TonerManagement.Controllers;
 using TonerManagement.Handlers.Interface;
 using TonerManagement.Models;
 using TonerManagementTests.TestHelpers;
 
-namespace TonerManagement.Controllers.Tests
+namespace TonerManagementTests.Controllers
 {
     [TestClass()]
     public class StockLocationControllerTests
