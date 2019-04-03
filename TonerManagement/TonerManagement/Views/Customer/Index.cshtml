@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Customer";
+}
+@section styles{
+    <link href="~/Content/Customer.css" rel="stylesheet" type="text/css" />
+}
+
+<h2>Customer</h2>
+
+<div id="FlexArea">
+    <div id="customerDetailsArea">
+        <div id="customerDropdown"></div>
+        <form>
+            <textarea id="postalAddressArea"></textarea>
+            <div id="customerPhoneNumber"></div>
+        </form>
+        <input type="button" value="Save Customer Details" id="saveCustomer"/>
+    </div>
+
+    <div id="stockLocationGrid"></div>
+</div>
+
+<div id="printerGrid"></div>
+
+@section scripts{
+    <script type="text/javascript">
+        $("document").ready(function() {
+
+            var customerDropdown = $("#customerDropdown");
+            var postalAddressArea = $("#postalAddressArea");
+            var customerPhoneNumber = $("#customerPhoneNumber");
+            var saveCustomer = $("#saveCustomer");
+            var stockLocationGrid = $("#stockLocationGrid");
+            var printerGrid = $("#printerGrid");
+            customerPhoneNumber.jqxInput({ placeHolder: "Customer Phone Number", width: 336 });
+            saveCustomer.jqxButton({ width: 120, height: 40 });
+            
+
+            var url = '@Url.Action("GetCustomersForUser", "Customer")';
+            var source = {
+                datatype: 'json',
+                datafields: [
+                    { name: "customerID" },
+                    { name: "customerName" },
+                    { name: "customerAddress" },
+                    { name: "customerContactNumber" },
+                    { name: "Printers" },
+                    { name: "StockLocations" },
+                    { name: "UserCustomers" }
+                ],
+                url: url,
+                async: false
+
+            }
+
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
+            customerDropdown.jqxDropDownList({
+                source: dataAdapterForCustomerDropdown,
+                displayMember: "customerName",
+                valueMember: "customerID",
+                selectedIndex: 0
+            });
+
+            customerDropdown.on('bindingComplete',
+                function() {
+                    var dataForCustomerDropdown =
+                        { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCustomer", "Customer")',
+                        data: dataForCustomerDropdown,
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function(response) {
+                            if (response.success) {
+                                customerPhoneNumber.val(response.customer.customerContactNumber);
+                                postalAddressArea.val(response.customer.customerAddress);
+                            } else {
+                                alert("An error occured " + response.errorMessage);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert("An error occured " + xhr.status + " " + xhr.statusMessage);
+                        }
+
+
+                    });
+                });
+
+            postalAddressArea.jqxTextArea({
+                placeHolder: "Enter a customer address",
+                height: 140
+            });
+
+        });
+
+    </script>
+}

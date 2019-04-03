@@ -248,6 +248,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Coverage.css" />
+    <Content Include="Content\Customer.css" />
     <Content Include="Content\Devices.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\jqx.android.css" />
@@ -286,6 +287,7 @@
     <Content Include="Content\jqx.web.css" />
     <Content Include="Content\jqx.windowsphone.css" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\Profile.css" />
     <Content Include="Content\StockLocation.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -470,10 +472,10 @@
     <Content Include="Views\StockLocation\Index.cshtml" />
     <Content Include="Views\Coverage\Index.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

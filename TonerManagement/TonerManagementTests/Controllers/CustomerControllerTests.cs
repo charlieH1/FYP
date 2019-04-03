@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TonerManagement.Controllers;
 using TonerManagement.Handlers;
+using TonerManagement.Handlers.Interface;
 using TonerManagement.Models;
 using TonerManagementTests.TestHelpers;
 
@@ -52,8 +53,9 @@ namespace TonerManagementTests.Controllers
             var mockSession = new MockSessionStateBase {["UserName"] = userName};
             var mockContext = new Mock<ControllerContext>();
             mockContext.Setup(m => m.HttpContext.Session).Returns(mockSession);
+            var mockUserHandler = new Mock<IUserHandler>();
 
-            var sut = new CustomerController(mockCustomerHandler.Object) {ControllerContext = mockContext.Object};
+            var sut = new CustomerController(mockCustomerHandler.Object,mockUserHandler.Object) {ControllerContext = mockContext.Object};
             
             //action
             var res = (JsonResult)sut.GetCustomersForUser();
@@ -74,8 +76,9 @@ namespace TonerManagementTests.Controllers
             var mockSession = new MockSessionStateBase { ["UserName"] = userName };
             var mockContext = new Mock<ControllerContext>();
             mockContext.Setup(m => m.HttpContext.Session).Returns(mockSession);
+            var mockUserHandler = new Mock<IUserHandler>();
 
-            var sut = new CustomerController(mockCustomerHandler.Object) { ControllerContext = mockContext.Object };
+            var sut = new CustomerController(mockCustomerHandler.Object,mockUserHandler.Object) { ControllerContext = mockContext.Object };
 
             //action
             var res = (HttpStatusCodeResult)sut.GetCustomersForUser();
@@ -97,9 +100,10 @@ namespace TonerManagementTests.Controllers
             var mockSession = new MockSessionStateBase { ["UserName"] = userName };
             var mockContext = new Mock<ControllerContext>();
             mockContext.Setup(m => m.HttpContext.Session).Returns(mockSession);
+            var mockUserHandler = new Mock<IUserHandler>();
 
 
-            var sut = new CustomerController(mockCustomerHandler.Object) { ControllerContext = mockContext.Object };
+            var sut = new CustomerController(mockCustomerHandler.Object,mockUserHandler.Object) { ControllerContext = mockContext.Object };
 
             //action
             var res = (HttpStatusCodeResult)sut.GetCustomersForUser();
@@ -128,8 +132,9 @@ namespace TonerManagementTests.Controllers
             var mockSession = new MockSessionStateBase { ["UserName"] = userName };
             var mockContext = new Mock<ControllerContext>();
             mockContext.Setup(m => m.HttpContext.Session).Returns(mockSession);
+            var mockUserHandler = new Mock<IUserHandler>();
 
-            var sut = new CustomerController(mockCustomerHandler.Object) { ControllerContext = mockContext.Object };
+            var sut = new CustomerController(mockCustomerHandler.Object,mockUserHandler.Object) { ControllerContext = mockContext.Object };
 
             //action
             var res = (JsonResult)sut.GetCustomersForUser();

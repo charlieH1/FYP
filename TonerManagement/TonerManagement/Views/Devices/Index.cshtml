@@ -146,12 +146,7 @@
                 url: '@Url.Action("GetTonerPercentage", "Devices")',
                 data: { printerId: printerId }
             }
-            var dataAdapterForTonerPercentageChart = new $.jqx.dataAdapter(sourceForTonerPercentageChart,
-                {
-                    async: false,
-                    autoBind: true,
-                    loadError: function(xhr, status, error) { alert('Error loading "' + source.url + '" : ' + error); }
-                });
+            var dataAdapterForTonerPercentageChart;
             var settingsForTonerPercentageChart = {
                 title: "Toner Percentage",
                 showLegend: false,
@@ -209,7 +204,7 @@
                 url: '@Url.Action("GetCoverageForPrinter", "Coverage")',
                 data: dataForCoverageChart
             };
-            var dataAdapterCoverageChart = new $.jqx.dataAdapter(sourceCoverageChart);
+            var dataAdapterCoverageChart;
 
             var chartSettingsCoverageChart = {
                 title: "Coverage Chart",
@@ -256,7 +251,8 @@
                                 if (!loadedItem) {
                                     loadRequiredElems.css("display", "inline-block");
                                     visiblePreLoad.css("display", "none");
-
+                                    dataAdapterCoverageChart = new $.jqx.dataAdapter(sourceCoverageChart);
+                                    dataAdapterForTonerPercentageChart = new $.jqx.dataAdapter(sourceForTonerPercentageChart);
                                     tonerPercentageChart.jqxChart(settingsForTonerPercentageChart);
                                     coverageChart.jqxChart(chartSettingsCoverageChart);
                                     loadedItem = true;
