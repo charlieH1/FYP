@@ -60,5 +60,11 @@ namespace TonerManagement.Controllers
 
             return _devicesHandler.UpdateTonerLowOnDevice(request, (string) Session["UserName"]);
         }
+
+        public ActionResult GetDetailedPrinterGridForCustomer()
+        {
+            //ToDo implement using the HighDetailPrinterModel
+            throw new NotImplementedException();
+        }
     }
 }

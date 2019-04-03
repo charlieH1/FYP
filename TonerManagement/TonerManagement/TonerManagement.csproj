@@ -168,6 +168,7 @@
     <Compile Include="Handlers\PrinterTonerHandler.cs" />
     <Compile Include="Handlers\StockLocationHandler.cs" />
     <Compile Include="Handlers\UserHandler.cs" />
+    <Compile Include="Models\HighDetailPrinterModel.cs" />
     <Compile Include="Models\PrinterResponseModelWithAverageTonerCoverage.cs" />
     <Compile Include="Models\CoverageDateModel.cs" />
     <Compile Include="Global.asax.cs">

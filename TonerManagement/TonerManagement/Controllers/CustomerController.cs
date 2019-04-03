@@ -34,5 +34,11 @@ namespace TonerManagement.Controllers
             //ToDo implement function and handler
             throw new System.NotImplementedException();
         }
+
+        public ActionResult UpdateCustomer()
+        {
+            //ToDo implement function to update customer
+            throw new System.NotImplementedException();
+        }
     }
 }

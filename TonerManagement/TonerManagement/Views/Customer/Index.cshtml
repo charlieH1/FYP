@@ -11,7 +11,7 @@
 <div id="FlexArea">
     <div id="customerDetailsArea">
         <div id="customerDropdown"></div>
-        <form>
+        <form id="validateForm">
             <textarea id="postalAddressArea"></textarea>
             <div id="customerPhoneNumber"></div>
         </form>
@@ -33,6 +33,11 @@
             var saveCustomer = $("#saveCustomer");
             var stockLocationGrid = $("#stockLocationGrid");
             var printerGrid = $("#printerGrid");
+            var form = $("#validateForm");
+            var sourceForHighDetailPrinterGrid;
+            var sourceForStockLocation;
+            var dataAdapterForStockLocation;
+            var dataAdapterForPrinterGrid;
             customerPhoneNumber.jqxInput({ placeHolder: "Customer Phone Number", width: 336 });
             saveCustomer.jqxButton({ width: 120, height: 40 });
             
@@ -62,6 +67,77 @@
                 selectedIndex: 0
             });
 
+            var populateStockLocationGrid = function() {
+                sourceForStockLocation = {
+                    datafields: [
+                        { name: 'stockLocationId', type: 'int' },
+                        { name: 'customerId', type: 'int' },
+                        { name: 'stockLocationName', type: 'string' },
+                        { name: 'stockLocationAddress', type: 'string' },
+                        { name: 'stockLocationContactNumber', type: 'string' }
+                    ],
+                    data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value },
+                    dataType: 'json',
+                    url: '@Url.Action("GetStockLocationsForCustomer","StockLocation")'
+                }
+                dataAdapterForStockLocation = new $.jqx.dataAdapter(sourceForStockLocation);
+                stockLocationGrid.jqxGrid({
+                    source: dataAdapterForStockLocation,
+                    pageable: true,
+                    sortable: true,
+                    filterable: true,
+                    selectionMode: 'none',
+                    columns: [
+                        { text: "Stock Location Name", dataField: 'stockLocationName', width: "20%" },
+                        { text: "Stock Location Address", dataField: 'stockLocationAddress', width: "60" },
+                        { text: "Phone Number", dataField: 'stockLocationContactNumber', width: "20%" },
+                    ]
+                });
+            };
+
+            var populatePrinterGrid = function() {
+                sourceForHighDetailPrinterGrid = {
+                    datafields: [
+                        { name: 'PrinterId', type: 'int' },
+                        { name: 'PrinterName', type: 'string' },
+                        { name: 'CyanLevel', type: 'int' },
+                        { name: 'YellowLevel', type: 'int' },
+                        { name: 'MagentaLevel', type: 'int' },
+                        { name: 'KeyingLevel', type: 'int' },
+                        { name: 'CyanCoverage', type: 'float' },
+                        { name: 'YellowCoverage', type: 'float' },
+                        { name: 'MagentaCoverage', type: 'float' },
+                        { name: 'KeyingCoverage', type: 'float' },
+                        { name: 'AverageCoverage', type: 'float' }
+                    ],
+                    data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value },
+                    dataType: 'json',
+                    url: '@Url.Action("GetDetailedPrinterGridForCustomer","Devices")'
+                }
+                dataAdapterForPrinterGrid = new $.jqx.dataAdapter(sourceForHighDetailPrinterGrid);
+                printerGrid.jqxGrid({
+                    source: dataAdapterForPrinterGrid,
+                    pageable: true,
+                    sortable: true,
+                    filterable: true,
+                    selectionMode: 'none',
+                    columns: [
+                        { text: "Printer Id", dataField: 'PrinterId', width: "10%" },
+                        { text: "Printer Name", dataField: 'PrinterName', width: "9%" },
+                        { text: "Cyan Level", dataField: 'CyanLevel', width: "9%" },
+                        { text: "Yellow Level", dataField: 'YellowLevel', width: "9%" },
+                        { text: "Magenta Level", dataField: 'MagentaLevel', width: "9%" },
+                        { text: "Keying Level", dataField: 'KeyingLevel', width: "9%" },
+                        { text: "Cyan Coverage", dataField: 'CyanCoverage', width: "9%" },
+                        { text: "Yellow Coverage", dataField: 'YellowCoverage', width: "9%" },
+                        { text: "Magenta Coverage", dataField: 'MagentaCoverage', width: '9%' },
+                        { text: "Keying Coverage", dataField: 'KeyingCoverage', width: '9%' },
+                        {text:"Average Coverage", dataField: 'AverageCoverage',width:'9%'}
+                    ]
+                });
+
+            }
+
             customerDropdown.on('bindingComplete',
                 function() {
                     var dataForCustomerDropdown =
@@ -76,6 +152,8 @@
                             if (response.success) {
                                 customerPhoneNumber.val(response.customer.customerContactNumber);
                                 postalAddressArea.val(response.customer.customerAddress);
+                                populateStockLocationGrid();
+                                populatePrinterGrid();
                             } else {
                                 alert("An error occured " + response.errorMessage);
                             }
@@ -87,11 +165,64 @@
 
                     });
                 });
+            customerDropdown.on('select',
+                function() {
+                    stockLocationGrid.jqxGrid('updateBoundData');
+                    printerGrid.jqxGrid('updateBoundData');
+                });
+
+            
 
             postalAddressArea.jqxTextArea({
                 placeHolder: "Enter a customer address",
                 height: 140
             });
+
+            form.jqxValidator({
+                hintType: 'tooltip',
+                rules: [
+                    {
+                        input: '#postalAddressArea',
+                        message: 'An Address is required',
+                        rule: 'required',
+                        action: 'blur'
+                    },
+                    {
+                        input: '#customerPhoneNumber',
+                        message: 'A phone number is required',
+                        rule: 'required',
+                        action: 'blur'
+                    }
+                ]
+            });
+
+            saveCustomer.on('click',
+                function() {
+                    form.jqxValidator('validate');
+                });
+
+            form.on('validationSuccess',
+                function() {
+                    var dataForSending = {
+                        customerId: customerDropdown('getSelectedItem').value,
+                        customerPostalAddress: postalAddressArea.val,
+                        customerPhoneNumber:customerPhoneNumber.val
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: dataForSending,
+                        url: '@Url.Action("UpdateCustomer","Customer")',
+                        success: function() {
+                            alert("Customer Successfully Updated");
+                        },
+                        error: function(xhr) {
+                            alert("An error occured " + xhr.status + xhr.statusMessage);
+                        }
+
+                    });
+                });
 
         });
 
