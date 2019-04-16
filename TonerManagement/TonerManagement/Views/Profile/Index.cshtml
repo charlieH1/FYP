@@ -4,8 +4,11 @@
 
 }
 
-<h2>Profile</h2>
+@section styles{
+<link href=@Url.Content("~/Content/Profile.css") rel="stylesheet" type="text/css" />
+}
 
+<h2>Profile</h2>
 <form id="updateProfileForm">
     <table class="Form RoundedCorners-lightBlue">
 
@@ -16,10 +19,10 @@
             <td><input type="password" id="currentPassword" required /></td>
         </tr>
         <tr>
-            <td><input type="password" id="newPassword" /></td>
+            <td><input type="password" id="newPassword" placeholder="New Password" /></td>
         </tr>
         <tr>
-            <td><input type="password" id="confirmNewPassword" /></td>
+            <td><input type="password" id="confirmNewPassword" placeholder="Confirm New Password" /></td>
         </tr>
         <tr>
             <td><input type="button" id="updateProfileButton" value="Update Profile" /></td>
@@ -27,12 +30,13 @@
     </table>
 </form>
 
+
 @section scripts
 {
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $('#userName').val = @Model.userLogin;
+            $('#userName').val = '@Model.userLogin';
             //jqxButton
             $('#updateProfileButton').jqxButton({ width: 120, height: 40 });
 

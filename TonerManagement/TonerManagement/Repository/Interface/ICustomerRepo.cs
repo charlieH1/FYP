@@ -7,5 +7,6 @@ namespace TonerManagement.Repository.Interface
     {
         Customer GetCustomer(int customerId);
         List<Customer> GetCustomersForUser(int userId);
+        bool UpdateCustomer(UpdateCustomerModel request);
     }
 }
