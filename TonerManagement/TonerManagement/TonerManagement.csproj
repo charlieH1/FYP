@@ -155,6 +155,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\StockLocationController.cs" />
+    <Compile Include="Controllers\TonerOrderController.cs" />
     <Compile Include="Handlers\CustomerHandler.cs" />
     <Compile Include="Handlers\DevicesHandler.cs" />
     <Compile Include="Handlers\Interface\IDevicesHandler.cs" />
@@ -214,6 +215,7 @@
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TonerStockLocationGridModel.cs" />
+    <Compile Include="Models\UpdateCustomerModel.cs" />
     <Compile Include="Models\UpdatedStockLocationModel.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
@@ -474,6 +476,7 @@
     <Content Include="Views\Coverage\Index.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\TonerOrder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

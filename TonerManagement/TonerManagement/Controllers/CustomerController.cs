@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using TonerManagement.Handlers;
 using TonerManagement.Handlers.Interface;
+using TonerManagement.Models;
 
 namespace TonerManagement.Controllers
 {
@@ -29,16 +30,24 @@ namespace TonerManagement.Controllers
             return Session["UserName"] == null ? new HttpStatusCodeResult(HttpStatusCode.Unauthorized) : _customerHandler.GetCustomersForUser((string)Session["UserName"]);
         }
 
-        public ActionResult GetCustomer()
+        public ActionResult GetCustomer(int customerId)
         {
-            //ToDo implement function and handler
-            throw new System.NotImplementedException();
+            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+            return _customerHandler.GetCustomer(customerId,(string)Session["UserName"]);
         }
 
-        public ActionResult UpdateCustomer()
+        public ActionResult UpdateCustomer(UpdateCustomerModel request)
         {
-            //ToDo implement function to update customer
-            throw new System.NotImplementedException();
+            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            return _customerHandler.UpdateCustomer(request, (string) Session["UserName"]);
+            
         }
     }
 }

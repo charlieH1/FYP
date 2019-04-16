@@ -204,9 +204,9 @@
             form.on('validationSuccess',
                 function() {
                     var dataForSending = {
-                        customerId: customerDropdown('getSelectedItem').value,
-                        customerPostalAddress: postalAddressArea.val,
-                        customerPhoneNumber:customerPhoneNumber.val
+                        CustomerId: customerDropdown('getSelectedItem').value,
+                        CustomerPostalAddress: postalAddressArea.val,
+                        CustomerPhoneNumber:customerPhoneNumber.val
                     }
                     $.ajax({
                         type: 'POST',

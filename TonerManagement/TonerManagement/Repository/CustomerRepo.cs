@@ -34,9 +34,20 @@ namespace TonerManagement.Repository
            return customers;
         }
 
+        public bool UpdateCustomer(UpdateCustomerModel request)
+        {
+            var customer = _tonerManagementEntities.Customers.Single(c=> c.customerID==request.CustomerId);
+            customer.customerContactNumber = request.CustomerPhoneNumber;
+            customer.customerAddress = request.CustomerPostalAddress;
+            var updated = _tonerManagementEntities.SaveChanges();
+            return updated > 0;
+        }
+
         public Customer GetCustomer(int customerId)
         {
             return _tonerManagementEntities.Customers.Find(customerId);
         }
+
+       
     }
 }
