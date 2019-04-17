@@ -14,23 +14,10 @@ namespace TonerManagement.Models
     
     public partial class StockLocation
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StockLocation()
-        {
-            this.Printers = new HashSet<Printer>();
-            this.StockLocationToners = new HashSet<StockLocationToner>();
-        }
-    
         public int stockLocationId { get; set; }
         public int customerId { get; set; }
         public string stockLocationName { get; set; }
         public string stockLocationAddress { get; set; }
         public string stockLocationContactNumber { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Printer> Printers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockLocationToner> StockLocationToners { get; set; }
     }
 }

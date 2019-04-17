@@ -286,9 +286,6 @@
           <Property Name="stockLocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="stockLocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="stockLocationContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_StockLocation_Customer" FromRole="StockLocation" ToRole="Customer" />
-          <NavigationProperty Name="Printers" Relationship="Self.FK_Printer_StockLocation" FromRole="StockLocation" ToRole="Printer" />
-          <NavigationProperty Name="StockLocationToners" Relationship="Self.FK_StockLocationToner_StockLocation" FromRole="StockLocation" ToRole="StockLocationToner" />
         </EntityType>
         <EntityType Name="StockLocationToner">
           <Key>
