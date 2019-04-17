@@ -8,9 +8,6 @@
     <Property Name="customerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="customerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="customerContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="Printers" Relationship="Self.FK_Printer_Customer" FromRole="Customer" ToRole="Printer" />
-    <NavigationProperty Name="StockLocations" Relationship="Self.FK_StockLocation_Customer" FromRole="Customer" ToRole="StockLocation" />
-    <NavigationProperty Name="UserCustomers" Relationship="Self.FK_UserCustomer_Customer" FromRole="Customer" ToRole="UserCustomer" />
   </EntityType>
   <EntityType Name="Printer">
     <Key>
