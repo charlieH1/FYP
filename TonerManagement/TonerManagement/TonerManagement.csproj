@@ -165,9 +165,11 @@
     <Compile Include="Handlers\Interface\IUserHandler.cs" />
     <Compile Include="Handlers\Interface\IPrinterTonerHandler.cs" />
     <Compile Include="Handlers\Interface\IStockLocationHandler.cs" />
+    <Compile Include="Handlers\IStockLocationTonerHandler.cs" />
     <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="Handlers\PrinterTonerHandler.cs" />
     <Compile Include="Handlers\StockLocationHandler.cs" />
+    <Compile Include="Handlers\StockLocationTonerHandler.cs" />
     <Compile Include="Handlers\UserHandler.cs" />
     <Compile Include="Models\HighDetailPrinterModel.cs" />
     <Compile Include="Models\PrinterResponseModelWithAverageTonerCoverage.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Models\Toner.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TonerIdTonerPercentageAndPrinterModel.cs" />
     <Compile Include="Models\TonerManagementEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -210,6 +213,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TonerManagementEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\TonerOrderModel.cs" />
     <Compile Include="Models\TonerPercentageAndPrinterIdModel.cs" />
     <Compile Include="Models\TonerPrinter.cs">
       <DependentUpon>TonerManagementEntities.tt</DependentUpon>
@@ -292,6 +296,7 @@
     <Content Include="Content\Login.css" />
     <Content Include="Content\Profile.css" />
     <Content Include="Content\StockLocation.css" />
+    <Content Include="Content\TonerOrder.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

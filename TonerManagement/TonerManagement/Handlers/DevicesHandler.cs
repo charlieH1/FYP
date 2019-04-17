@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -16,14 +17,181 @@ namespace TonerManagement.Handlers
         private readonly ICustomerRepo _customerRepo;
         private readonly ICoverageToolset _coverageToolset;
         private readonly IUserRepo _userRepo;
+        private readonly ITonerPrinterRepo _tonerPrinterRepo;
+        private readonly IStockLocationRepo _stockLocationRepo;
 
-        public DevicesHandler(IPrinterRepo printerRepo, ICustomerRepo customerRepo, ICoverageToolset coverageToolset, IUserRepo userRepo)
+        public DevicesHandler(IPrinterRepo printerRepo, ICustomerRepo customerRepo, ICoverageToolset coverageToolset,
+            IUserRepo userRepo, ITonerPrinterRepo tonerPrinterRepo, IStockLocationRepo stockLocationRepo)
         {
             _printerRepo = printerRepo;
             _customerRepo = customerRepo;
             _coverageToolset = coverageToolset;
             _userRepo = userRepo;
+            _tonerPrinterRepo = tonerPrinterRepo;
+            _stockLocationRepo = stockLocationRepo;
         }
+
+        public ActionResult GetDetailedPrinterGrid(int customerId, string userName)
+        {
+            
+
+            var users = _userRepo.GetUsers(userName);
+            if (users.Count == 0)
+            {
+                return new HttpStatusCodeResult(404, userName + " User not found");
+            }
+
+            var user = users.First();
+            var customer = _customerRepo.GetCustomer(customerId);
+            if (customer == null)
+            {
+                return new HttpStatusCodeResult(404,"Customer not found");
+            }
+            var customersForUser = _customerRepo.GetCustomersForUser(user.userId);
+            if (!customersForUser.Contains(customer))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "User does not have access to this customer");
+            }
+            var printers = _printerRepo.GetPrintersFromCustomer(customerId);
+
+            var detailedPrintersModel = new List<HighDetailPrinterModel>();
+
+            foreach (var printer in printers)
+            {
+                if (printer.isColour)
+                {
+                    var highDetailPrinter = new HighDetailPrinterModel()
+                    {
+                        CyanCoverage =
+                            _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                CoverageToolset.ColorType.C),
+                        YellowCoverage =
+                            _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                CoverageToolset.ColorType.Y),
+                        MagentaCoverage =
+                            _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                CoverageToolset.ColorType.M),
+                        KeyingCoverage =
+                            _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                CoverageToolset.ColorType.K),
+                        AverageCoverage = Math.Round((_coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                            CoverageToolset.ColorType.C)+ _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                               CoverageToolset.ColorType.Y)+ _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                               CoverageToolset.ColorType.M)+ _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                               CoverageToolset.ColorType.K))/4,2,MidpointRounding.AwayFromZero),
+                        CyanLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,CoverageToolset.ColorType.C).OrderBy(tp=> tp.timestamp).Last().tonerPercentage,
+                        YellowLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.Y).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
+                        MagentaLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
+                        KeyingLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
+                        PrinterId = printer.printerId,
+                        PrinterName = printer.printerName,
+                    };
+                    detailedPrintersModel.Add(highDetailPrinter);
+                }
+                else
+                {
+                    var highDetailPrinter = new HighDetailPrinterModel()
+                    {
+                        KeyingCoverage =
+                            _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                                CoverageToolset.ColorType.K),
+                        AverageCoverage = _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
+                            CoverageToolset.ColorType.K),
+                        KeyingLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
+                        PrinterId = printer.printerId,
+                        PrinterName = printer.printerName,
+                    };
+                    detailedPrintersModel.Add(highDetailPrinter);
+                }
+                
+            }
+            var jsonResult = new JsonResult()
+            {
+                ContentType = null,
+                ContentEncoding = null,
+                Data = detailedPrintersModel,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+            return jsonResult;
+        }
+
+        public ActionResult GetTonerPercentageAndIdsForPrintersPerStockLocation(int stockLocationId, string userName)
+        {
+            var stockLocation = _stockLocationRepo.GetStockLocation(stockLocationId);
+            if (stockLocation == null)
+            {
+                return new HttpStatusCodeResult(404, "Stock Location could not be found");
+            }
+
+            var users = _userRepo.GetUsers(userName);
+            if (users.Count == 0)
+            {
+                return new HttpStatusCodeResult(404, userName + " User not found");
+            }
+
+            var user = users.First();
+            var customer = _customerRepo.GetCustomer(stockLocation.customerId);
+            var customersForUser = _customerRepo.GetCustomersForUser(user.userId);
+            if (!customersForUser.Contains(customer))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "User does not have access to this customer");
+            }
+
+            var details = new List<TonerIdTonerPercentageAndPrinterModel>();
+
+            var printers = _printerRepo.GetPrinterFromStockLocation(stockLocationId);
+
+            foreach (var printer in printers)
+            {
+                if (printer.isColour)
+                {
+                    var cyan = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.C).OrderBy(tp => tp.timestamp).Last();
+                    var yellow = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.Y).OrderBy(tp => tp.timestamp).Last();
+                    var magenta = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.M).OrderBy(tp => tp.timestamp).Last();
+                    var keying = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last();
+                    var detail = new TonerIdTonerPercentageAndPrinterModel()
+                    {
+                        DeviceId = printer.printerId,
+                        CyanPercentage = cyan.tonerPercentage,
+                        CyanId = cyan.tonerId,
+                        YellowPercentage = yellow.tonerPercentage,
+                        YellowId = yellow.tonerId,
+                        MagentaPercentage = magenta.tonerPercentage,
+                        MagentaId = magenta.tonerId,
+                        KeyingPercentage = keying.tonerPercentage,
+                        KeyingId = keying.tonerId
+                    };
+                    details.Add(detail);
+                }
+                else
+                {
+                    var keying = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last();
+                    var detail = new TonerIdTonerPercentageAndPrinterModel()
+                    {
+                        DeviceId = printer.printerId,
+                        KeyingPercentage = keying.tonerPercentage,
+                        KeyingId = keying.tonerId
+                    };
+                    details.Add(detail);
+                }
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                ContentType = null,
+                ContentEncoding = null,
+                Data = details,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+            return jsonResult;
+
+        }
+
 
         public ActionResult GetDeviceDetails(int printerId, string userName)
         {
