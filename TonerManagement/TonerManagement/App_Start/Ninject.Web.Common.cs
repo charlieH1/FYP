@@ -90,6 +90,7 @@ namespace TonerManagement.App_Start
             kernel.Bind<IPrinterTonerHandler>().To<PrinterTonerHandler>();
             kernel.Bind<IStockLocationHandler>().To<StockLocationHandler>();
             kernel.Bind<IDevicesHandler>().To<DevicesHandler>();
+            kernel.Bind<IStockLocationTonerHandler>().To<StockLocationTonerHandler>();
             //toolset bindings
             kernel.Bind<ICoverageToolset>().To<CoverageToolset>();
         }        

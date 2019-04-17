@@ -1,0 +1,35 @@
+﻿#columnContainer {
+    display: flex;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+#columnContainer2 {
+    display: flex;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.column {
+    -webkit-flex: 0 1 50%;
+    -ms-flex: 0 1 50%;
+    -o-flex: 0 1 50%;
+    flex: 0 1 50%;
+    -o-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+#tonerOrderArea {
+    height: 100%;
+    overflow-y: scroll;
+}

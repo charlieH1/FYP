@@ -15,25 +15,28 @@ namespace TonerManagement.Controllers
         private readonly IDevicesHandler _devicesHandler;
         private readonly IPrinterTonerHandler _printerTonerHandler;
 
-        public DevicesController(IUserHandler userHandler,IDevicesHandler devicesHandler, IPrinterTonerHandler printerTonerHandler)
+        public DevicesController(IUserHandler userHandler, IDevicesHandler devicesHandler,
+            IPrinterTonerHandler printerTonerHandler)
         {
             _userHandler = userHandler;
             _devicesHandler = devicesHandler;
             _printerTonerHandler = printerTonerHandler;
         }
+
         // GET: Devices
         public ActionResult Index()
         {
-            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            if (Session["UserName"] == null || _userHandler.GetUsers((string) Session["UserName"]).Count == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
+
             return View("Index");
         }
 
         public ActionResult GetDeviceDetails(int printerId)
         {
-            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            if (Session["UserName"] == null || _userHandler.GetUsers((string) Session["UserName"]).Count == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
@@ -43,17 +46,17 @@ namespace TonerManagement.Controllers
 
         public ActionResult GetTonerPercentage(int printerId)
         {
-            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            if (Session["UserName"] == null || _userHandler.GetUsers((string) Session["UserName"]).Count == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
 
-            return _printerTonerHandler.GetCurrentTonerLevel(printerId, (string)Session["UserName"]);
+            return _printerTonerHandler.GetCurrentTonerLevel(printerId, (string) Session["UserName"]);
         }
 
         public ActionResult UpdateTonerLow(TonerPercentageAndPrinterIdModel request)
         {
-            if (Session["UserName"] == null || _userHandler.GetUsers((string)Session["UserName"]).Count == 0)
+            if (Session["UserName"] == null || _userHandler.GetUsers((string) Session["UserName"]).Count == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
@@ -61,10 +64,15 @@ namespace TonerManagement.Controllers
             return _devicesHandler.UpdateTonerLowOnDevice(request, (string) Session["UserName"]);
         }
 
-        public ActionResult GetDetailedPrinterGridForCustomer()
+        public ActionResult GetDetailedPrinterGridForCustomer(int customerId)
         {
-            //ToDo implement using the HighDetailPrinterModel
-            throw new NotImplementedException();
+            if (Session["UserName"] == null || _userHandler.GetUsers((string) Session["UserName"]).Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            return _devicesHandler.GetDetailedPrinterGrid(customerId, (string) Session["UserName"]);
         }
     }
+
 }

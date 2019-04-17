@@ -21,5 +21,29 @@ namespace TonerManagement.Repository
         {
             return _db.StockLocationToners.Where(slt => slt.stockLocationId == stockLocationId).ToList();
         }
+
+        public bool TonerOrder(List<TonerOrderModel> order, int stockLocationId)
+        {
+            foreach (var item in order)
+            {
+                var itemsToUpdate = _db.StockLocationToners.Where(SLT =>
+                    SLT.stockLocationId == stockLocationId && SLT.tonerId == item.TonerId);
+                if (!itemsToUpdate.Any())
+                {
+                    var newItem = _db.StockLocationToners.Create();
+                    newItem.stockLocationId = stockLocationId;
+                    newItem.tonerId = item.TonerId;
+                    newItem.quantity = item.Quantity;
+                }
+                else
+                {
+                    var itemToUpdate = itemsToUpdate.First();
+                    itemToUpdate.quantity += item.Quantity;
+                }
+            }
+
+            var res = _db.SaveChanges();
+            return res > 0;
+        }
     }
 }

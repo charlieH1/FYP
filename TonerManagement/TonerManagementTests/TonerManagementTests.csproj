@@ -110,12 +110,14 @@
     <Compile Include="Controllers\ProfileControllerTests.cs" />
     <Compile Include="Controllers\RegistrationControllerTests.cs" />
     <Compile Include="Controllers\StockLocationControllerTests.cs" />
+    <Compile Include="Controllers\TonerOrderControllerTests.cs" />
     <Compile Include="Handlers\CustomerHandlerTests.cs" />
     <Compile Include="Handlers\DevicesHandlerTests.cs" />
     <Compile Include="Handlers\LoginHandlerTests.cs" />
     <Compile Include="Handlers\PrinterTonerHandlerTests.cs" />
     <Compile Include="Handlers\RegistrationHandlerTests.cs" />
     <Compile Include="Handlers\StockLocationHandlerTests.cs" />
+    <Compile Include="Handlers\StockLocationTonerHandlerTests.cs" />
     <Compile Include="Handlers\UserHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\MockSessionStateBase.cs" />

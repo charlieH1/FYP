@@ -39,5 +39,10 @@ namespace TonerManagement.Repository
             return updated > 0;
 
         }
+
+        public List<Printer> GetPrinterFromStockLocation(int stockLocationId)
+        {
+            return _tonerManagementEntities.Printers.Where(p => p.stockLocationId == stockLocationId).ToList();
+        }
     }
 }

@@ -7,5 +7,7 @@ namespace TonerManagement.Handlers.Interface
     {
         ActionResult GetDeviceDetails(int printerId, string userName);
         ActionResult UpdateTonerLowOnDevice(TonerPercentageAndPrinterIdModel request, string userName);
+        ActionResult GetDetailedPrinterGrid(int customerId, string userName);
+        ActionResult GetTonerPercentageAndIdsForPrintersPerStockLocation(int stockLocationId, string userName);
     }
 }

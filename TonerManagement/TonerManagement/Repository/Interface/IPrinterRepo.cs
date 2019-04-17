@@ -8,5 +8,6 @@ namespace TonerManagement.Repository.Interface
         Printer GetPrinter(int printerId);
         List<Printer> GetPrintersFromCustomer(int customerId);
         bool UpdatePrinter(Printer printer);
+        List<Printer> GetPrinterFromStockLocation(int stockLocationId);
     }
 }

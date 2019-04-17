@@ -256,5 +256,66 @@ namespace TonerManagementTests.Controllers
             res.Should().BeEquivalentTo(deviceHandlerResponse);
         }
 
+        [TestMethod()]
+        public void GetDetailedPrinterGridForCustomerInvalidUserReturnsUnauthorizedStatusCode()
+        {
+            //Setup
+            const int customerId = 1;
+            var mockUserHandler = new Mock<IUserHandler>();
+            var mockDevicesHandler = new Mock<IDevicesHandler>();
+            var mockPrinterTonerHandler = new Mock<IPrinterTonerHandler>();
+            var mockControllerContext = new Mock<ControllerContext>();
+
+            var mockSession = new MockSessionStateBase { ["UserName"] = null };
+
+            mockControllerContext.Setup(mCC => mCC.HttpContext.Session).Returns(mockSession);
+
+            var sut = new DevicesController(mockUserHandler.Object, mockDevicesHandler.Object,
+                mockPrinterTonerHandler.Object) {ControllerContext = mockControllerContext.Object};
+
+            //Action
+            var res = (HttpStatusCodeResult)sut.GetDetailedPrinterGridForCustomer(customerId);
+
+            //Assert
+            res.Should().BeEquivalentTo(new HttpStatusCodeResult(HttpStatusCode.Unauthorized));
+
+        }
+
+        [TestMethod()]
+        public void GetDetailedPrinterGridForCustomerValidUserReturnsWhatHandlerReturns()
+        {
+            //Setup
+            const int customerId = 1;
+            const string userName = "Test";
+            var handlerReturn = new HttpStatusCodeResult(HttpStatusCode.OK);
+            var mockUserHandler = new Mock<IUserHandler>();
+            var mockDevicesHandler = new Mock<IDevicesHandler>();
+            var mockPrinterTonerHandler = new Mock<IPrinterTonerHandler>();
+            var mockControllerContext = new Mock<ControllerContext>();
+
+            var mockSession = new MockSessionStateBase { ["UserName"] = userName };
+            var user = new User()
+            {
+                hashedPassword = "testPssword",
+                userId = 1,
+                userLogin = userName
+            };
+            
+            mockControllerContext.Setup(mCC => mCC.HttpContext.Session).Returns(mockSession);
+            mockUserHandler.Setup(mUH => mUH.GetUsers(userName)).Returns(new List<User> {user});
+            mockDevicesHandler.Setup(mDH => mDH.GetDetailedPrinterGrid(customerId, userName)).Returns(handlerReturn);
+
+            var sut = new DevicesController(mockUserHandler.Object, mockDevicesHandler.Object,
+                    mockPrinterTonerHandler.Object)
+                { ControllerContext = mockControllerContext.Object };
+
+            //Action
+            var res = (HttpStatusCodeResult)sut.GetDetailedPrinterGridForCustomer(customerId);
+
+            //Assert
+            res.Should().BeEquivalentTo(handlerReturn);
+
+        }
+
     }
 }

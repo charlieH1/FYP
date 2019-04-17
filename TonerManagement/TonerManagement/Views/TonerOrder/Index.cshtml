@@ -1,0 +1,276 @@
+﻿
+@{
+    ViewBag.Title = "Toner Order";
+}
+
+@section styles{
+    
+}
+
+<h2>Toner Order</h2>
+<div id="customerDropdown" class="d-inline-block"></div><div id="stockLocationDropdown" class="d-inline-block"></div>
+<div id="columnContainer">
+    <div id="column1" class="column">
+        <div id="devicesGrid" ></div>
+        <div id="columnContainer2" >
+            <div id="innerColumn1" class="column">
+                <div id="stockLocationTonerStockGrid"></div>
+            </div>
+            <div id="innerColumn2" class="column">
+                <p class="d-inline-block">Stock Location Name: </p>
+                <p class="d-inline-block" id="stockLocationName"></p>
+                <br/>
+                <p class="d-inline-block">Stock Location Address: </p>
+                <p class="d-inline-block" id="stockLocationAddress"></p>
+                <br/>
+                <p class="d-inline-block">Stock Location Phone: </p>
+                <p class="d-inline-block" id="stockLocationPhoneNumber"></p>
+            </div>
+        </div>
+    </div>
+    <div id="column2" class="column">
+        <div id="tonerOrderArea">
+            <h3>Toner Order Form</h3>
+            <div id="tonerOrderItems">
+                
+            </div>
+            <input type="button" value="Add Item" id="addItemButton"/>
+            <input type="button" value="Submit Order" id="submitOrderButton"/>
+            
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $("document").ready(function () {
+            var customerDropdown = $("#customerDropdown");
+            var stockLocationDropdown = $("#stockLocationDropdown");
+            var stockLocationName = $("#stockLocationName");
+            var stockLocationAddress = $("#stockLocationAddress");
+            var stockLocationPhone = $("#stockLocationPhone");
+            var stockLocationTonerGrid = $("#stockLocationTonerGrid");
+            var devicesGrid = $("#devicesGrid");
+            var submitOrderButton = $("#submitOrderButton");
+            var addItemButton = $("#addItemButton");
+            var locationId;
+
+            var urlForDeviceGrid = '@Url.Action("GetTonerPercentageAndIdsForPrintersPerStockLocation","TonerOrder")';
+            var devicesSource = {
+                datafields: [
+                    { name: 'DeviceId', type: 'int' },
+                    { name: 'CyanPercentage' },
+                    { name: 'CyanId', type: 'int' },
+                    { name: 'YellowPercentage' },
+                    { name: 'YellowId', type: 'int' },
+                    { name: 'MagentaPercentage' },
+                    { name: 'MagentaId', type: 'int' },
+                    { name: 'KeyingPercentage' },
+                    { name: 'KeyingId', type: 'int' }
+                ],
+                data: { stockLocationId: locationId },
+                datatype: 'json',
+                url: urlForDeviceGrid
+
+            };
+            var devicesAdapter = new $.jqx.dataAdapter(devicesSource);
+
+            //initialiseStockLocationTonerGrid
+            var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
+            var stockLocationSource = {
+                datafields: [
+                    { name: 'TonerId', type: 'int' },
+                    { name: 'TonerName', type: 'string' },
+                    { name: 'Color', type: 'string' },
+                    { name: 'Quantity', type: 'int' }
+                ],
+                data: { stockLocationId: locationId },
+                datatype: 'json',
+                url: urlForStockLocationTonerGrid
+
+            };
+
+            var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
+
+            //initialise customer dropdown
+            var urlForCustomer = '@Url.Action("GetCustomersForUser", "Customer")';
+            var source = {
+                datatype: 'json',
+                datafields: [
+                    { name: "customerID" },
+                    { name: "customerName" },
+                    { name: "customerAddress" },
+                    { name: "customerContactNumber" },
+                    { name: "Printers" },
+                    { name: "StockLocations" },
+                    { name: "UserCustomers" }
+                ],
+                url: urlForCustomer,
+                async: false
+
+            }
+            var dataAdapterForCustomerDropdown = new $.jqx.dataAdapter(source);
+            customerDropdown.jqxDropDownList({
+                source: dataAdapterForCustomerDropdown,
+                displayMember: "customerName",
+                valueMember: "customerID",
+                selectedIndex: 0
+            });
+
+
+            //Initialise stock location dropdown
+            
+            var dataForStockLocationDropdown = {
+                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value
+            };
+
+            var urlForStockLocation = '@Url.Action("GetStockLocationsForCustomer", "StockLocation")';
+            var stockLocationDropdownSource = {
+                datatype: 'json',
+                datafields: [
+                    { name: "stockLocationId", type: "int" },
+                    { name: "customerId", type: "int" },
+                    { name: "stockLocationName", type: "string" },
+                    { name: "stockLocationAddress", type: "string" },
+                    { name: "stockLocationContactNumber", type: "string" },
+                    { name: "Customer" },
+                    { name: "Printers" },
+                    { name: "StockLocationToners" }
+                ],
+                url: urlForStockLocation,
+                async: false,
+                data: dataForStockLocationDropdown,
+                loadError: function(jqXHR, status, error) {
+                    alert("An error occured getting the stock locations " + error);
+                }
+            };
+            var dataAdapterForStockLocationDropdown = new $.jqx.dataAdapter(stockLocationDropdownSource);
+            stockLocationDropdown.jqxDropDownList({
+                source: dataAdapterForStockLocationDropdown,
+                displayMember: "stockLocationName",
+                valueMember: "stockLocationId",
+                selectedIndex: 0
+            });
+
+            stockLocationDropdown.on('bindingComplete',
+                function () {
+                    locationId = stockLocationDropdown.jqxDropDownList("getSelectedItem").value();
+                    stockLocationTonerGrid.jqxGrid({
+                        source: stockLocationTonerDataAdapter,
+                        pageable: true,
+                        sortable: true,
+                        filterable: true,
+                        selectionMode: 'none',
+                        columns: [
+                            { text: "Toner ID", dataField: 'TonerId', width: "15%" },
+                            { text: "Toner Name", dataField: 'TonerName', width: "40" },
+                            { text: "Color", dataField: 'Color', width: "30%" },
+                            { text: "Quantity", dataField: 'Quantity', width: "15%" }
+                        ]
+                    });
+                    devicesGrid.jqxGrid({
+                        source: devicesSource,
+                        pageable: true,
+                        sortable: true,
+                        filterable: true,
+                        selectionMode: 'none',
+                        columns: [
+                            { text: "P ID", dataField: 'DeviceId',width:"12%" },
+                            { text: "C%", dataField: 'CyanPercentage', width:"11%" },
+                            { text: "C ID", dataField: 'CyanId', width: "11%" },
+                            { text: "Y%", dataField: 'YellowPercentage', width: "11%" },
+                            { text: "Y ID", dataField: 'YellowId' },
+                            { text: "M%", dataField: 'MagentaPercentage', width: "11%" },
+                            { text: "M ID", dataField: 'MagentaId', width: "11%" },
+                            { text: "K%", dataField: "KeyingPercentage", width: "11%" },
+                            { text: "K ID", dataField: "KeyingId", width: "11%" }
+                        ]
+                    });
+                });
+
+            stockLocationDropdown.on('bindingComplete selected',
+                function() {
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: '@Url.Action("GetStockLocation", "StockLocation")',
+                            data: {
+                                stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success === true) {
+                                    locationId = response.StockLocation.stockLocationId;
+
+                                    stockLocationName.innerText = response.StockLocation.stockLocationName;
+                                    stockLocationAddress.innerText = response.StockLocation.stockLocationAddress;
+                                    stockLocationPhone.innerText = response.StockLocation.stockLocationContactNumber;
+                                    stockLocationTonerGrid.jqxGrid("updateBoundData");
+                                    devicesGrid.jqxGrid("updateBoundData");
+                                } else {
+                                    alert("Failed to get stock location", response.errorMessage);
+                                }
+                            },
+                            error: function(response) {
+                                alert("An error occured getting stock location: " +
+                                    response.status +
+                                    " " +
+                                    response.statusText);
+                            }
+                        });
+                });
+
+            //Setup Add Item Button
+            addItemButton.jqxButton({ width: 120, height: 40 });
+            addItemButton.on('click',
+                function() {
+                    $('#tonerOrderItems')
+                        .append(
+                            '<input type="number" placeholder="Toner Id" min="1" class="tonerIds"/><input type="number" placeholder="Quantity" min="1" class="tonerQuantities"/>');
+                });
+
+            //Setup submit order button
+            submitOrderButton.jqxButton({ width: 120, height: 40 });
+            submitOrderButton.on('click',
+                function() {
+                    var tonerIds = [];
+                    var tonerQuantities = [];
+                    $(".tonerIds").each(function() {
+                        tonerIds.push($(this).val);
+                    });
+                    $(".tonerQuantities").each(function() {
+                        tonerQuantities.push($(this).val);
+                    });
+                    if (tonerIds.length !== tonerQuantities.length) {
+                        alert("Something went wrong creating order");
+                    }
+                    var tonerOrderData = {
+                        tonerIds: tonerIds,
+                        tonerQuantities: tonerQuantities,
+                        stockLocationId: locationId
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("CreateOrder", "TonerOrder")',
+                        contentType: 'application/json',
+                        data: JSON.stringify(tonerOrderData),
+                        success: function() {
+                            //further functionality regarding creating a receipt or printing could be put here
+                            alert("Toner order submitted");
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 401) {
+                                alert("Not Authorized to create order");
+                            } else {
+                                alert("Failed to create order" + xhr.status + xhr.statusMessage);
+                            }
+                        }
+                    });
+                });
+
+        });
+
+    </script>
+}
+
