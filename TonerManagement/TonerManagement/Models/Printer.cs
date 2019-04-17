@@ -14,12 +14,6 @@ namespace TonerManagement.Models
     
     public partial class Printer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Printer()
-        {
-            this.TonerPrinters = new HashSet<TonerPrinter>();
-        }
-    
         public int printerId { get; set; }
         public int customerId { get; set; }
         public string printerName { get; set; }
@@ -29,10 +23,5 @@ namespace TonerManagement.Models
         public Nullable<int> magentaLowPercentage { get; set; }
         public int keyingLowPercentage { get; set; }
         public int stockLocationId { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        public virtual StockLocation StockLocation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TonerPrinter> TonerPrinters { get; set; }
     }
 }

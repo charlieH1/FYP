@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="TonerManagementModel.StockLocationToner" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.Toner" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.TonerPrinter" Width="1.5" PointX="7.5" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TonerManagementModel.User" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TonerManagementModel.User" Width="1.5" PointX="1.375" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TonerManagementModel.UserCustomer" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="TonerManagementModel.FK_Printer_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="TonerManagementModel.FK_StockLocation_Customer" ManuallyRouted="false" />

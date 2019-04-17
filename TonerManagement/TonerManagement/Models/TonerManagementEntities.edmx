@@ -279,9 +279,6 @@
           <Property Name="magentaLowPercentage" Type="Int32" />
           <Property Name="keyingLowPercentage" Type="Int32" Nullable="false" />
           <Property Name="stockLocationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Printer_Customer" FromRole="Printer" ToRole="Customer" />
-          <NavigationProperty Name="StockLocation" Relationship="Self.FK_Printer_StockLocation" FromRole="Printer" ToRole="StockLocation" />
-          <NavigationProperty Name="TonerPrinters" Relationship="Self.FK_TonerPrinter_Printer" FromRole="Printer" ToRole="TonerPrinter" />
         </EntityType>
         <EntityType Name="StockLocation">
           <Key>
