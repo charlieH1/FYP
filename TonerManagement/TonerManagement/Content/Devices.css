@@ -12,6 +12,12 @@
     align-items: center;
 }
 
+.chart {
+    width: 70%;
+    height: 250px;
+    margin: 32px;
+}
+
 #deviceContainer {
     display: flex;
     -moz-flex-wrap: wrap;

@@ -663,22 +663,22 @@ namespace TonerManagement.Handlers
                 _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M);
             var keyingLevels =
                 _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
-            if (cyanLevels != null)
+            if (cyanLevels.Count>0)
             {
                 model.Cyan = cyanLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
             }
 
-            if (yellowLevels != null)
+            if (yellowLevels.Count>0)
             {
                 model.Yellow = yellowLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
             }
 
-            if (magentaLevels != null)
+            if (magentaLevels.Count>0)
             {
                 model.Magenta = magentaLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
             }
 
-            if (keyingLevels != null)
+            if (keyingLevels.Count>0)
             {
                 model.Keying = keyingLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
             }
