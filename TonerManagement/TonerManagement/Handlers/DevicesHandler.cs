@@ -60,6 +60,20 @@ namespace TonerManagement.Handlers
             {
                 if (printer.isColour)
                 {
+
+                    var cyanLevels = _tonerPrinterRepo
+                        .GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.C);
+                    var yellowLevels = _tonerPrinterRepo
+                        .GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.Y);
+                    var magentaLevels = _tonerPrinterRepo
+                        .GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M);
+                    var keyingLevels = _tonerPrinterRepo
+                        .GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
+                    var cyanLevel = cyanLevels.Count > 0 ? cyanLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage : 0;
+                    var yellowLevel = yellowLevels.Count > 0 ? yellowLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage : 0;
+                    var magentaLevel = magentaLevels.Count > 0 ? magentaLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage : 0;
+                    var keyingLevel = keyingLevels.Count > 0 ? keyingLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage : 0;
+                    
                     var highDetailPrinter = new HighDetailPrinterModel()
                     {
                         CyanCoverage =
@@ -79,10 +93,10 @@ namespace TonerManagement.Handlers
                                                CoverageToolset.ColorType.Y)+ _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
                                                CoverageToolset.ColorType.M)+ _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
                                                CoverageToolset.ColorType.K))/4,2,MidpointRounding.AwayFromZero),
-                        CyanLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,CoverageToolset.ColorType.C).OrderBy(tp=> tp.timestamp).Last().tonerPercentage,
-                        YellowLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.Y).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
-                        MagentaLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
-                        KeyingLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
+                        CyanLevel = cyanLevel,
+                        YellowLevel = yellowLevel,
+                        MagentaLevel = magentaLevel,
+                        KeyingLevel = keyingLevel,
                         PrinterId = printer.printerId,
                         PrinterName = printer.printerName,
                     };
@@ -90,6 +104,9 @@ namespace TonerManagement.Handlers
                 }
                 else
                 {
+                    var keyingLevels =
+                        _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
+                    var keyingLevel = keyingLevels.Count > 0 ? keyingLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage : 0;
                     var highDetailPrinter = new HighDetailPrinterModel()
                     {
                         KeyingCoverage =
@@ -97,7 +114,7 @@ namespace TonerManagement.Handlers
                                 CoverageToolset.ColorType.K),
                         AverageCoverage = _coverageToolset.CalculateAverageCoverageForWholeLife(printer.printerId,
                             CoverageToolset.ColorType.K),
-                        KeyingLevel = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last().tonerPercentage,
+                        KeyingLevel = keyingLevel,
                         PrinterId = printer.printerId,
                         PrinterName = printer.printerName,
                     };

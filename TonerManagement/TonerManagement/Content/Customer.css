@@ -1,37 +1,31 @@
-﻿#FlexArea {
-    display: flex;
-    -moz-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    -o-flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
+﻿
 
 #customerDetailsArea {
-    -webkit-flex: 0 1 30%;
-    -ms-flex: 0 1 30%;
-    -o-flex: 0 1 30%;
-    flex: 0 1 30%;
-    -o-justify-content: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -ms-align-items: center;
-    -o-align-items: center;
-    -webkit-align-items: center;
-    align-items: center;
+    display: inline-block;
+    width: 25%;
+    float: left;
+    margin: 20px 4%;
+    text-align: center;
 }
 
 #stockLocationGrid {
-    -webkit-flex: 0 1 70%;
-    -ms-flex: 0 1 70%;
-    -o-flex: 0 1 70%;
-    flex: 0 1 70%;
-    -o-justify-content: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -ms-align-items: center;
-    -o-align-items: center;
-    -webkit-align-items: center;
-    align-items: center;
+    display: inline-block;
     height: 400px;
+    float: right;
+    margin: 20px 4%;
+}
+
+#printerGrid {
+    margin: 100px auto;
+}
+
+#customerDropdown {
+    margin: 0 auto;
+}
+#saveCustomer {
+    text-align: center;
+    margin: 0 auto;
+}
+#validateForm {
+    margin: 0 auto;
 }
