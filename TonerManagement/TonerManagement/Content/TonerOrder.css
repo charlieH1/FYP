@@ -17,6 +17,22 @@
 }
 
 .column {
+    -webkit-flex: 0 1 46%;
+    -ms-flex: 0 1 46%;
+    -o-flex: 0 1 46%;
+    flex: 0 1 46%;
+    -o-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.innerColumn {
     -webkit-flex: 0 1 50%;
     -ms-flex: 0 1 50%;
     -o-flex: 0 1 50%;
@@ -29,7 +45,24 @@
     -webkit-align-items: center;
     align-items: center;
 }
+#column1 {
+    margin: 2%;
+    background-color: #C3D2DD;
+    text-align: center;
+}
+#column2 {
+    margin: 2%;
+    background-color: #C3D2DD;
+    text-align: center;
+}
 #tonerOrderArea {
     height: 100%;
     overflow-y: scroll;
+}
+#devicesGrid {
+    margin: 8px 0;
+    display: inline-block;
+}
+#stockLocationTonerStockGrid {
+    display: inline-block;
 }

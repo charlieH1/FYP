@@ -162,14 +162,19 @@ namespace TonerManagement.Handlers
             {
                 if (printer.isColour)
                 {
-                    var cyan = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
-                        CoverageToolset.ColorType.C).OrderBy(tp => tp.timestamp).Last();
-                    var yellow = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
-                        CoverageToolset.ColorType.Y).OrderBy(tp => tp.timestamp).Last();
-                    var magenta = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
-                        CoverageToolset.ColorType.M).OrderBy(tp => tp.timestamp).Last();
-                    var keying = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
-                        CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last();
+                    var cyanTPs = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.C);
+                    var cyan = cyanTPs.Count == 0 ? new TonerPrinter() : cyanTPs.OrderBy(tp => tp.timestamp).Last();
+                    var yellowTPs = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.Y);
+                    var yellow = yellowTPs.Count == 0 ? new TonerPrinter() : yellowTPs.OrderBy(tp => tp.timestamp).Last();
+                    var magentaTPs = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.M);
+                    var magenta = magentaTPs.Count == 0 ? new TonerPrinter() : magentaTPs.OrderBy(tp => tp.timestamp).Last();
+                    var keyingTPs = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.K);
+                    var keying = keyingTPs.Count == 0 ? new TonerPrinter() : keyingTPs.OrderBy(tp => tp.timestamp).Last();
+                    
                     var detail = new TonerIdTonerPercentageAndPrinterModel()
                     {
                         DeviceId = printer.printerId,
@@ -186,8 +191,9 @@ namespace TonerManagement.Handlers
                 }
                 else
                 {
-                    var keying = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
-                        CoverageToolset.ColorType.K).OrderBy(tp => tp.timestamp).Last();
+                    var keyingTPs = _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId,
+                        CoverageToolset.ColorType.K);
+                    var keying = keyingTPs.Count == 0 ? new TonerPrinter() : keyingTPs.OrderBy(tp => tp.timestamp).Last();
                     var detail = new TonerIdTonerPercentageAndPrinterModel()
                     {
                         DeviceId = printer.printerId,

@@ -4,25 +4,26 @@
 }
 
 @section styles{
-    
+    <link href=@Url.Content("~/Content/TonerOrder.css") rel="stylesheet" type="text/css" />
 }
+
 
 <h2>Toner Order</h2>
 <div id="customerDropdown" class="d-inline-block"></div><div id="stockLocationDropdown" class="d-inline-block"></div>
 <div id="columnContainer">
     <div id="column1" class="column">
-        <div id="devicesGrid" ></div>
-        <div id="columnContainer2" >
-            <div id="innerColumn1" class="column">
+        <div id="devicesGrid"></div>
+        <div id="columnContainer2">
+            <div id="innerColumn1" class="innerColumn">
                 <div id="stockLocationTonerStockGrid"></div>
             </div>
-            <div id="innerColumn2" class="column">
+            <div id="innerColumn2" class="innerColumn">
                 <p class="d-inline-block">Stock Location Name: </p>
                 <p class="d-inline-block" id="stockLocationName"></p>
-                <br/>
+                <br />
                 <p class="d-inline-block">Stock Location Address: </p>
                 <p class="d-inline-block" id="stockLocationAddress"></p>
-                <br/>
+                <br />
                 <p class="d-inline-block">Stock Location Phone: </p>
                 <p class="d-inline-block" id="stockLocationPhoneNumber"></p>
             </div>
@@ -32,11 +33,11 @@
         <div id="tonerOrderArea">
             <h3>Toner Order Form</h3>
             <div id="tonerOrderItems">
-                
+
             </div>
-            <input type="button" value="Add Item" id="addItemButton"/>
-            <input type="button" value="Submit Order" id="submitOrderButton"/>
-            
+            <input type="button" value="Add Item" id="addItemButton" />
+            <input type="button" value="Submit Order" id="submitOrderButton" />
+
         </div>
     </div>
 </div>
@@ -49,49 +50,14 @@
             var stockLocationDropdown = $("#stockLocationDropdown");
             var stockLocationName = $("#stockLocationName");
             var stockLocationAddress = $("#stockLocationAddress");
-            var stockLocationPhone = $("#stockLocationPhone");
-            var stockLocationTonerGrid = $("#stockLocationTonerGrid");
+            var stockLocationPhone = $("#stockLocationPhoneNumber");
+            var stockLocationTonerGrid = $("#stockLocationTonerStockGrid");
             var devicesGrid = $("#devicesGrid");
             var submitOrderButton = $("#submitOrderButton");
             var addItemButton = $("#addItemButton");
             var locationId;
 
-            var urlForDeviceGrid = '@Url.Action("GetTonerPercentageAndIdsForPrintersPerStockLocation","TonerOrder")';
-            var devicesSource = {
-                datafields: [
-                    { name: 'DeviceId', type: 'int' },
-                    { name: 'CyanPercentage' },
-                    { name: 'CyanId', type: 'int' },
-                    { name: 'YellowPercentage' },
-                    { name: 'YellowId', type: 'int' },
-                    { name: 'MagentaPercentage' },
-                    { name: 'MagentaId', type: 'int' },
-                    { name: 'KeyingPercentage' },
-                    { name: 'KeyingId', type: 'int' }
-                ],
-                data: { stockLocationId: locationId },
-                datatype: 'json',
-                url: urlForDeviceGrid
 
-            };
-            var devicesAdapter = new $.jqx.dataAdapter(devicesSource);
-
-            //initialiseStockLocationTonerGrid
-            var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
-            var stockLocationSource = {
-                datafields: [
-                    { name: 'TonerId', type: 'int' },
-                    { name: 'TonerName', type: 'string' },
-                    { name: 'Color', type: 'string' },
-                    { name: 'Quantity', type: 'int' }
-                ],
-                data: { stockLocationId: locationId },
-                datatype: 'json',
-                url: urlForStockLocationTonerGrid
-
-            };
-
-            var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
 
             //initialise customer dropdown
             var urlForCustomer = '@Url.Action("GetCustomersForUser", "Customer")';
@@ -120,7 +86,7 @@
 
 
             //Initialise stock location dropdown
-            
+
             var dataForStockLocationDropdown = {
                 CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value
             };
@@ -146,38 +112,70 @@
                 }
             };
             var dataAdapterForStockLocationDropdown = new $.jqx.dataAdapter(stockLocationDropdownSource);
-            stockLocationDropdown.jqxDropDownList({
-                source: dataAdapterForStockLocationDropdown,
-                displayMember: "stockLocationName",
-                valueMember: "stockLocationId",
-                selectedIndex: 0
-            });
 
-            stockLocationDropdown.on('bindingComplete',
+            $("#stockLocationDropdown").on('bindingComplete',
                 function () {
-                    locationId = stockLocationDropdown.jqxDropDownList("getSelectedItem").value();
+                    locationId = stockLocationDropdown.jqxDropDownList("getSelectedItem").value;
+                    var urlForDeviceGrid = '@Url.Action("GetTonerPercentageAndIdsForPrintersPerStockLocation","TonerOrder")';
+                    var devicesSource = {
+                        datafields: [
+                            { name: 'DeviceId', type: 'int' },
+                            { name: 'CyanPercentage' },
+                            { name: 'CyanId', type: 'int' },
+                            { name: 'YellowPercentage' },
+                            { name: 'YellowId', type: 'int' },
+                            { name: 'MagentaPercentage' },
+                            { name: 'MagentaId', type: 'int' },
+                            { name: 'KeyingPercentage' },
+                            { name: 'KeyingId', type: 'int' }
+                        ],
+                        data: { stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value },
+                        datatype: 'json',
+                        url: urlForDeviceGrid
+
+                    };
+                    var devicesAdapter = new $.jqx.dataAdapter(devicesSource);
+
+                    //initialiseStockLocationTonerGrid
+                    var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
+                    var stockLocationSource = {
+                        datafields: [
+                            { name: 'TonerId', type: 'int' },
+                            { name: 'TonerName', type: 'string' },
+                            { name: 'Color', type: 'string' },
+                            { name: 'Quantity', type: 'int' }
+                        ],
+                        data: { stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value },
+                        datatype: 'json',
+                        url: urlForStockLocationTonerGrid
+
+                    };
+
+                    var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
                     stockLocationTonerGrid.jqxGrid({
+                        width:"90%",
                         source: stockLocationTonerDataAdapter,
                         pageable: true,
                         sortable: true,
                         filterable: true,
                         selectionMode: 'none',
                         columns: [
-                            { text: "Toner ID", dataField: 'TonerId', width: "15%" },
-                            { text: "Toner Name", dataField: 'TonerName', width: "40" },
-                            { text: "Color", dataField: 'Color', width: "30%" },
-                            { text: "Quantity", dataField: 'Quantity', width: "15%" }
+                            { text: "Toner ID", dataField: 'TonerId', minwidth: "50px", width: "16%"},
+                            { text: "Toner Name", dataField: 'TonerName', minwidth: "150px", width:"34%"},
+                            { text: "Color", dataField: 'Color', minwidth: "100px", width:"34%"},
+                            { text: "Quantity", dataField: 'Quantity', minwidth: "50px", width:"16%" }
                         ]
                     });
                     devicesGrid.jqxGrid({
-                        source: devicesSource,
+                        width: "90%",
+                        source: devicesAdapter,
                         pageable: true,
                         sortable: true,
                         filterable: true,
                         selectionMode: 'none',
                         columns: [
-                            { text: "P ID", dataField: 'DeviceId',width:"12%" },
-                            { text: "C%", dataField: 'CyanPercentage', width:"11%" },
+                            { text: "P ID", dataField: 'DeviceId', width: "12%" },
+                            { text: "C%", dataField: 'CyanPercentage', width: "11%" },
                             { text: "C ID", dataField: 'CyanId', width: "11%" },
                             { text: "Y%", dataField: 'YellowPercentage', width: "11%" },
                             { text: "Y ID", dataField: 'YellowId' },
@@ -187,10 +185,6 @@
                             { text: "K ID", dataField: "KeyingId", width: "11%" }
                         ]
                     });
-                });
-
-            stockLocationDropdown.on('bindingComplete selected',
-                function() {
                     $.ajax(
                         {
                             type: 'GET',
@@ -202,10 +196,10 @@
                             success: function(response) {
                                 if (response.success === true) {
                                     locationId = response.StockLocation.stockLocationId;
-
-                                    stockLocationName.innerText = response.StockLocation.stockLocationName;
-                                    stockLocationAddress.innerText = response.StockLocation.stockLocationAddress;
-                                    stockLocationPhone.innerText = response.StockLocation.stockLocationContactNumber;
+                                    console.log(response);
+                                    stockLocationName.text(response.StockLocation.stockLocationName);
+                                    stockLocationAddress.text(response.StockLocation.stockLocationAddress);
+                                    stockLocationPhone.text(response.StockLocation.stockLocationContactNumber);
                                     stockLocationTonerGrid.jqxGrid("updateBoundData");
                                     devicesGrid.jqxGrid("updateBoundData");
                                 } else {
@@ -220,6 +214,86 @@
                             }
                         });
                 });
+            stockLocationDropdown.on('select',
+                function () {
+
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: '@Url.Action("GetStockLocation", "StockLocation")',
+                            data: {
+                                stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success === true) {
+                                    locationId = response.StockLocation.stockLocationId;
+                                    console.log(response.StockLocation.stockLocationId);
+                                    stockLocationName.text(response.StockLocation.stockLocationName);
+                                    stockLocationAddress.text(response.StockLocation.stockLocationAddress);
+                                    stockLocationPhone.text(response.StockLocation.stockLocationContactNumber);
+
+                                    var urlForDeviceGrid = '@Url.Action("GetTonerPercentageAndIdsForPrintersPerStockLocation","TonerOrder")';
+                                    var devicesSource = {
+                                        datafields: [
+                                            { name: 'DeviceId', type: 'int' },
+                                            { name: 'CyanPercentage' },
+                                            { name: 'CyanId', type: 'int' },
+                                            { name: 'YellowPercentage' },
+                                            { name: 'YellowId', type: 'int' },
+                                            { name: 'MagentaPercentage' },
+                                            { name: 'MagentaId', type: 'int' },
+                                            { name: 'KeyingPercentage' },
+                                            { name: 'KeyingId', type: 'int' }
+                                        ],
+                                        data: { stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value },
+                                        datatype: 'json',
+                                        url: urlForDeviceGrid
+
+                                    };
+                                    var devicesAdapter = new $.jqx.dataAdapter(devicesSource);
+
+                                    //initialiseStockLocationTonerGrid
+                                    var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
+                                    var stockLocationSource = {
+                                        datafields: [
+                                            { name: 'TonerId', type: 'int' },
+                                            { name: 'TonerName', type: 'string' },
+                                            { name: 'Color', type: 'string' },
+                                            { name: 'Quantity', type: 'int' }
+                                        ],
+                                        data: { stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value },
+                                        datatype: 'json',
+                                        url: urlForStockLocationTonerGrid
+
+                                    };
+
+                                    var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
+                                    stockLocationTonerGrid.jqxGrid({ source: stockLocationTonerDataAdapter });
+                                    devicesGrid.jqxGrid({ source: devicesAdapter });
+                                } else {
+                                    alert("Failed to get stock location", response.errorMessage);
+                                }
+                            },
+                            error: function(response) {
+                                alert("An error occured getting stock location: " +
+                                    response.status +
+                                    " " +
+                                    response.statusText);
+                            }
+                        });
+                });
+
+            stockLocationDropdown.jqxDropDownList({
+                source: dataAdapterForStockLocationDropdown,
+                displayMember: "stockLocationName",
+                valueMember: "stockLocationId",
+                selectedIndex: 0
+            });
+
+
+
+
 
             //Setup Add Item Button
             addItemButton.jqxButton({ width: 120, height: 40 });
