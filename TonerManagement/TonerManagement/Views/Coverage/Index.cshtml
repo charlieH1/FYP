@@ -32,6 +32,7 @@
             var chartOptionsDropdown = $("#chartOptionsDropdown");
             var coverageChart = $("#coverageChart");
             var coverageGrid = $("#coverageGrid");
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
             var url = '@Url.Action("GetCustomersForUser", "Customer")';
@@ -90,8 +91,8 @@
 
             var dataForChart = {
                 CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
-                StartDate: calender.jqxDateTimeInput('getRange').from,
-                EndDate: calender.jqxDateTimeInput('getRange').to,
+                StartDate: calender.jqxDateTimeInput('getRange').from.toJSON(),
+                EndDate: calender.jqxDateTimeInput('getRange').to.toJSON(),
                 CoverageType: chartOptionsDropdown.jqxDropDownList('getSelectedItem').value
             };
 
@@ -117,6 +118,7 @@
             var chartSettings = {
                 title: "Coverage Chart",
                 enableAnimations: true,
+                padding: { left: 10, top: 5, right: 10, bottom: 5 },
                 source: dataAdapterChart,
                 xAxis: {
                     dataField: 'Date',
@@ -149,7 +151,7 @@
 
             var gridUrl = '@Url.Action("GetGridCoverageForCustomer", "Coverage")';
             var sourceForGrid = {
-                ataType: "json",
+                dataType: "json",
                 contentType: 'application/json',
                 dataFields: [
                     { name: 'PrinterId', type: 'int' },
@@ -179,63 +181,67 @@
             });
 
             customerDropdown.on('select',
-                function() {
-                    coverageChart.jqxChart('getInstance').update();
-                    coverageGrid.jqxGrid('updateBoundData');
+                function () {
+                    dataForChart.CustomerId = customerDropdown.jqxDropDownList("getSelectedItem").value;
+                    sourceChart.data = dataForChart;
+                    dataAdapterChart = new jqx.dataAdapter(sourceChart);
+                    chartSettings.source = dataAdapterChart;
+                    coverageChart.jqxChart(chartSettings);
+                    sourceForGrid.data = { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value }
+                    dataAdapterForCoverageGrid = new $.jqx.dataAdapter(sourceForGrid);
+                    coverageGrid.source = dataAdapterForCoverageGrid;
+                    coverageGrid.jqxGrid({
+                        width: "90%",
+                        source: dataAdapterForCoverageGrid,
+                        selectionmode: 'singlerow',
+                        columnsResize: true,
+                        filterable: true,
+                        columns: [
+                            { text: 'Printer Id', datafield: 'PrinterId', width: '20%', filterType: 'range' },
+                            { text: 'Current Coverage', datafield: 'CurrentCoverage', width: '20%', filtertype: 'range' },
+                            { text: 'Month Ago Coverage', datafield: 'MonthCoverage', width: '20%', filtertype: 'range' },
+                            { text: '6 Months Ago Coverage', datafield: 'SixMonthCoverage', width: '20%', filtertype: 'range' },
+                            { text: 'Year Ago Coverage', datafield: 'YearCoverage', width: '20%', filtertype: 'range' }
+                        ]
+                    });
+
                 });
             calender.on('change',
                 function(args) {
-                    var selection = calender.jqxDateTimeInput('getRange')
+                    var selection = calender.jqxDateTimeInput('getRange');
                     if (selection.from != null) {
-                        coverageChart.jqxChart('getInstance').update();
+                        dataForChart.StartDate = selection.from.toJSON();
+                        dataForChart.EndDate = selection.to.toJSON();
+                        sourceChart.data = dataForChart;
+                        dataAdapterChart = new jqx.dataAdapter(sourceChart);
+                        chartSettings.source = dataAdapterChart;
+                        coverageChart.jqxChart(chartSettings);
                     }
                 });
             chartOptionsDropdown.on('select',
-                function() {
-                    coverageChart.jqxChart('getInstance').update();
+                function () {
+                    dataForChart.CoverageType = chartOptionsDropdown.jqxDropDownList('getSelectedItem').value;
+                    sourceChart.data = dataForChart;
+                    dataAdapterChart = new jqx.dataAdapter(sourceChart);
+                    chartSettings.source = dataAdapterChart;
+                    coverageChart.jqxChart(chartSettings);
                 });
             coverageGrid.on('rowselect',
-                function() {
+                function () {
+                    console.log("select");
                     var getselectedrowindexes = $('#coverageGrid').jqxGrid('getselectedrowindexes');
-                    if (getselectedrowindexes.length > 0) {
-                        // returns the selected row's data.
-                        var selectedRowData = $('#coverageGrid').jqxGrid('getrowdata', getselectedrowindexes[0]);
-                        dataForChart = {
-                            CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
-                            StartDate: calender.jqxDateTimeInput('getRange').from,
-                            EndDate: calender.jqxDateTimeInput('getRange').to,
-                            CoverageType: chartOptionsDropdown.jqxDropDownList('getSelectedItem').value,
-                            PrinterId: selectedRowData.PrinterId
-                        };
-
-                        //initialise source for charts
-                        sourceChart = {
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            dataFields: [
-                                { name: 'Coverage' },
-                                { name: 'Date' }
-                            ],
-                            url: '@Url.Action("GetCoverageForPrinter", "Coverage")',
-                            data: dataForChart
-                        };
-                        dataAdapterChart = new $.jqx.dataAdapter(sourceChart);
-                        coverageChart.jqxChart('getInstance').update();
-                    };
-
-
-                });
-            coverageGrid.on('rowunselect',
-                function() {
-                    var dataForChart = {
+                    
+                    var selectedRowData = $('#coverageGrid').jqxGrid('getrowdata', getselectedrowindexes[0]);
+                    dataForChart = {
                         CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
-                        StartDate: calender.jqxDateTimeInput('getRange').from,
-                        EndDate: calender.jqxDateTimeInput('getRange').to,
-                        CoverageType: chartOptionsDropdown.jqxDropDownList('getSelectedItem').value
+                        StartDate: calender.jqxDateTimeInput('getRange').from.toJSON(),
+                        EndDate: calender.jqxDateTimeInput('getRange').to.toJSON(),
+                        CoverageType: chartOptionsDropdown.jqxDropDownList('getSelectedItem').value,
+                        PrinterId: selectedRowData.PrinterId
                     };
-
+                    
                     //initialise source for charts
-                    var sourceChart = {
+                    sourceChart = {
                         dataType: 'json',
                         contentType: 'application/json',
                         dataFields: [
@@ -246,10 +252,45 @@
                         data: dataForChart
                     };
                     dataAdapterChart = new $.jqx.dataAdapter(sourceChart);
-                    coverageChart.jqxChart('getInstance').update();
-                });
+                    chartSettings = {
+                        title: "Coverage Chart",
+                        enableAnimations: true,
+                        padding: { left: 10, top: 5, right: 10, bottom: 5 },
+                        source: dataAdapterChart,
+                        xAxis: {
+                            dataField: 'Date',
+                            formatFunction: function(value) {
+                                return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                            },
+                            type: 'date',
+                            baseUnit: baseUnitLeft,
+                            tickMarks: {
+                                visible: true,
+                                interval: 1
+                            }
+                        },
+                        valueAxis: {
+                            visible: true,
+                            title: { text: 'Coverage Percentage<br>' }
+                        },
+                        seriesGroups:
+                        [
+                            {
+                                type: 'line',
+                                series:
+                                [
+                                    { dataField: 'Coverage', displayText: "Coverage" }
+                                ]
+                            }
+                        ]
+                    };
+                    coverageChart.jqxChart(chartSettings);
 
+                
         });
+        
+
+    });
 
 
     </script>

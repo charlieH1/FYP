@@ -151,3 +151,6 @@ C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerMa
 C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagementTests\obj\Debug\TonerManagementTests.dll
 C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagementTests\obj\Debug\TonerManagementTests.pdb
 C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagementTests\bin\Debug\WebGrease.dll
+C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagementTests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagementTests\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Charlie\OneDrive - Staffordshire University\FYP\TonerManagement\TonerManagementTests\bin\Debug\Newtonsoft.Json.xml

@@ -52,7 +52,7 @@ namespace TonerManagement.Handlers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
             if (coverageRequest.CoverageType == coverageTypes[0])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -62,7 +62,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[1])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentType = null,
                     ContentEncoding = null,
@@ -72,7 +72,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[2])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -82,7 +82,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[3])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -111,7 +111,7 @@ namespace TonerManagement.Handlers
                         {Coverage = averageCoverage, Date = cCoverage[i].Date});
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -142,7 +142,7 @@ namespace TonerManagement.Handlers
                         { Coverage = averageCoverage, Date = cCoverage[i].Date });
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -152,7 +152,7 @@ namespace TonerManagement.Handlers
             }
 
             else if (coverageRequest.CoverageType == coverageTypes[6])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -162,7 +162,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[7])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -172,7 +172,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[8])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -183,7 +183,7 @@ namespace TonerManagement.Handlers
 
             else if (coverageRequest.CoverageType == coverageTypes[9])
             {
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -213,7 +213,7 @@ namespace TonerManagement.Handlers
                         {Coverage = averageCoverage, Date = cCoverage[i].Date});
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -243,7 +243,7 @@ namespace TonerManagement.Handlers
                         { Coverage = averageCoverage, Date = cCoverage[i].Date });
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -278,8 +278,10 @@ namespace TonerManagement.Handlers
                 .Contains(coverageRequest.CustomerId))
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
+            var printer = _printerRepo.GetPrinter(coverageRequest.PrinterId);
+
             if (coverageRequest.CoverageType == coverageTypes[0])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -288,7 +290,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[1])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentType = null,
                     ContentEncoding = null,
@@ -306,7 +308,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[3])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -316,6 +318,7 @@ namespace TonerManagement.Handlers
 
             else if (coverageRequest.CoverageType == coverageTypes[4])
             {
+
                 var cCoverage = _coverageToolset.GetListOfCoverageMonthly(coverageRequest.StartDate,
                     coverageRequest.EndDate, coverageRequest.PrinterId, CoverageToolset.ColorType.C);
                 var yCoverage = _coverageToolset.GetListOfCoverageMonthly(coverageRequest.StartDate,
@@ -334,7 +337,7 @@ namespace TonerManagement.Handlers
                     { Coverage = averageCoverage, Date = cCoverage[i].Date });
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -365,7 +368,7 @@ namespace TonerManagement.Handlers
                     { Coverage = averageCoverage, Date = cCoverage[i].Date });
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -375,7 +378,7 @@ namespace TonerManagement.Handlers
             }
 
             else if (coverageRequest.CoverageType == coverageTypes[6])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -384,7 +387,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[7])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -393,7 +396,7 @@ namespace TonerManagement.Handlers
                 };
 
             else if (coverageRequest.CoverageType == coverageTypes[8])
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -403,7 +406,7 @@ namespace TonerManagement.Handlers
 
             else if (coverageRequest.CoverageType == coverageTypes[9])
             {
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -431,8 +434,8 @@ namespace TonerManagement.Handlers
                     averageColorCoverage.Add(new CoverageDateModel
                     { Coverage = averageCoverage, Date = cCoverage[i].Date });
                 }
-
-                return new JsonResult
+                
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -450,19 +453,26 @@ namespace TonerManagement.Handlers
                     coverageRequest.EndDate, coverageRequest.PrinterId, CoverageToolset.ColorType.M);
                 var kCoverage = _coverageToolset.GetListOfCoverageDaily(coverageRequest.StartDate,
                     coverageRequest.EndDate, coverageRequest.PrinterId, CoverageToolset.ColorType.K);
-                if (cCoverage.Count != yCoverage.Count && cCoverage.Count != mCoverage.Count && cCoverage.Count != kCoverage.Count)
+                if ((cCoverage.Count != yCoverage.Count || cCoverage.Count != mCoverage.Count || cCoverage.Count != kCoverage.Count)&&printer.isColour)
                     return new HttpStatusCodeResult(500,
                         "An error occured, the daily coverage for all do not pair up");
 
                 var averageColorCoverage = new List<CoverageDateModel>();
-                for (var i = 0; i < cCoverage.Count; i++)
+                for (var i = 0; i < kCoverage.Count; i++)
                 {
-                    var averageCoverage = Math.Round((cCoverage[i].Coverage + yCoverage[i].Coverage + mCoverage[i].Coverage + kCoverage[i].Coverage) / 4, 2, MidpointRounding.AwayFromZero);
+                    double averageCoverage;
+                    if (printer.isColour)
+                        averageCoverage =
+                            Math.Round(
+                                (cCoverage[i].Coverage + yCoverage[i].Coverage + mCoverage[i].Coverage +
+                                 kCoverage[i].Coverage) / 4, 2, MidpointRounding.AwayFromZero);
+                    else
+                        averageCoverage = kCoverage[i].Coverage;
                     averageColorCoverage.Add(new CoverageDateModel
-                    { Coverage = averageCoverage, Date = cCoverage[i].Date });
+                    { Coverage = averageCoverage, Date = kCoverage[i].Date });
                 }
 
-                return new JsonResult
+                return new JsonNetResult
                 {
                     ContentEncoding = null,
                     ContentType = null,
@@ -487,43 +497,66 @@ namespace TonerManagement.Handlers
 
             foreach (var printer in printers)
             {
-                var model = new TonerPercentageAndPrinterIdModel {PrinterID = printer.printerId};
-                var cyanLevels =
-                    _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.C);
-                var yellowLevels =
-                    _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.Y);
-                var magentaLevels =
-                    _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M);
-                var keyingLevels =
-                    _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
-                if (cyanLevels.Count!=0)
+                if (printer.isColour)
                 {
-                    model.Cyan = cyanLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
+                    var model = new TonerPercentageAndPrinterIdModel {PrinterID = printer.printerId};
+                    var cyanLevels =
+                        _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.C);
+                    var yellowLevels =
+                        _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.Y);
+                    var magentaLevels =
+                        _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.M);
+                    var keyingLevels =
+                        _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
+                    if (cyanLevels.Count != 0)
+                    {
+                        model.Cyan = cyanLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
+                    }
+
+                    if (yellowLevels.Count != 0)
+                    {
+                        model.Yellow = yellowLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
+                    }
+
+                    if (magentaLevels.Count != 0)
+                    {
+                        model.Magenta = magentaLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
+                    }
+
+                    if (keyingLevels.Count != 0)
+                    {
+                        model.Keying = keyingLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
+                    }
+
+                    if (model.Cyan <= printer.cyanLowPercentage || model.Yellow <= printer.yellowLowPercentage ||
+                        model.Magenta <= printer.magentaLowPercentage || model.Keying <= printer.keyingLowPercentage)
+                    {
+                        lowTonerLevelList.Add(model);
+                    }
                 }
 
-                if (yellowLevels.Count != 0)
+                else
                 {
-                    model.Yellow = yellowLevels.OrderBy(tp => tp.timestamp).Last().tonerPercentage;
+                    var model = new TonerPercentageAndPrinterIdModel { PrinterID = printer.printerId };
+                    
+                    var keyingLevels =
+                        _tonerPrinterRepo.GetTonerPrinterForDevice(printer.printerId, CoverageToolset.ColorType.K);
+                    
+
+                    if (keyingLevels.Count != 0)
+                    {
+                        model.Keying = keyingLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
+                    }
+
+                    if (model.Keying <= printer.keyingLowPercentage)
+                    {
+                        lowTonerLevelList.Add(model);
+                    }
                 }
 
-                if (magentaLevels.Count != 0)
-                {
-                    model.Magenta = magentaLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
-                }
-
-                if (keyingLevels.Count != 0)
-                {
-                    model.Keying = keyingLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
-                }
-
-                if (model.Cyan <= printer.cyanLowPercentage || model.Yellow <= printer.yellowLowPercentage ||
-                    model.Magenta <= printer.magentaLowPercentage || model.Keying <= printer.keyingLowPercentage)
-                {
-                    lowTonerLevelList.Add(model);
-                }
             }
 
-            return new JsonResult()
+            return new JsonNetResult()
             {
                 ContentType = null,
                 ContentEncoding = null,
@@ -558,8 +591,84 @@ namespace TonerManagement.Handlers
                 CoverageGridModel coverageModel;
                 if (printer.isColour)
                 {
+                    double monthCoverage;
+                    double sixMonthCoverage;
+                    double yearAgoCoverage;
+                    if (_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                            CoverageToolset.ColorType.C).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            monthAgo, monthAgo, printerId,
+                            CoverageToolset.ColorType.Y).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            monthAgo, monthAgo, printerId,
+                            CoverageToolset.ColorType.M).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            monthAgo, monthAgo, printerId,
+                            CoverageToolset.ColorType.K).Count == 0)
+                    {
+                        monthCoverage = 0.0d;
+                    }
+                    else
+                    {
+                        monthCoverage = Math.Round(
+                            (_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.C)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.Y)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.M)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                 CoverageToolset.ColorType.K)[0].Coverage) /
+                            4.0, 2, MidpointRounding.AwayFromZero);
+                    }
+                    if (_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                            CoverageToolset.ColorType.C).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            sixMonthAgo, sixMonthAgo, printerId,
+                            CoverageToolset.ColorType.Y).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            sixMonthAgo, sixMonthAgo, printerId,
+                            CoverageToolset.ColorType.M).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            sixMonthAgo, sixMonthAgo, printerId,
+                            CoverageToolset.ColorType.K).Count == 0)
+                    {
+                        sixMonthCoverage = 0.0d;
+                    }
+                    else
+                    {
+                        sixMonthCoverage = Math.Round(
+                            (_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.C)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.Y)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.M)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                 CoverageToolset.ColorType.K)[0].Coverage) /
+                            4.0, 2, MidpointRounding.AwayFromZero);
+                    }
+                    if (_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                            CoverageToolset.ColorType.C).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            yearAgo, yearAgo, printerId,
+                            CoverageToolset.ColorType.Y).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            yearAgo, yearAgo, printerId,
+                            CoverageToolset.ColorType.M).Count == 0 || _coverageToolset.GetListOfCoverageMonthly(
+                            yearAgo, yearAgo, printerId,
+                            CoverageToolset.ColorType.K).Count == 0)
+                    {
+                        yearAgoCoverage = 0.0d;
+                    }
+                    else
+                    {
+                        yearAgoCoverage = Math.Round(
+                            (_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.C)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.Y)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.M)[0].Coverage +
+                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                 CoverageToolset.ColorType.K)[0].Coverage) /
+                            4.0, 2, MidpointRounding.AwayFromZero);
+                    }
                     coverageModel = new CoverageGridModel
                     {
+                        
 
                         PrinterId = printerId,
                         CurrentCoverage = Math.Round(
@@ -573,48 +682,46 @@ namespace TonerManagement.Handlers
                                  CoverageToolset.ColorType.K)
                             ) /
                             4.0, 2, MidpointRounding.AwayFromZero),
-                        MonthCoverage = Math.Round(
-                            (_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                                 CoverageToolset.ColorType.C)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                                 CoverageToolset.ColorType.Y)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                                 CoverageToolset.ColorType.M)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
-                                 CoverageToolset.ColorType.K)[0].Coverage) /
-                            4.0, 2, MidpointRounding.AwayFromZero),
-                        SixMonthCoverage = Math.Round(
-                            (_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                                 CoverageToolset.ColorType.C)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                                 CoverageToolset.ColorType.Y)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                                 CoverageToolset.ColorType.M)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
-                                 CoverageToolset.ColorType.K)[0].Coverage) /
-                            4.0, 2, MidpointRounding.AwayFromZero),
-                        YearCoverage = Math.Round(
-                            (_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                                 CoverageToolset.ColorType.C)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                                 CoverageToolset.ColorType.Y)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                                 CoverageToolset.ColorType.M)[0].Coverage +
-                             _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
-                                 CoverageToolset.ColorType.K)[0].Coverage) /
-                            4.0, 2, MidpointRounding.AwayFromZero)
+                        MonthCoverage = monthCoverage ,
+                        SixMonthCoverage = sixMonthCoverage,
+                        YearCoverage = yearAgoCoverage
                     };
                 }
                 else
                 {
+
+                    var monthCoverage = _coverageToolset
+                                               .GetListOfCoverageMonthly(monthAgo, monthAgo, printerId, CoverageToolset.ColorType.K)
+                                               .Count == 0
+                        ? 0.0d
+                        : Math.Round(
+                            _coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,
+                                CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero);
+
+                    var sixMonthCoverage = _coverageToolset
+                                                  .GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                                      CoverageToolset.ColorType.K)
+                                                  .Count == 0
+                        ? 0.0d
+                        : Math.Round(
+                            _coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,
+                                CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero);
+                    var yearCoverage = _coverageToolset
+                                              .GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                                  CoverageToolset.ColorType.K).Count ==
+                                          0
+                        ? 0.0d
+                        : Math.Round(
+                            _coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,
+                                CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero);
                     coverageModel = new CoverageGridModel
                     {
 
                         PrinterId = printerId,
                         CurrentCoverage = Math.Round(_coverageToolset.CalculateAverageCoverageForWholeLife(printerId,CoverageToolset.ColorType.K), 2, MidpointRounding.AwayFromZero),
-                        MonthCoverage = Math.Round(_coverageToolset.GetListOfCoverageMonthly(monthAgo, monthAgo, printerId,CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero),
-                        SixMonthCoverage = Math.Round(_coverageToolset.GetListOfCoverageMonthly(sixMonthAgo, sixMonthAgo, printerId,CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero),
-                        YearCoverage = Math.Round(_coverageToolset.GetListOfCoverageMonthly(yearAgo, yearAgo, printerId,CoverageToolset.ColorType.K)[0].Coverage, 2, MidpointRounding.AwayFromZero)
+                        MonthCoverage = monthCoverage,
+                        SixMonthCoverage = sixMonthCoverage,
+                        YearCoverage = yearCoverage
                     };
                 }
 
@@ -623,7 +730,7 @@ namespace TonerManagement.Handlers
 
             }
 
-            return new JsonResult()
+            return new JsonNetResult()
             {
                 ContentType = null,
                 ContentEncoding = null,
@@ -683,7 +790,7 @@ namespace TonerManagement.Handlers
                 model.Keying = keyingLevels.OrderBy(tP => tP.timestamp).Last().tonerPercentage;
             }
 
-            var jsonResult = new JsonResult()
+            var jsonResult = new JsonNetResult()
             {
                 Data = model,
                 ContentType = null,
