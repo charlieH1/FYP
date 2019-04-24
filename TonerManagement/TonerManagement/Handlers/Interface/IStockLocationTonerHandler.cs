@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using TonerManagement.Models;
 
-namespace TonerManagement.Handlers
+namespace TonerManagement.Handlers.Interface
 {
     public interface IStockLocationTonerHandler
     {

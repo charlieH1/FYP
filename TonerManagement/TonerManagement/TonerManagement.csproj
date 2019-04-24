@@ -165,7 +165,7 @@
     <Compile Include="Handlers\Interface\IUserHandler.cs" />
     <Compile Include="Handlers\Interface\IPrinterTonerHandler.cs" />
     <Compile Include="Handlers\Interface\IStockLocationHandler.cs" />
-    <Compile Include="Handlers\IStockLocationTonerHandler.cs" />
+    <Compile Include="Handlers\Interface\IStockLocationTonerHandler.cs" />
     <Compile Include="Handlers\JsonNetResult.cs" />
     <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="Handlers\PrinterTonerHandler.cs" />
