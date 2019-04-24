@@ -3,3 +3,12 @@
     width: 20%;
     margin: 16px 8px;
 }
+#coverageChart {
+    display: inline-block;
+    width: 100%;
+    height: 400px;
+}
+#coverageGrid {
+    width: 90%;
+    margin: 0 auto;
+}

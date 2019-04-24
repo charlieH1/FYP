@@ -8,3 +8,6 @@ table.Form td {
 input{
     padding: 12px 24px;
 }
+#stockLocationTonerGrid {
+    margin: 20px auto;
+}

@@ -60,7 +60,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult) sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult) sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -109,7 +109,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -158,7 +158,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -207,7 +207,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -265,7 +265,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -331,7 +331,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -385,7 +385,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -434,7 +434,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -483,7 +483,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -532,7 +532,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -590,7 +590,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -656,7 +656,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object,mockPrinterRepo.Object,mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverage(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverage(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -861,7 +861,7 @@ namespace TonerManagementTests.Handlers
                 mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             // action
-            var res = (JsonResult) sut.GetLowTonerLevelsOfCustomerPrinters(customerId,userId);
+            var res = (JsonNetResult) sut.GetLowTonerLevelsOfCustomerPrinters(customerId,userId);
 
             //assert
             var expected = new List<TonerPercentageAndPrinterIdModel>
@@ -1090,7 +1090,7 @@ namespace TonerManagementTests.Handlers
                 mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
 
             // action
-            var res = (JsonResult)sut.GetLowTonerLevelsOfCustomerPrinters(customerId, userId);
+            var res = (JsonNetResult)sut.GetLowTonerLevelsOfCustomerPrinters(customerId, userId);
 
             //assert
             var expected = new List<TonerPercentageAndPrinterIdModel>
@@ -1152,7 +1152,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1201,7 +1201,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1250,7 +1250,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1299,7 +1299,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1357,7 +1357,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1418,12 +1418,12 @@ namespace TonerManagementTests.Handlers
                 .Setup(mCT =>
                     mCT.GetListOfCoverageDaily(startDate, endDate, coverageRequest.PrinterId,CoverageToolset.ColorType.K))
                 .Returns(coverageDateList);
-
+            mockPrinterRepo.Setup(mPR => mPR.GetPrinter(1)).Returns(new Printer {printerId = 1, isColour = true});
 
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1477,7 +1477,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1526,7 +1526,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1624,7 +1624,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1682,7 +1682,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1748,7 +1748,7 @@ namespace TonerManagementTests.Handlers
             var sut = new PrinterTonerHandler(mockCoverageToolset.Object, mockCustomerRepo.Object, mockPrinterRepo.Object, mockTonerPrinterRepo.Object,mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCoverageForPrinter(coverageRequest, userId);
+            var res = (JsonNetResult)sut.GetCoverageForPrinter(coverageRequest, userId);
 
             //assert
             res.Data.Should().BeEquivalentTo(coverageDateList);
@@ -1971,7 +1971,7 @@ namespace TonerManagementTests.Handlers
 
             //action
 
-            var res = (JsonResult)sut.GetCoverageGridForCustomer(userId, customer.customerID);
+            var res = (JsonNetResult)sut.GetCoverageGridForCustomer(userId, customer.customerID);
 
             //assert
             res.Data.Should().BeEquivalentTo(new List<CoverageGridModel>{coverageGridModel});
@@ -2038,7 +2038,7 @@ namespace TonerManagementTests.Handlers
 
             //action
 
-            var res = (JsonResult)sut.GetCoverageGridForCustomer(userId, customer.customerID);
+            var res = (JsonNetResult)sut.GetCoverageGridForCustomer(userId, customer.customerID);
 
             //assert
             res.Data.Should().BeEquivalentTo(new List<CoverageGridModel> { coverageGridModel });
@@ -2227,7 +2227,7 @@ namespace TonerManagementTests.Handlers
                 mockPrinterRepo.Object, mockTonerPrinterRepo.Object, mockUserRepo.Object);
 
             //action
-            var res = (JsonResult)sut.GetCurrentTonerLevel(printerId, userName);
+            var res = (JsonNetResult)sut.GetCurrentTonerLevel(printerId, userName);
 
             //assert
             var expectedResult = new TonerPercentageAndPrinterIdModel()

@@ -262,9 +262,6 @@
           <Property Name="customerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="customerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="customerContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Printers" Relationship="Self.FK_Printer_Customer" FromRole="Customer" ToRole="Printer" />
-          <NavigationProperty Name="StockLocations" Relationship="Self.FK_StockLocation_Customer" FromRole="Customer" ToRole="StockLocation" />
-          <NavigationProperty Name="UserCustomers" Relationship="Self.FK_UserCustomer_Customer" FromRole="Customer" ToRole="UserCustomer" />
         </EntityType>
         <EntityType Name="Printer">
           <Key>
@@ -279,9 +276,6 @@
           <Property Name="magentaLowPercentage" Type="Int32" />
           <Property Name="keyingLowPercentage" Type="Int32" Nullable="false" />
           <Property Name="stockLocationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Printer_Customer" FromRole="Printer" ToRole="Customer" />
-          <NavigationProperty Name="StockLocation" Relationship="Self.FK_Printer_StockLocation" FromRole="Printer" ToRole="StockLocation" />
-          <NavigationProperty Name="TonerPrinters" Relationship="Self.FK_TonerPrinter_Printer" FromRole="Printer" ToRole="TonerPrinter" />
         </EntityType>
         <EntityType Name="StockLocation">
           <Key>
@@ -292,9 +286,6 @@
           <Property Name="stockLocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="stockLocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="stockLocationContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_StockLocation_Customer" FromRole="StockLocation" ToRole="Customer" />
-          <NavigationProperty Name="Printers" Relationship="Self.FK_Printer_StockLocation" FromRole="StockLocation" ToRole="Printer" />
-          <NavigationProperty Name="StockLocationToners" Relationship="Self.FK_StockLocationToner_StockLocation" FromRole="StockLocation" ToRole="StockLocationToner" />
         </EntityType>
         <EntityType Name="StockLocationToner">
           <Key>

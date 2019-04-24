@@ -72,7 +72,6 @@ namespace TonerManagement.App_Start
         {
             //db bindings
             TonerManagementEntities db = new TonerManagementEntities();
-            db.Configuration.ProxyCreationEnabled = false;
             kernel.Bind<DbContext>().ToConstant(db);
             //repo bindings
             kernel.Bind<IUserRepo>().To<UserRepo>();

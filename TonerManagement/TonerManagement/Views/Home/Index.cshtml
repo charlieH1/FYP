@@ -43,6 +43,7 @@
             var leftChart = $('#LeftHandChart');
             var rightChart = $('#RightHandChart');
             var tonerLowGrid = $('#LowTonerGrid');
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             //initialise All items
             //initialise customer dropdown
             var url = '@Url.Action("GetCustomersForUser", "Customer")';
@@ -107,187 +108,220 @@
                 selectedIndex: 5
             });
 
+            var createCharts = function() {
+                var dataForLeftChart = {
+                    CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
+                    StartDate: leftCalender.jqxDateTimeInput('getRange').from.toJSON(),
+                    EndDate: leftCalender.jqxDateTimeInput('getRange').to.toJSON(),
+                    CoverageType: chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').value
+                };
+                var dataForRightChart = {
+                    CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
+                    StartDate: rightCalender.jqxDateTimeInput('getRange').from.toJSON(),
+                    EndDate: rightCalender.jqxDateTimeInput('getRange').to.toJSON(),
+                    CoverageType: chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').value
+                };
 
-            var dataForLeftChart = {
-                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
-                StartDate: leftCalender.jqxDateTimeInput('getRange').from,
-                EndDate: leftCalender.jqxDateTimeInput('getRange').to,
-                CoverageType: chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').value
-            };
-            var dataForRightChart = {
-                CustomerId: customerDropdown.jqxDropDownList('getSelectedItem').value,
-                StartDate: rightCalender.jqxDateTimeInput('getRange').from,
-                EndDate: rightCalender.jqxDateTimeInput('getRange').to,
-                CoverageType: chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').value
-            };
-
-            //initialise source for charts
-            var sourceLeftChart = {
-                dataType: 'json',
-                contentType: 'application/json',
-                dataFields: [
-                    { name: 'Coverage' },
-                    { name: 'Date' }
-                ],
-                url: '@Url.Action("GetCoverage", "Coverage")',
-                data: dataForLeftChart
-            };
-            var sourceRightChart = {
-                dataType: 'json',
-                contentType: 'application/json',
-                dataFields: [
-                    { name: 'Coverage' },
-                    { name: 'Date' }
-                ],
-                url: '@Url.Action("GetCoverage", "Coverage")',
-                data: dataForRightChart
-            };
-            //initialise dataAdapters and base units for charts
-            var dataAdapterLeftChart = new $.jqx.dataAdapter(sourceLeftChart);
-            var baseUnitLeft;
-            if (chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').group == "Monthly") {
-                baseUnitLeft = "month";
-            } else {
-                baseUnitLeft = "day";
-            }
-            var dataAdapterRightChart = new $.jqx.dataAdapter(sourceRightChart);
-            var baseUnitRight;
-            if (chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').group == "Monthly") {
-                baseUnitLeft = "month";
-            } else {
-                baseUnitLeft = "day";
-            }
-            //initialise chart settings and charts
-            var leftChartSettings = {
-                title: "Coverage Chart",
-                enableAnimations: true,
-                source: dataAdapterLeftChart,
-                xAxis: {
-                    dataField: 'Date',
-                    formatFunction: function (value) {
-                        return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                //initialise source for charts
+                var sourceLeftChart = {
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    dataFields: [
+                        { name: 'Coverage' },
+                        { name: 'Date' }
+                    ],
+                    url: '@Url.Action("GetCoverage", "Coverage")',
+                    data: dataForLeftChart
+                };
+                var sourceRightChart = {
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    dataFields: [
+                        { name: 'Coverage' },
+                        { name: 'Date' }
+                    ],
+                    url: '@Url.Action("GetCoverage", "Coverage")',
+                    data: dataForRightChart
+                };
+                //initialise dataAdapters and base units for charts
+                var dataAdapterLeftChart = new $.jqx.dataAdapter(sourceLeftChart);
+                var baseUnitLeft;
+                if (chartOptionsDropdownLeft.jqxDropDownList('getSelectedItem').group == "Monthly") {
+                    baseUnitLeft = "month";
+                } else {
+                    baseUnitLeft = "day";
+                }
+                var dataAdapterRightChart = new $.jqx.dataAdapter(sourceRightChart);
+                var baseUnitRight;
+                if (chartOptionsDropdownRight.jqxDropDownList('getSelectedItem').group == "Monthly") {
+                    baseUnitRight = "month";
+                } else {
+                    baseUnitRight = "day";
+                }
+                //initialise chart settings and charts
+                var leftChartSettings = {
+                    title: "Coverage Chart",
+                    enableAnimations: true,
+                    source: dataAdapterLeftChart,
+                    xAxis: {
+                        dataField: 'Date',
+                        formatFunction: function(value) {
+                            return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                        },
+                        type: 'date',
+                        baseUnit: baseUnitLeft,
+                        tickMarks: {
+                            visible: true,
+                            interval: 1
+                        }
                     },
-                    type: 'date',
-                    baseUnit: baseUnitLeft,
-                    tickMarks: {
+                    valueAxis: {
                         visible: true,
-                        interval: 1
-                    }
-                },
-                valueAxis: {
-                    visible: true,
-                    title: { text: 'Coverage Percentage<br>' }
-                },
-                seriesGroups:
+                        title: { text: 'Coverage Percentage<br>' }
+                    },
+                    seriesGroups:
                     [
                         {
                             type: 'line',
                             series:
-                                [
-                                    { dataField: 'Coverage', displayText: "Coverage" }
-                                ]
+                            [
+                                { dataField: 'Coverage', displayText: "Coverage" }
+                            ]
                         }
                     ]
-            };
-            leftChart.jqxChart(leftChartSettings);
+                };
+                leftChart.jqxChart(leftChartSettings);
 
 
-            var rightChartSettings = {
-                title: "Coverage Chart",
-                enableAnimations: true,
-                source: dataAdapterRightChart,
-                xAxis: {
-                    dataField: 'Date',
-                    formatFunction: function(value) {
-                        return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                var rightChartSettings = {
+                    title: "Coverage Chart",
+                    enableAnimations: true,
+                    source: dataAdapterRightChart,
+                    xAxis: {
+                        dataField: 'Date',
+                        formatFunction: function(value) {
+                            return value.getDate() + '-' + months[value.getMonth()] + '-' + value.getFullYear();
+                        },
+                        type: 'date',
+                        baseUnit: baseUnitRight,
+                        tickMarks: {
+                            visible: true,
+                            interval: 1
+                        }
                     },
-                    type: 'date',
-                    baseUnit: baseUnitRight,
-                    tickMarks: {
+                    valueAxis: {
                         visible: true,
-                        interval: 1
-                    }
-                },
-                valueAxis: {
-                    visible: true,
-                    title: { text: 'Coverage Percentage<br>' }
-                },
-                seriesGroups:
-                [
-                    {
-                        type: 'line',
-                        series:
-                        [
-                            { dataField: 'Coverage', displayText: "Coverage" }
-                        ]
-                    }
-                ]
+                        title: { text: 'Coverage Percentage<br>' }
+                    },
+                    seriesGroups:
+                    [
+                        {
+                            type: 'line',
+                            series:
+                            [
+                                { dataField: 'Coverage', displayText: "Coverage" }
+                            ]
+                        }
+                    ]
+                };
+                rightChart.jqxChart(rightChartSettings);
             };
-            rightChart.jqxChart(rightChartSettings);
 
-            //grid 
-            var tonerLowUrl = '@Url.Action("GetTonerLowForCustomer", "Home")';
-            var sourceTonerLowGrid = {
-                dataType: "json",
-                contentType: 'application/json',
-                dataFields: [
-                    { name: 'PrinterId', type: 'int' },
-                    { name: 'Cyan', type: 'int' },
-                    { name: 'Yellow', type: 'int' },
-                    { name: 'Magenta', type: 'int' },
-                    { name: 'Keying', type: 'int' }
-                ],
-                url: tonerLowUrl,
-                data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value }
+            createCharts();
+        //grid 
+        var tonerLowUrl = '@Url.Action("GetTonerLowForCustomer", "Home")';
+        var sourceTonerLowGrid = {
+            dataType: "json",
+            contentType: 'application/json',
+            dataFields: [
+                { name: 'PrinterID', type: 'int' },
+                { name: 'Cyan', type: 'int' },
+                { name: 'Yellow', type: 'int' },
+                { name: 'Magenta', type: 'int' },
+                { name: 'Keying', type: 'int' }
+            ],
+            url: tonerLowUrl,
+            data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value }
 
 
-            };
-            var dataAdapterForTonerLowGrid = new $.jqx.dataAdapter(sourceTonerLowGrid);
+        };
+        var dataAdapterForTonerLowGrid = new $.jqx.dataAdapter(sourceTonerLowGrid);
 
-            tonerLowGrid.jqxGrid({
-                width: "90%",
-                source: dataAdapterForTonerLowGrid,
-                selectionmode: 'none',
-                columnsResize: true,
-                filterable: true,
-                columns: [
-                    { text: 'Printer Id', datafield: 'PrinterId', width: '20%', filterType: 'range' },
-                    { text: 'Cyan', datafield: 'Cyan', width: '20%', filtertype: 'range' },
-                    { text: 'Yellow', datafield: 'Yellow', width: '20%', filtertype: 'range' },
-                    { text: 'Magenta', datafield: 'Magenta', width: '20%', filtertype: 'range' },
-                    { text: 'Keying', datafield: 'Keying', width: '20%', filtertype: 'range' }
-                ]
+        tonerLowGrid.jqxGrid({
+            width: "90%",
+            source: dataAdapterForTonerLowGrid,
+            selectionmode: 'none',
+            columnsResize: true,
+            filterable: true,
+            columns: [
+                { text: 'Printer Id', datafield: 'PrinterID', width: '20%', filterType: 'range' },
+                { text: 'Cyan', datafield: 'Cyan', width: '20%', filtertype: 'range' },
+                { text: 'Yellow', datafield: 'Yellow', width: '20%', filtertype: 'range' },
+                { text: 'Magenta', datafield: 'Magenta', width: '20%', filtertype: 'range' },
+                { text: 'Keying', datafield: 'Keying', width: '20%', filtertype: 'range' }
+            ]
 
+        });
+
+        //changes to dropdowns
+        customerDropdown.on('select',
+            function() {
+                createCharts();
+                var sourceTonerLowGrid = {
+                    dataType: "json",
+                    contentType: 'application/json',
+                    dataFields: [
+                        { name: 'PrinterID', type: 'int' },
+                        { name: 'Cyan', type: 'int' },
+                        { name: 'Yellow', type: 'int' },
+                        { name: 'Magenta', type: 'int' },
+                        { name: 'Keying', type: 'int' }
+                    ],
+                    url: tonerLowUrl,
+                    data: { customerId: customerDropdown.jqxDropDownList("getSelectedItem").value }
+
+
+                };
+                var dataAdapterForTonerLowGrid = new $.jqx.dataAdapter(sourceTonerLowGrid);
+
+                tonerLowGrid.jqxGrid({
+                    width: "90%",
+                    source: dataAdapterForTonerLowGrid,
+                    selectionmode: 'none',
+                    columnsResize: true,
+                    filterable: true,
+                    columns: [
+                        { text: 'Printer Id', datafield: 'PrinterID', width: '20%', filterType: 'range' },
+                        { text: 'Cyan', datafield: 'Cyan', width: '20%', filtertype: 'range' },
+                        { text: 'Yellow', datafield: 'Yellow', width: '20%', filtertype: 'range' },
+                        { text: 'Magenta', datafield: 'Magenta', width: '20%', filtertype: 'range' },
+                        { text: 'Keying', datafield: 'Keying', width: '20%', filtertype: 'range' }
+                    ]
+
+                });
             });
-
-            //changes to dropdowns
-            customerDropdown.on('select',
-                function() {
-                    leftChart.jqxChart('getInstance').update();
-                    rightChart.jqxChart('getInstance').update();
-                });
-            leftCalender.on('change',
-                function(args) {
-                    var selection = leftCalender.jqxDateTimeInput('getRange')
-                    if (selection.from != null) {
-                        leftChart.jqxChart('getInstance').update();
-                    }
-                });
-            rightCalender.on('change',
-                function(args) {
-                    var selection = rightCalender.jqxDateTimeInput('getRange')
-                    if (selection.from != null) {
-                        rightChart.jqxChart('getInstance').update();
-                    }
-                });
-            chartOptionsDropdownLeft.on('select',
-                function() {
-                    leftChart.jqxChart('getInstance').update();
-                });
-            chartOptionsDropdownRight.on('select',
-                function() {
-                    rightChart.jqxChart('getInstance').update();
-                });
-        })
+        leftCalender.on('change',
+            function(args) {
+                var selection = leftCalender.jqxDateTimeInput('getRange');
+                if (selection.from != null) {
+                    createCharts();
+                }
+            });
+        rightCalender.on('change',
+            function(args) {
+                var selection = rightCalender.jqxDateTimeInput('getRange');
+                if (selection.from != null) {
+                    createCharts();
+                }
+            });
+        chartOptionsDropdownLeft.on('select',
+            function() {
+                createCharts();
+            });
+        chartOptionsDropdownRight.on('select',
+            function() {
+                createCharts();
+            });
+    })
     </script>
 }

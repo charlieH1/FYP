@@ -4,13 +4,13 @@
 }
 
 @section styles{
-    <link href=@Url.Content("~/Content/StockLocation.css") rel="stylesheet" type="text/css"/>
+    <link href=@Url.Content("~/Content/StockLocation.css") rel="stylesheet" type="text/css" />
 }
 
 <h2>Stock Location</h2>
 
 <div class="centreChild">
-    
+
 
     <div id="customerDropdown" class="d-inline-block"></div>
     <div id="stockLocationDropdown" class="d-inline-block"></div>
@@ -19,9 +19,9 @@
             <tr>
                 <td><textarea id="stockLocationAddress"></textarea></td>
                 <td>
-                    <input type="text" id="stockLocationNameChangeField"/>
-                    <br/>
-                    <input type="text" id="stockLocationPhoneNumber"/>
+                    <input type="text" id="stockLocationNameChangeField" />
+                    <br />
+                    <input type="text" id="stockLocationPhoneNumber" />
                 </td>
             </tr>
         </table>
@@ -41,23 +41,11 @@
             var stockLocationForm = $("#stockLocationForm");
             var stockLocationTonerGrid = $("#stockLocationTonerGrid");
             var locationId;
-            var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
-            var stockLocationSource = {
-                datafields: [
-                    { name: 'TonerId', type: 'int' },
-                    { name: 'TonerName', type: 'string' },
-                    { name: 'Color', type: 'string' },
-                    { name: 'Quantity', type: 'int' }
-                ],
-                data: { stockLocationId: locationId },
-                datatype: 'json',
-                url: urlForStockLocationTonerGrid
-
-            };
-
-            var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
-
             
+
+           
+
+
             stockLocationAddressField.jqxTextArea({
                 placeHolder: "Enter a stock location address",
                 height: 140,
@@ -114,26 +102,32 @@
                     { name: "StockLocationToners" }
                 ],
                 url: url,
-                async: false,
                 data: dataForStockLocationDropdown,
-                loadError: function(jqXHR, status, error) {
-                    alert("An error occured getting the stock locations " + error);
-                }
+                async: false
             };
+
+
             var dataAdapterForStockLocationDropdown = new $.jqx.dataAdapter(stockLocationSource);
-            stockLocationDropdown.jqxDropDownList({
-                source: dataAdapterForStockLocationDropdown,
-                displayMember: "stockLocationName",
-                valueMember: "stockLocationId",
-                selectedIndex: 0
-            });
 
-
-            stockLocationDropdown.on('bindingComplete',
+            $("#stockLocationDropdown").on('bindingComplete',
                 function () {
-                    locationId = stockLocationDropdown.jqxDropDownList("getSelectedItem").value();
+                    locationId = stockLocationDropdown.jqxDropDownList("getSelectedItem").value;
+                    var urlForStockLocationTonerGrid = '@Url.Action("GetTonerStockLocationForStockLocationForGrid", "StockLocation")';
+                    var stockLocationSource = {
+                        datafields: [
+                            { name: 'TonerId', type: 'int' },
+                            { name: 'TonerName', type: 'string' },
+                            { name: 'Color', type: 'string' },
+                            { name: 'Quantity', type: 'int' }
+                        ],
+                        data: { stockLocationId: $("#stockLocationDropdown").jqxDropDownList('getSelectedItem').value },
+                        datatype: "json",
+                        url: urlForStockLocationTonerGrid
+
+                    };
+                    var stockLocationTonerDataAdapter = new $.jqx.dataAdapter(stockLocationSource);
                     stockLocationTonerGrid.jqxGrid({
-                        width: '40%',
+                        width: '50%',
                         height: '40%',
                         source: stockLocationTonerDataAdapter,
                         pageable: true,
@@ -141,15 +135,12 @@
                         filterable: true,
                         selectionMode: 'none',
                         columns: [
-                            { text: "Toner ID", dataField: 'TonerId', width: "15%" },
-                            { text: "Toner Name", dataField: 'TonerName', width: "40" },
+                            { text: "Toner ID", dataField: 'TonerId', width: "20%" },
+                            { text: "Toner Name", dataField: 'TonerName', width: "30%" },
                             { text: "Color", dataField: 'Color', width: "30%" },
-                            { text: "Quantity", dataField: 'Quantity', width: "15%" }
+                            { text: "Quantity", dataField: 'Quantity', width: "20%" }
                         ]
                     });
-                });
-            stockLocationDropdown.on('bindingComplete selected',
-                function() {
                     $.ajax(
                         {
                             type: 'GET',
@@ -161,10 +152,50 @@
                             success: function(response) {
                                 if (response.success === true) {
                                     locationId = response.StockLocation.stockLocationId;
+                                    stockLocationNameChangeField.val(response.StockLocation.stockLocationName);
+                                    stockLocationAddressField.val(response.StockLocation.stockLocationAddress);
+                                    stockLocationPhoneNumber.val(response.StockLocation.stockLocationContactNumber);
+                                    stockLocationTonerGrid.jqxGrid("updateBoundData");
+                                } else {
+                                    alert("Failed to get stock location", response.errorMessage);
+                                }
+                            },
+                            error: function(response) {
+                                alert("An error occured getting stock location: " +
+                                    response.status +
+                                    " " +
+                                    response.statusText);
+                            }
+                        });
 
-                                    stockLocationNameChangeField.val = response.StockLocation.stockLocationName;
-                                    stockLocationAddressField.val = response.StockLocation.stockLocationAddress;
-                                    stockLocationPhoneNumber.val = response.StockLocation.stockLocationContactNumber;
+                });
+
+            stockLocationDropdown.jqxDropDownList({
+                source: dataAdapterForStockLocationDropdown,
+                displayMember: "stockLocationName",
+                valueMember: "stockLocationId",
+                selectedIndex: 0
+            });
+
+
+            
+            stockLocationDropdown.on('select',
+                function () {
+
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: '@Url.Action("GetStockLocation", "StockLocation")',
+                            data: {
+                                stockLocationId: $("#stockLocationDropdown").jqxDropDownList("getSelectedItem").value
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success === true) {
+                                    locationId = response.StockLocation.stockLocationId;
+                                    stockLocationNameChangeField.val(response.StockLocation.stockLocationName);
+                                    stockLocationAddressField.val(response.StockLocation.stockLocationAddress);
+                                    stockLocationPhoneNumber.val(response.StockLocation.stockLocationContactNumber);
                                     stockLocationTonerGrid.jqxGrid("updateBoundData");
                                 } else {
                                     alert("Failed to get stock location", response.errorMessage);
@@ -178,6 +209,8 @@
                             }
                         });
                 });
+
+
 
 
             stockLocationForm.jqxValidator({
